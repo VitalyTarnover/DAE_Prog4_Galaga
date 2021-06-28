@@ -19,6 +19,12 @@
     <Filter Include="Input">
       <UniqueIdentifier>{be1ad071-ae33-437d-bb02-2d9e3191eb22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GalagaComponents">
+      <UniqueIdentifier>{fd240cf8-321e-47d1-8dfd-6ed942daf757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\Movement">
+      <UniqueIdentifier>{3891c4f9-b563-4ae9-ab8f-6465d397eefe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -42,6 +48,9 @@
     <ClInclude Include="Commands.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="FighterShipMovementComponent.h">
+      <Filter>GalagaComponents\Movement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -58,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="ScoreObserver.cpp">
       <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="FighterShipMovementComponent.cpp">
+      <Filter>GalagaComponents\Movement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

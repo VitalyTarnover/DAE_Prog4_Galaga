@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 
-enum class GameLevel//different games can have different amount of levels
+enum class GameLevel//Different games can have different amount of levels
 {
 	Level1,
 	Level2,
@@ -91,7 +91,7 @@ namespace dae
 
 		glm::vec3 m_PlayerSpawnPos;
 
-		float m_SceneScale = 3.0f;
+		float m_SceneScale = 2.0f;
 		
 		std::vector< std::shared_ptr<GameObject>> m_pLevels;
 		std::shared_ptr<GameObject> m_pCurrentLevel;

@@ -13,8 +13,6 @@ namespace dae
 		void Initialize();
 		void LoadGame() const;
 		
-		void LoadMenuScene();
-		
 		void Cleanup();
 		void Run();
 		void BindCommands();
@@ -24,6 +22,9 @@ namespace dae
 		static const int m_MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps
 		const float m_MsPerUpdate = m_MsPerFrame / 1000.0f; //16 for 60 fps, 33 for 30 fps
 		SDL_Window* m_Window{};
+
+		int m_WindowWidth;
+		int m_WindowHeight;
 
 		//AudioService* m_Audio;
 	};

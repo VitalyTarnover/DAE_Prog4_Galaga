@@ -6,7 +6,8 @@
 
 #include "SceneManager.h"
 #include "Scene.h"
-#include "InputManager.h"
+
+#include "FighterShipMovementComponent.h"
 
 
 
@@ -75,12 +76,14 @@ public:
 
 	void Execute() const override
 	{
-
+		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(true);
 	}
 
 	void Release() const override
 	{
-
+		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StopMoving(true);
 	};
 	void Undo() override {};
 };
@@ -92,12 +95,14 @@ public:
 
 	void Execute() const override
 	{
-
+		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(false);
 	}
 
 	void Release() const override
 	{
-
+		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StopMoving(false);
 	};
 	void Undo() override {};
 };

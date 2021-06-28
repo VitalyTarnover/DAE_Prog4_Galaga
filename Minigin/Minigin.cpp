@@ -10,9 +10,16 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "SystemTime.h"
+
 #include "Commands.h"
 #include "AnalogStickCommand.h"
 #include "AnalogTriggerCommand.h"
+
+//will be moved to  loader
+#include "LivesObserver.h"
+#include "ScoreObserver.h"
+
+#include "FighterShipMovementComponent.h"
 
 
 using namespace std;
@@ -35,13 +42,15 @@ void dae::Minigin::Initialize()
 	//if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, chunkSize) < 0)
 	//	throw std::runtime_error(std::string("SDL_Audio Error: ") + Mix_GetError());
 
+	m_WindowWidth = 1280;
+	m_WindowHeight = 720;
 
 	m_Window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		"DAE_Prog4_Galaga (by Tarnover Vitaly)",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		1280,
-		720,
+		m_WindowWidth,
+		m_WindowHeight,
 		SDL_WINDOW_OPENGL
 	);
 
@@ -49,7 +58,6 @@ void dae::Minigin::Initialize()
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
 
 	Renderer::GetInstance().Init(m_Window);
 	
@@ -59,7 +67,31 @@ void dae::Minigin::LoadGame() const
 {
 	srand(int(time(NULL)));
 
-	SceneManager::GetInstance().CreateScene("Game");
+	dae::Scene& scene = SceneManager::GetInstance().CreateScene("Game");
+
+	//fps counter
+	auto go = std::make_shared<GameObject>("FPSCounter");
+	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
+	go->AddComponent(new FPSTextComponent(font2));
+	scene.Add(go);
+
+	//player
+
+	
+
+	auto playerFighter = std::make_shared<GameObject>("Player1");
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth/2, m_WindowHeight/2, 0)));
+	playerFighter->AddComponent(new HealthComponent(3));
+	playerFighter->AddComponent(new ScoreComponent(0));
+	playerFighter->AddWatcher(new LivesObserver());
+	playerFighter->AddWatcher(new ScoreObserver());
+	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));
+	playerFighter->AddComponent(new SpriteAnimComponent(2));
+	playerFighter->AddComponent(new FighterShipMovementComponent(500));
+	scene.Add(playerFighter);
+	scene.AddPlayer(playerFighter);
+
+
 
 }
 
