@@ -11,16 +11,18 @@ namespace dae
 	{
 	public:
 		void Initialize();
-		void LoadGame() const;
 		
-		void Cleanup();
 		void Run();
-		void BindCommands();
 	private:
+		void LoadGame() const;
+		void Cleanup();
+		void BindCommands();
+		void UpdateManagers();
 
 
-		static const int m_MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps
-		const float m_MsPerUpdate = m_MsPerFrame / 1000.0f; //16 for 60 fps, 33 for 30 fps
+		static const int m_MsPerFrame = 15; //16 for 60 fps, 33 for 30 fps. 1000 ms / FPS = ms per frame. 
+		//I guess in this case i need -1 for MsPerFrame, because some time is wasted on calculation of the sleep time
+		const float m_MsPerUpdate = m_MsPerFrame / 1000.0f; 
 		SDL_Window* m_Window{};
 
 		int m_WindowWidth;

@@ -9,6 +9,7 @@
 #include "Scene.h"
 
 #include "FighterShipMovementComponent.h"
+#include "RocketManager.h"
 
 
 
@@ -68,6 +69,15 @@ public:
 	void Undo() override {};
 };
 
+class ShootRocket : public Command
+{
+public:
+	ShootRocket(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
+	~ShootRocket() override = default;
+	void Execute() const override { RocketManager::GetInstance().SpawnRocket(true); };
+	void Release() const override {};
+	void Undo() override {};
+};
 
 
 class MoveLeft final : public Command

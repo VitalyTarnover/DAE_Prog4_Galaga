@@ -9,7 +9,7 @@ public:
 	void StartMoving(bool left);
 	void StopMoving(bool left);
 
-	void Update();
+	void Update() override;
 
 
 private:

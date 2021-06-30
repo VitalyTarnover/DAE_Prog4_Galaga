@@ -85,11 +85,8 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 
 	//player
-
-	
-
 	auto playerFighter = std::make_shared<GameObject>("Player1");
-	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth/2, m_WindowHeight/2, 0)));
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth/2, m_WindowHeight/5 * 4, 0)));
 	playerFighter->AddComponent(new HealthComponent(3));
 	playerFighter->AddComponent(new ScoreComponent(0));
 	playerFighter->AddWatcher(new LivesObserver());
@@ -150,8 +147,11 @@ void dae::Minigin::Run()
 
 		SystemTime::GetInstance().SetDeltaTime(deltaTime);
 	
+		UpdateManagers();
 		sceneManager.Update();
 		renderer.Render();
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(int(duration<float>(currentTime - high_resolution_clock::now()).count()) + m_MsPerFrame ));
 	}
 
 	Cleanup();
@@ -162,7 +162,12 @@ void dae::Minigin::BindCommands()
 	auto& inputManager = InputManager::GetInstance();
 
 	//keyboard
+	inputManager.AssignKey<ShootRocket>(KeyboardButton::A, 0);
 	inputManager.AssignKey<MoveLeft>(KeyboardButton::Left, 0);
 	inputManager.AssignKey<MoveRight>(KeyboardButton::Right, 0);
 	inputManager.AssignKey<ExitCommand>(KeyboardButton::ESC, 0);
+}
+
+void dae::Minigin::UpdateManagers()
+{
 }

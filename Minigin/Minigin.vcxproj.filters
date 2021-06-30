@@ -25,6 +25,9 @@
     <Filter Include="GalagaComponents\Movement">
       <UniqueIdentifier>{3891c4f9-b563-4ae9-ab8f-6465d397eefe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{61c94833-6cca-493f-91ba-94ae61848966}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -54,6 +57,9 @@
     <ClInclude Include="RocketMovementComponent.h">
       <Filter>GalagaComponents\Movement</Filter>
     </ClInclude>
+    <ClInclude Include="RocketManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -76,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="RocketMovementComponent.cpp">
       <Filter>GalagaComponents\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
