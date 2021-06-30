@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 
-#include "Components.h"
+
+
 #include "BaseCommand.h"
 
 #include "SceneManager.h"

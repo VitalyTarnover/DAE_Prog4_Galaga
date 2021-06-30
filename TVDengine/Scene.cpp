@@ -2,8 +2,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include <algorithm>
-//#include "LevelComponent.h"
-//#include "MovementComponent.h"
+#include "TransformComponent.h"
 
 using namespace dae;
 

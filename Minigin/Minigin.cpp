@@ -11,6 +11,15 @@
 #include "Scene.h"
 #include "SystemTime.h"
 
+
+//components
+#include "FPSTextComponent.h"
+#include "TransformComponent.h"
+#include "HealthComponent.h"
+#include "ScoreComponent.h"
+#include "Texture2DComponent.h"
+#include "SpriteAnimComponent.h"
+
 #include "Commands.h"
 #include "AnalogStickCommand.h"
 #include "AnalogTriggerCommand.h"

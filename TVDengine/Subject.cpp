@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Subject.h"
 
-#include "Components.h"
 
 Subject::Subject()
 	:m_ObserverCount{ 0 }, m_pObservers{ nullptr }

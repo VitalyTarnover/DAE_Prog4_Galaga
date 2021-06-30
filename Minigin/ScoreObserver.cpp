@@ -2,8 +2,8 @@
 #include "ScoreObserver.h"
 #include "SceneManager.h"
 #include "Scene.h"
-
-#include "Components.h"
+#include "ScoreComponent.h"
+#include "TextComponent.h"
 
 void ScoreObserver::OnNotify(const GameObject*, Event)
 {

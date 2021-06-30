@@ -51,6 +51,9 @@
     <ClInclude Include="FighterShipMovementComponent.h">
       <Filter>GalagaComponents\Movement</Filter>
     </ClInclude>
+    <ClInclude Include="RocketMovementComponent.h">
+      <Filter>GalagaComponents\Movement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -69,6 +72,9 @@
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="FighterShipMovementComponent.cpp">
+      <Filter>GalagaComponents\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketMovementComponent.cpp">
       <Filter>GalagaComponents\Movement</Filter>
     </ClCompile>
   </ItemGroup>

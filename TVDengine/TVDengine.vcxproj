@@ -172,10 +172,12 @@
     <ClInclude Include="BaseAnalogStickCommand.h" />
     <ClInclude Include="BaseAnalogTriggerCommand.h" />
     <ClInclude Include="BaseCommand.h" />
-    <ClInclude Include="Components.h" />
+    <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="FPSTextComponent.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="pch.h" />
@@ -184,20 +186,27 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SpriteAnimComponent.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="SystemTime.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Texture2DComponent.h" />
+    <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseAnalogStickCommand.cpp" />
     <ClCompile Include="BaseAnalogTriggerCommand.cpp" />
     <ClCompile Include="BaseCommand.cpp" />
-    <ClCompile Include="Components.cpp" />
+    <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FPSTextComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -209,10 +218,15 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="SpriteAnimComponent.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="SystemTime.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Texture2DComponent.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="TVDengine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

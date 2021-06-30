@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneObject.h"
-#include "Components.h"
+#include "BaseComponent.h"
 #include <vector>
 
 enum class Event

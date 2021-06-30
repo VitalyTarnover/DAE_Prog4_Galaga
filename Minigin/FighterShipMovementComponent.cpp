@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "FighterShipMovementComponent.h"
 #include "GameObject.h"
+#include "TransformComponent.h"
 
 FighterShipMovementComponent::FighterShipMovementComponent(float speed)
 	:m_Speed{speed}

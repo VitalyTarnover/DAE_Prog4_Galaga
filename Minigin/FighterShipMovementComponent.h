@@ -1,6 +1,5 @@
 #pragma once
-#include "Components.h"
-
+#include "BaseComponent.h"
 
 class FighterShipMovementComponent final : public BaseComponent
 {
