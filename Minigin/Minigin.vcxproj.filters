@@ -58,7 +58,7 @@
       <Filter>GalagaComponents\Movement</Filter>
     </ClInclude>
     <ClInclude Include="RocketManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +84,7 @@
       <Filter>GalagaComponents\Movement</Filter>
     </ClCompile>
     <ClCompile Include="RocketManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

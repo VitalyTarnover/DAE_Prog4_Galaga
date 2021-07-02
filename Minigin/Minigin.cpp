@@ -53,6 +53,7 @@ void dae::Minigin::Initialize()
 
 	m_WindowWidth = 1280;
 	m_WindowHeight = 720;
+	dae::SceneManager::GetInstance().SetScreenWidthHeight(m_WindowWidth, m_WindowHeight);
 
 	m_Window = SDL_CreateWindow(
 		"DAE_Prog4_Galaga (by Tarnover Vitaly)",
@@ -86,7 +87,7 @@ void dae::Minigin::LoadGame() const
 
 	//player
 	auto playerFighter = std::make_shared<GameObject>("Player1");
-	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth/2, m_WindowHeight/5 * 4, 0)));
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth / 2, m_WindowHeight / 5 * 4, 0), 15.f, 16.f, scene.GetSceneScale(), scene.GetSceneScale()));
 	playerFighter->AddComponent(new HealthComponent(3));
 	playerFighter->AddComponent(new ScoreComponent(0));
 	playerFighter->AddWatcher(new LivesObserver());

@@ -9,7 +9,7 @@ public:
 	void SpawnRocket(bool movesUp);
 
 private:
-	int m_ActiveRocketsNumber;
-	int m_AllowedRocketsNumber;
+	int m_ActiveRocketsNumber = 0;
+	int m_AllowedRocketsNumber = 2;
 };
 

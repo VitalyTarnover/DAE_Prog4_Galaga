@@ -1,1 +1,11 @@
-﻿  TVDengine.vcxproj -> D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Debug\TVDengine.lib
+﻿  FPSTextComponent.cpp
+  Scene.cpp
+  TextComponent.cpp
+  Texture2DComponent.cpp
+  TransformComponent.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\TVDengine\TransformComponent.cpp(22,51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\TVDengine\TransformComponent.cpp(22,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\TVDengine\TransformComponent.cpp(35,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\TVDengine\TransformComponent.cpp(35,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  TVDengine.vcxproj -> D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Debug\TVDengine.lib
