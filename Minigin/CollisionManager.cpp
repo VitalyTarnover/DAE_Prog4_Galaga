@@ -76,29 +76,33 @@ void CollisionManager::Update()
 
 	for (size_t i = 0; i < m_pRocketsForCheck.size(); ++i)
 	{
-		//TODO: for optimization you can check if the enemy is in formation and then if the rocket is higher than the zone where formation doesn't start yet
-		if (m_pRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())
+		if (!m_pRocketsForCheck[i]->GetMarkedForDelete())//TODO: How come that it isn't nullptr-ed by Scene (delete marked objects), i was trying to check if it is nullptr and it was always something!
 		{
-			SDL_Rect rocketRect = m_pRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect();
-			for (size_t j = 0; j < m_pEnemiesForCheck.size(); ++j)
+			//TODO: for optimization you can check if the enemy is in formation and then if the rocket is higher than the zone where formation doesn't start yet
+			if (m_pRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())
 			{
-				if (CheckIfCollide(rocketRect, m_pEnemiesForCheck[j]->GetComponent<TransformComponent>()->GetRect()))
+				SDL_Rect rocketRect = m_pRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect();
+				for (size_t j = 0; j < m_pEnemiesForCheck.size(); ++j)
 				{
-					m_pEnemiesForCheck[j]->SetMarkedForDelete(true);
-					m_pEnemiesForCheck[j] = nullptr;
-					m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
+					if (CheckIfCollide(rocketRect, m_pEnemiesForCheck[j]->GetComponent<TransformComponent>()->GetRect()))
+					{
+						m_pEnemiesForCheck[j]->SetMarkedForDelete(true);
+						m_pEnemiesForCheck[j] = nullptr;
+						m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
 
-					m_pRocketsForCheck[i]->SetMarkedForDelete(true);
-					m_pRocketsForCheck[i] = nullptr;
-					m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
+						m_pRocketsForCheck[i]->SetMarkedForDelete(true);
+						m_pRocketsForCheck[i] = nullptr;
+						m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 
-					RocketManager::GetInstance().ReduceActiveRocketsNumber();
+						RocketManager::GetInstance().ReduceActiveRocketsNumber();
 
-					break;
+						break;
+					}
 				}
+
 			}
-			
 		}
+		else m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 	}
 
 }

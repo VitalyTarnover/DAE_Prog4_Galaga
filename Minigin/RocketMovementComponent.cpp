@@ -37,7 +37,6 @@ void RocketMovementComponent::OutsideBordersCheck()
 	if (currentPosition.y < 0 || currentPosition.y > dae::SceneManager::GetInstance().GetScreenWidth())
 	{
 		m_pGameObject->SetMarkedForDelete(true);//check if leaks
-		CollisionManager::GetInstance().DeleteGameObjectForCheck(m_pGameObject);
 		if (m_MovesUp) RocketManager::GetInstance().ReduceActiveRocketsNumber();
 	}
 }

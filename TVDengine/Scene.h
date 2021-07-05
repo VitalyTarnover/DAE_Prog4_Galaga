@@ -62,22 +62,11 @@ namespace dae
 
 		void DeleteGameObject(std::shared_ptr<SceneObject> objectToDelete);
 		
-		void DeleteMarkedForDelteGameObjects() 
-		{
-			for (size_t i = 0; i < m_Objects.size(); i++)
-			{
-				if (m_Objects[i]->GetMarkedForDelete()) 
-					m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), m_Objects[i]), m_Objects.end());
-			}
-		}
+		void DeleteMarkedForDelteGameObjects();
+		
 
-		void ClearScene()
-		{
-			m_Objects.clear();
-			m_pPlayers.clear();
-			m_pLevels.clear();
-			m_pCurrentLevel = nullptr;
-		}
+		void ClearScene();
+
 
 		GameMode GetCurrentGameMode() const { return m_CurrentGameMode; }
 		void SetCurrentGameMode(GameMode gameMode) { m_CurrentGameMode = gameMode; }
