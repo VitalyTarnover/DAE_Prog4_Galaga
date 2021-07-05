@@ -1,5 +1,6 @@
 ﻿  FPSTextComponent.cpp
   Scene.cpp
+  SpriteAnimComponent.cpp
   TextComponent.cpp
   Texture2DComponent.cpp
   TransformComponent.cpp

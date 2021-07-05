@@ -29,6 +29,7 @@
 #include "ScoreObserver.h"
 
 #include "FighterShipMovementComponent.h"
+#include "BaseEnemyMovementComponent.h"
 
 
 using namespace std;
@@ -98,7 +99,13 @@ void dae::Minigin::LoadGame() const
 	scene.Add(playerFighter);
 	scene.AddPlayer(playerFighter);
 
-
+	//enemy
+	auto testEnemyShip = std::make_shared<GameObject>("TestEnemy");
+	testEnemyShip->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth / 2, m_WindowHeight / 5 * 2, 0), 13.f, 10.f, scene.GetSceneScale(), scene.GetSceneScale()));
+	testEnemyShip->AddComponent(new Texture2DComponent("Bee.png", scene.GetSceneScale()));
+	testEnemyShip->AddComponent(new SpriteAnimComponent(2));
+	testEnemyShip->AddComponent(new BaseEnemyMovementComponent(0.75f,5,5));//steps amount should be odd, so it is properly and cheaply animated
+	scene.Add(testEnemyShip);
 
 }
 

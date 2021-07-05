@@ -30,7 +30,6 @@ void FighterShipMovementComponent::Move()
 	const auto& trc = m_pGameObject->GetComponent<TransformComponent>();
 
 	glm::vec3 oldPositionCenter = trc->GetCenterPosition();
-	glm::vec3 oldPosition = trc->GetTransform().GetPosition();
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 

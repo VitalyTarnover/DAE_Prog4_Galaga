@@ -212,6 +212,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
   <ItemGroup>
     <ClInclude Include="AnalogStickCommand.h" />
     <ClInclude Include="AnalogTriggerCommand.h" />
+    <ClInclude Include="BaseEnemyMovementComponent.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="FighterShipMovementComponent.h" />
     <ClInclude Include="LivesObserver.h" />
@@ -222,6 +223,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="ScoreObserver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEnemyMovementComponent.cpp" />
     <ClCompile Include="FighterShipMovementComponent.cpp" />
     <ClCompile Include="LivesObserver.cpp" />
     <ClCompile Include="Main.cpp" />
