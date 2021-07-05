@@ -66,6 +66,9 @@
     <ClInclude Include="BaseEnemyMovementComponent.h">
       <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -94,6 +97,9 @@
     </ClCompile>
     <ClCompile Include="BaseEnemyMovementComponent.cpp">
       <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,6 +6,8 @@
 #include "RocketMovementComponent.h"
 #include "GameObject.h"
 #include "Texture2DComponent.h"
+#include "CollisionManager.h"
+
 
 void RocketManager::ReduceActiveRocketsNumber()
 {
@@ -28,6 +30,7 @@ void RocketManager::SpawnRocket(bool movesUp) //movesUp also means it was shot b
 		rocket->AddComponent(new Texture2DComponent("Rocket.png", scene->GetSceneScale()));
 		rocket->AddComponent(new RocketMovementComponent(true, 250));
 		scene->Add(rocket);
+		CollisionManager::GetInstance().AddGameObjectForCheck(false, rocket);
 
 		++m_ActiveRocketsNumber;
 	}

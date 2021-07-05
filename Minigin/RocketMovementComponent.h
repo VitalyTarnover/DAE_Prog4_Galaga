@@ -9,6 +9,8 @@ public:
 
 	void Update() override;
 
+	bool GetMovesUp() { return m_MovesUp; }
+
 private:
 	void Move();
 	void OutsideBordersCheck();

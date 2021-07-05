@@ -2,7 +2,6 @@
 #include "Minigin.h"
 #include <chrono>
 #include <thread>
-#include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
@@ -12,7 +11,17 @@
 #include "SystemTime.h"
 
 
-//components
+//Managers
+#include "InputManager.h"
+#include "CollisionManager.h"
+
+//Input
+#include "Commands.h"
+#include "AnalogStickCommand.h"
+#include "AnalogTriggerCommand.h"
+
+
+//Components
 #include "FPSTextComponent.h"
 #include "TransformComponent.h"
 #include "HealthComponent.h"
@@ -20,16 +29,16 @@
 #include "Texture2DComponent.h"
 #include "SpriteAnimComponent.h"
 
-#include "Commands.h"
-#include "AnalogStickCommand.h"
-#include "AnalogTriggerCommand.h"
+#include "FighterShipMovementComponent.h"
+#include "BaseEnemyMovementComponent.h"
 
-//will be moved to  loader
+
+//will be moved to loader
 #include "LivesObserver.h"
 #include "ScoreObserver.h"
 
-#include "FighterShipMovementComponent.h"
-#include "BaseEnemyMovementComponent.h"
+
+
 
 
 using namespace std;
@@ -106,6 +115,9 @@ void dae::Minigin::LoadGame() const
 	testEnemyShip->AddComponent(new SpriteAnimComponent(2));
 	testEnemyShip->AddComponent(new BaseEnemyMovementComponent(0.75f,5,5));//steps amount should be odd, so it is properly and cheaply animated
 	scene.Add(testEnemyShip);
+	CollisionManager::GetInstance().AddGameObjectForCheck(true, testEnemyShip);
+
+
 
 }
 
@@ -178,4 +190,5 @@ void dae::Minigin::BindCommands()
 
 void dae::Minigin::UpdateManagers()
 {
+	CollisionManager::GetInstance().Update();
 }
