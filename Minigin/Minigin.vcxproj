@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -213,8 +213,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="AnalogStickCommand.h" />
     <ClInclude Include="AnalogTriggerCommand.h" />
     <ClInclude Include="BaseEnemyMovementComponent.h" />
+    <ClInclude Include="BezierCurve.h" />
+    <ClInclude Include="BezierPath.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="EnemyFlyInMovement.h" />
     <ClInclude Include="FighterShipMovementComponent.h" />
     <ClInclude Include="LivesObserver.h" />
     <ClInclude Include="Minigin.h" />
@@ -225,7 +228,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEnemyMovementComponent.cpp" />
+    <ClCompile Include="BezierCurve.cpp" />
+    <ClCompile Include="BezierPath.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="EnemyFlyInMovement.cpp" />
     <ClCompile Include="FighterShipMovementComponent.cpp" />
     <ClCompile Include="LivesObserver.cpp" />
     <ClCompile Include="Main.cpp" />

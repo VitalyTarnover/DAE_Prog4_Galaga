@@ -18,6 +18,14 @@ d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\de
 d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\basecommand.obj
 d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\baseanalogtriggercommand.obj
 d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\baseanalogstickcommand.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\transformcomponent.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\texture2dcomponent.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\textcomponent.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\fpstextcomponent.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\spriteanimcomponent.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\healthcomponent.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\basecomponent.obj
+d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\scorecomponent.obj
 d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\x64\debug\tvdengine.lib
 d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\tvdengine.tlog\cl.command.1.tlog
 d:\dae\2020_2021\s4\prog4\1a-retake\gameengine\dae_prog4_galaga\tvdengine\x64\debug\tvdengine.tlog\cl.read.1.tlog

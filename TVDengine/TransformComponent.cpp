@@ -19,7 +19,7 @@ void TransformComponent::SetScale(const glm::vec2& scale)
 {
 	m_SpriteRect.w *= (int)scale.x;
 	m_SpriteRect.h *= (int)scale.y;
-	m_Transform.SetScale(m_SpriteRect.w, m_SpriteRect.h);
+	m_Transform.SetScale(float(m_SpriteRect.w), float(m_SpriteRect.h));
 }
 
 
@@ -32,5 +32,5 @@ void TransformComponent::SetCenterPosition(glm::vec3 position)
 {
 	m_SpriteRect.x = (int)position.x - m_SpriteRect.w / 2;
 	m_SpriteRect.y = (int)position.y + m_SpriteRect.h / 2;
-	m_Transform.SetPosition(m_SpriteRect.x, m_SpriteRect.y, 0);
+	m_Transform.SetPosition(float(m_SpriteRect.x), float(m_SpriteRect.y), 0);
 }

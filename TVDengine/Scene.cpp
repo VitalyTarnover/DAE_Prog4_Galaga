@@ -42,8 +42,8 @@ void dae::Scene::DeleteMarkedForDelteGameObjects()
 	{
 		if (m_Objects[i]->GetMarkedForDelete())
 		{
-			m_Objects[i] = nullptr;//doesn't actually work
-			m_Objects[i].reset();
+			//m_Objects[i] = nullptr;//doesn't actually work
+			//m_Objects[i].reset();
 			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), m_Objects[i]), m_Objects.end());
 		}
 	}

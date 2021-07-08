@@ -31,6 +31,9 @@
     <Filter Include="GalagaComponents\Movement\EnemyMovement">
       <UniqueIdentifier>{0ed72d2c-5a02-4212-96aa-dc5fca062669}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Bezier">
+      <UniqueIdentifier>{f55dd2bf-6f36-4c24-a0c4-c6fc95ee0378}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -69,6 +72,15 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BezierCurve.h">
+      <Filter>Bezier</Filter>
+    </ClInclude>
+    <ClInclude Include="BezierPath.h">
+      <Filter>Bezier</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFlyInMovement.h">
+      <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -100,6 +112,15 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BezierCurve.cpp">
+      <Filter>Bezier</Filter>
+    </ClCompile>
+    <ClCompile Include="BezierPath.cpp">
+      <Filter>Bezier</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFlyInMovement.cpp">
+      <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
