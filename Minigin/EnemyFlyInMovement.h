@@ -5,7 +5,7 @@
 class EnemyFlyInMovement final: public BaseComponent //TODO: make it a child of base movement or something
 {
 public:
-	EnemyFlyInMovement();
+	EnemyFlyInMovement(const glm::vec2& posInFormation );
 	~EnemyFlyInMovement() = default;
 
 
@@ -13,8 +13,8 @@ public:
 private:
 	std::vector<glm::vec2> m_Path;//TODO: test purpuses. Later you can ad beziers for fly in, dive down etc etc
 
+	glm::vec2 m_PosInFormation;
 	float m_Speed;
-
 	int m_CurrentWaypoint;
 
 	void CreatePaths();

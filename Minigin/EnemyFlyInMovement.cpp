@@ -2,9 +2,11 @@
 #include "EnemyFlyInMovement.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "SceneManager.h"
 
-EnemyFlyInMovement::EnemyFlyInMovement()
-	:m_Speed{150.f}
+EnemyFlyInMovement::EnemyFlyInMovement(const glm::vec2& posInFormation)
+	:m_Speed{200.f}
+	,m_PosInFormation{ posInFormation }
 {
 	CreatePaths();
 	//glm::vec2 startPosition{ 100.f,100.f };
@@ -21,9 +23,22 @@ void EnemyFlyInMovement::CreatePaths()
 {
 	BezierPath* path = new BezierPath();
 
-	path->AddCurve({ glm::vec2{0,0}, glm::vec2{0,500}, glm::vec2{500,0}, glm::vec2{500, 500} }, 20);
+	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
+	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
 
-	path->Sample(&m_Path);
+	//1st part -> 0
+	path->AddCurve({ glm::vec2{screenWidth/2,0}, glm::vec2{0 , screenHeight/ 4 * 3}, glm::vec2{screenWidth,screenHeight / 4 * 3}, glm::vec2{screenWidth / 2,screenHeight / 2} }, 15);
+	path->Sample(&m_Path,0);
+
+	//intermediate point
+	m_Path.push_back(m_PosInFormation);
+
+	//2nd part -> 1
+	//path->AddCurve({ glm::vec2{500, 500}, glm::vec2{700,300}, glm::vec2{200,300}, glm::vec2{500, 400} }, 15);
+	//path->Sample(&m_Path, 1);
+	
+	
+
 	delete path;
 }
 

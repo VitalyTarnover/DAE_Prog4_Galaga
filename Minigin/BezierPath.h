@@ -9,7 +9,7 @@ public:
 	~BezierPath();
 
 	void AddCurve(BezierCurve newCurve, int samples);
-	void Sample(std::vector<glm::vec2>* sampledPath);
+	void Sample(std::vector<glm::vec2>* sampledPath, int index = -1);
 
 private:
 	std::vector<BezierCurve> m_Curves;

@@ -14,6 +14,7 @@
 //Managers
 #include "InputManager.h"
 #include "CollisionManager.h"
+#include "EnemyManager.h"
 
 //Input
 #include "Commands.h"
@@ -134,15 +135,30 @@ void dae::Minigin::LoadGame() const
 	//}
 
 
+	//{
+	//	auto testEnemyShip = std::make_shared<GameObject>("TestEnemy");
+	//	testEnemyShip->AddComponent(new TransformComponent(glm::vec3(0, 0, 0), 13.f, 10.f, scene.GetSceneScale(), scene.GetSceneScale()));
+	//	testEnemyShip->AddComponent(new Texture2DComponent("Bee.png", scene.GetSceneScale()));
+	//	testEnemyShip->AddComponent(new SpriteAnimComponent(2));
+	//	testEnemyShip->AddComponent(new EnemyFlyInMovement());
+	//	scene.Add(testEnemyShip);
+	//	CollisionManager::GetInstance().AddGameObjectForCheck(true, testEnemyShip);
+	//}
+
+	std::vector<glm::vec2> enemyPositions{};
+
+	for (size_t i = 0; i < 10; i++)
 	{
-		auto testEnemyShip = std::make_shared<GameObject>("TestEnemy");
-		testEnemyShip->AddComponent(new TransformComponent(glm::vec3(0, 0, 0), 13.f, 10.f, scene.GetSceneScale(), scene.GetSceneScale()));
-		testEnemyShip->AddComponent(new Texture2DComponent("Bee.png", scene.GetSceneScale()));
-		testEnemyShip->AddComponent(new SpriteAnimComponent(2));
-		testEnemyShip->AddComponent(new EnemyFlyInMovement());
-		scene.Add(testEnemyShip);
-		CollisionManager::GetInstance().AddGameObjectForCheck(true, testEnemyShip);
+		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1), m_WindowHeight / 5 * 2 });
 	}
+
+	for (size_t i = 0; i < 10; i++)
+	{
+		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1.5f), m_WindowHeight / 5 });
+	}
+
+
+	EnemyManager::GetInstance().SpawnEnemies(enemyPositions);
 
 }
 
@@ -216,4 +232,5 @@ void dae::Minigin::BindCommands()
 void dae::Minigin::UpdateManagers()
 {
 	CollisionManager::GetInstance().Update();
+	EnemyManager::GetInstance().Update();
 }
