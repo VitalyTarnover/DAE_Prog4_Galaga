@@ -39,7 +39,7 @@ void EnemyManager::Update()
 				//If it is less than -> spawn birds
 				//We are limitied to this exact amount of enemies per stage now, but just make different formations and increase speed or something
 				auto testEnemyShip = std::make_shared<GameObject>("TestEnemy");
-				testEnemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2 - 100, dae::SceneManager::GetInstance().GetScreenHeight() / 3, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				testEnemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 10 * 8, dae::SceneManager::GetInstance().GetScreenHeight() / 3, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
 				testEnemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
 				testEnemyShip->AddComponent(new SpriteAnimComponent(2));
 				testEnemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));

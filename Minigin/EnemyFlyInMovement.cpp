@@ -78,18 +78,19 @@ void EnemyFlyInMovement::CreatePaths()
 	//1st part -> 0
 	const auto& trc = m_pGameObject->GetComponent<TransformComponent>();
 
-	//if (trc->GetCenterPosition().x <= screenWidth / 2)//where do we do first maneuver... For now it makes first virage towards closer screen edge
+	//no need to mirror
+
 	{
-		path->AddCurve({ trc->GetCenterPosition(), 
-			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) }, 
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)}, 
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),trc->GetCenterPosition().y + (screenHeight / 5)} }, 
+		path->AddCurve({ trc->GetCenterPosition(),
+			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) },
+			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)},
+			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8),trc->GetCenterPosition().y + (screenHeight / 8)} },
 			15);
 		path->Sample(&m_Path, 0);
 	}
 
 	glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
-	
+
 	//attack point
 	m_Path.push_back(playerPos);
 
@@ -106,17 +107,18 @@ void EnemyFlyInMovement::CreatePaths()
 	}
 	*/
 
+
 	/*
 	//attack for BFs
 	//1st part -> 0
 	const auto& trc = m_pGameObject->GetComponent<TransformComponent>();
 
-	//if (trc->GetCenterPosition().x <= screenWidth / 2)//where do we do first maneuver... For now it makes first virage towards closer screen edge
+	//no need in mirroring
 	{
 		path->AddCurve({ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) },
 			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)},
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),trc->GetCenterPosition().y} },
+			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y} },
 			15);
 		path->Sample(&m_Path, 0);
 	}
@@ -124,7 +126,7 @@ void EnemyFlyInMovement::CreatePaths()
 	//wiggly decending to player
 
 	glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
-	
+
 	glm::vec2 tempTrajectoryPoint = m_Path[m_Path.size() - 1];
 
 	glm::vec2 distance = playerPos - glm::vec2{ tempTrajectoryPoint.x,tempTrajectoryPoint.y };
@@ -140,7 +142,7 @@ void EnemyFlyInMovement::CreatePaths()
 
 	//going down, beyond lower screen edge, where we have a teleport trigger to upper part
 	m_Path.push_back(glm::vec2{ playerPos.x, screenHeight + 100 });
-	
+
 	//the point before the last one to teleport to upper edge
 	m_Path.push_back(glm::vec2{ screenWidth/2, - 100 });
 
@@ -149,7 +151,60 @@ void EnemyFlyInMovement::CreatePaths()
 	*/
 
 
+	//dive down attack for birds
 
+	const auto& trc = m_pGameObject->GetComponent<TransformComponent>();
+
+	//mirror required
+	if (trc->GetCenterPosition().x <= screenWidth / 2)//where do we do first maneuver... For now it makes first virage towards closer screen edge
+	{
+		//1st part -> 0
+		path->AddCurve({ trc->GetCenterPosition(),
+			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
+			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
+			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),trc->GetCenterPosition().y } },
+			15);
+		path->Sample(&m_Path, 0);
+
+		//2nd part -> 1		
+		path->AddCurve({ m_Path[m_Path.size() - 1],
+			glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
+			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
+			glm::vec2{m_Path[m_Path.size() - 1].x + (screenWidth / 4), m_Path[m_Path.size() - 1].y } },
+			15);
+		path->Sample(&m_Path, 1);
+		
+	}
+	else
+	{
+		//1st part -> 0
+		path->AddCurve({ trc->GetCenterPosition(),
+			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8), trc->GetCenterPosition().y},
+			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
+			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 4),trc->GetCenterPosition().y } },
+			15);
+		path->Sample(&m_Path, 0);
+
+		//2nd part -> 1		
+		path->AddCurve({ m_Path[m_Path.size() - 1],
+			glm::vec2{m_Path[m_Path.size() - 1].x + (screenWidth / 8), m_Path[m_Path.size() - 1].y},
+			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
+			glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 4), m_Path[m_Path.size() - 1].y } },
+			15);
+		path->Sample(&m_Path, 1);
+	}
+	
+	//glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+	//m_Path.push_back(glm::vec2{ playerPos });//aiming for player
+	
+	//going down, beyond lower screen edge, where we have a teleport trigger to upper part
+	m_Path.push_back(glm::vec2{ m_Path[m_Path.size() - 1].x, screenHeight + 100 });
+
+	//the point before the last one to teleport to upper edge
+	m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
+
+	//back to position in formation
+	m_Path.push_back(glm::vec2{ m_PosInFormation });
 
 	delete path;
 }
