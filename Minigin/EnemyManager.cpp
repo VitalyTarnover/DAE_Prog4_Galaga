@@ -33,8 +33,13 @@ void EnemyManager::Update()
 		{
 			auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
 			{
+				//TODO: make spawning for all types of enemies. It will be a check "how many enemies are left to spawn" 
+				//Just check the size of m_BeesPosInFormation. If it is more than 24 -> spawn bees
+				//If it is less than 24 but more than 4 -> spawn BFs
+				//If it is less than -> spawn birds
+				//We are limitied to this exact amount of enemies per stage now, but just make different formations and increase speed or something
 				auto testEnemyShip = std::make_shared<GameObject>("TestEnemy");
-				testEnemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2, -20, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				testEnemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2 - 100, dae::SceneManager::GetInstance().GetScreenHeight() / 3, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
 				testEnemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
 				testEnemyShip->AddComponent(new SpriteAnimComponent(2));
 				testEnemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
@@ -43,7 +48,6 @@ void EnemyManager::Update()
 			}
 			m_BeesPosInFormation.pop_back();
 			m_SpawnTimer = 0;
-			
 
 		}
 		else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
