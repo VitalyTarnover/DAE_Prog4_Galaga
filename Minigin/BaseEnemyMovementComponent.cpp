@@ -7,21 +7,23 @@
 #include "Scene.h"
 #include "SpriteAnimComponent.h"
 
-BaseEnemyMovementComponent::BaseEnemyMovementComponent(float stepTime, int stepsNumber, int stepSize)
-	:m_StepTime{ stepTime }
-	,m_StepsNumber{ stepsNumber }
-	,m_StepSize { stepSize }
+BaseEnemyMovementComponent::BaseEnemyMovementComponent()
+	//:m_StepTime{ stepTime }
+	//,m_StepsNumber{ stepsNumber }
+	//,m_StepSize { stepSize }
 {
+	//m_CurrentState = new FlyInState();
 }
 
 void BaseEnemyMovementComponent::Update()
 {
-	Move();
+	m_CurrentState->Update(*this);
+
 }
 
-void BaseEnemyMovementComponent::Move()
-{
+
 	//Patrolling in formation
+	/*
 	if (m_StepTimer > 0) m_StepTimer -= SystemTime::GetInstance().GetDeltaTime();
 	else
 	{
@@ -47,4 +49,4 @@ void BaseEnemyMovementComponent::Move()
 		
 		m_StepTimer = m_StepTime;
 	}
-}
+	*/

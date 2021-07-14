@@ -28,11 +28,14 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{61c94833-6cca-493f-91ba-94ae61848966}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GalagaComponents\Movement\EnemyMovement">
-      <UniqueIdentifier>{0ed72d2c-5a02-4212-96aa-dc5fca062669}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Bezier">
       <UniqueIdentifier>{f55dd2bf-6f36-4c24-a0c4-c6fc95ee0378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\Movement\Enemy">
+      <UniqueIdentifier>{0ed72d2c-5a02-4212-96aa-dc5fca062669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\Movement\Enemy\States">
+      <UniqueIdentifier>{d6a24acc-b5fe-4046-99b4-ebe187427d83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +70,7 @@
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="BaseEnemyMovementComponent.h">
-      <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Header Files</Filter>
@@ -79,10 +82,46 @@
       <Filter>Bezier</Filter>
     </ClInclude>
     <ClInclude Include="EnemyFlyInMovement.h">
-      <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemyState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BeeFlyInState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BeeDiveDownState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BFDiveDownState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BFFlyInState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BirdDiveDownState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BirdFlyInState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="InFormationState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BirdMovementComponent.h">
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BFMovementComponent.h">
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BeeMovementComponent.h">
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -111,7 +150,7 @@
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="BaseEnemyMovementComponent.cpp">
-      <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Source Files</Filter>
@@ -123,10 +162,43 @@
       <Filter>Bezier</Filter>
     </ClCompile>
     <ClCompile Include="EnemyFlyInMovement.cpp">
-      <Filter>GalagaComponents\Movement\EnemyMovement</Filter>
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="BeeFlyInState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BeeDiveDownState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BFDiveDownState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BFFlyInState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BirdDiveDownState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BirdFlyInState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="InFormationState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BeeMovementComponent.cpp">
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BFMovementComponent.cpp">
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BirdMovementComponent.cpp">
+      <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

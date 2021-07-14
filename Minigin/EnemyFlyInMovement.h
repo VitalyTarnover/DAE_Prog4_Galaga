@@ -12,7 +12,7 @@ public:
 	void Update() override;
 private:
 	bool m_TestBool = false; 
-	std::vector<glm::vec2> m_Path;//TODO: test purpuses. Later you can ad beziers for fly in, dive down etc etc
+	std::vector<glm::vec2> m_Path;//TODO: test purposes. Later you can add beziers for fly in, dive down etc etc
 
 	glm::vec2 m_PosInFormation;
 	float m_Speed;
