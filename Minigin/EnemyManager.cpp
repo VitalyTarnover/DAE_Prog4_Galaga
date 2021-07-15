@@ -20,7 +20,9 @@ void EnemyManager::SpawnEnemies(const std::vector<glm::vec2>& posInFormation)
 {
 	//set state building formation
 	m_BeesPosInFormation = posInFormation;
-	m_NumberOfEnemies += int(posInFormation.size());
+	m_NumberOfEnemiesNotInPosition = int(posInFormation.size());
+	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
+	//TODO: okay.. so check how enemies patrol before and after getting everyone in formation. I think it should be synchronized here.
 }
 
 void EnemyManager::Update()
@@ -51,6 +53,11 @@ void EnemyManager::Update()
 
 		}
 		else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
+	}
+
+	if (m_NumberOfEnemiesNotInPosition <= 0)
+	{
+
 	}
 
 }

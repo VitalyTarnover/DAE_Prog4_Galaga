@@ -16,7 +16,8 @@ private:
 	float m_SpawnTime = 0.5f;
 
 	std::vector<glm::vec2> m_BeesPosInFormation;
-	int m_NumberOfEnemies;
+	int m_NumberOfEnemiesNotInPosition;
+	int m_NumberOfEnemiesAlive;
 
 };
 
