@@ -2,17 +2,18 @@
 #include "BeeMovementComponent.h"
 #include "BeeFlyInState.h"
 
-BeeMovementComponent::BeeMovementComponent()
+BeeMovementComponent::BeeMovementComponent(float speed, glm::vec2 posInFormation)
+	:BaseEnemyMovementComponent(speed, posInFormation)
 {
 	m_CurrentState = new BeeFlyInState();
 }
 
 void BeeMovementComponent::Update()
 {
-	BaseEnemyState* state = m_CurrentState->Update(*this);
-	if (state != NULL)
+	BaseEnemyState* state = m_CurrentState->Update(m_pGameObject);
+	if (state != nullptr)
 	{
-		delete state_;
-		state_ = state;
+		delete m_CurrentState;
+		m_CurrentState = state;
 	}
 }

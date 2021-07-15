@@ -4,7 +4,10 @@
 class BaseEnemyState
 {
 public:
-	virtual ~BaseEnemyState() {}
-	virtual BaseEnemyState* Update(BaseEnemyMovementComponent& enemyMovement) {}
+	BaseEnemyState(GameObject* enemy);
+	virtual ~BaseEnemyState() {};
+	virtual BaseEnemyState* Update() {}
+protected:
+	GameObject* m_Enemy;
 };
 

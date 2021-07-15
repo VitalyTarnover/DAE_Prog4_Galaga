@@ -7,11 +7,15 @@
 class BaseEnemyMovementComponent : public BaseComponent
 {
 public:
-	BaseEnemyMovementComponent();
+	BaseEnemyMovementComponent(float speed, glm::vec2 posInFormation = glm::vec2{ 200,200 });//TODO: get rid of these nasty numbers after all the tests
+	virtual ~BaseEnemyMovementComponent();
+	virtual glm::vec2 GetPosInFormation();
+	virtual float GetSpeed();
 	virtual void Update();
 protected:
 	BaseEnemyState* m_CurrentState;
-
+	glm::vec2 m_PosInFormation;
+	float m_Speed;
 
 	//TODO: Mby make getters and setters for these datamembers, this will be a good opportunity to make an adjustable difficulty
 	//float m_StepTimer = 0;

@@ -241,6 +241,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEnemyMovementComponent.cpp" />
+    <ClCompile Include="BaseEnemyState.cpp" />
     <ClCompile Include="BeeDiveDownState.cpp" />
     <ClCompile Include="BeeMovementComponent.cpp" />
     <ClCompile Include="BezierCurve.cpp" />

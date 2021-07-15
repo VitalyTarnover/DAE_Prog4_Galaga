@@ -72,9 +72,6 @@
     <ClInclude Include="BaseEnemyMovementComponent.h">
       <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BezierCurve.h">
       <Filter>Bezier</Filter>
     </ClInclude>
@@ -123,6 +120,9 @@
     <ClInclude Include="BeeMovementComponent.h">
       <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -151,9 +151,6 @@
     </ClCompile>
     <ClCompile Include="BaseEnemyMovementComponent.cpp">
       <Filter>GalagaComponents\Movement\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BezierCurve.cpp">
       <Filter>Bezier</Filter>
@@ -199,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="BirdMovementComponent.cpp">
       <Filter>GalagaComponents\Movement\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemyState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

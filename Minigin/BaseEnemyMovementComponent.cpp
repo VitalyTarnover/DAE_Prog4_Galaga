@@ -7,18 +7,31 @@
 #include "Scene.h"
 #include "SpriteAnimComponent.h"
 
-BaseEnemyMovementComponent::BaseEnemyMovementComponent()
-	//:m_StepTime{ stepTime }
-	//,m_StepsNumber{ stepsNumber }
-	//,m_StepSize { stepSize }
+BaseEnemyMovementComponent::BaseEnemyMovementComponent(float speed, glm::vec2 posInFormation)
+	:m_CurrentState{nullptr}
+	, m_PosInFormation{posInFormation}
+	, m_Speed{speed}
 {
-	//m_CurrentState = new FlyInState();
+}
+
+BaseEnemyMovementComponent::~BaseEnemyMovementComponent()
+{
+	delete m_CurrentState;
+}
+
+glm::vec2 BaseEnemyMovementComponent::GetPosInFormation()
+{
+	return m_PosInFormation;
+}
+
+float BaseEnemyMovementComponent::GetSpeed()
+{
+	return m_Speed;
 }
 
 void BaseEnemyMovementComponent::Update()
 {
-	m_CurrentState->Update(*this);
-
+	//m_CurrentState->Update(m_pGameObject);
 }
 
 
