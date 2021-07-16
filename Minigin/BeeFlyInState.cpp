@@ -7,23 +7,34 @@
 #include "BeeMovementComponent.h"
 #include "TransformComponent.h"
 
-BeeFlyInState::BeeFlyInState(GameObject* enemy, float speed)
-	:BaseEnemyState(enemy)
+#include "EnemyManager.h"
+
+BeeFlyInState::BeeFlyInState(float speed)
+	:BaseEnemyState()
 	,m_CurrentWaypoint{0}
 	, m_Speed{speed}
 {
-	CreatePaths();
 }
 
-BaseEnemyState* BeeFlyInState::Update()
+BaseEnemyState* BeeFlyInState::Update(GameObject* enemy)
 {
 
-	BeeFlyIn();
+	if (m_Path.size() == 0)
+	{
+		CreatePaths(enemy);
+	}
+
+	BeeFlyIn(enemy);
+
+	//if (m_Switch = true)
+	//{
+	//	return new 
+	//}
 
 	return nullptr;
 }
 
-void BeeFlyInState::CreatePaths()
+void BeeFlyInState::CreatePaths(GameObject* enemy)
 {
 	BezierPath* path = new BezierPath();
 
@@ -36,25 +47,29 @@ void BeeFlyInState::CreatePaths()
 	path->Sample(&m_Path, 0);
 
 	//final position
-	m_Path.push_back(m_Enemy->GetComponent<BeeMovementComponent>()->GetPosInFormation());
+	m_Path.push_back(enemy->GetComponent<BeeMovementComponent>()->GetPosInFormation());
+
+	delete path;
 }
 
-void BeeFlyInState::BeeFlyIn()
+void BeeFlyInState::BeeFlyIn(GameObject* enemy)
 {
-	if (m_CurrentWaypoint < m_Path.size())
+	if (m_CurrentWaypoint != -1)// -1 is stand by state, should as well be switch for patroling before formation is built
 	{
-		const auto& trc = m_Enemy->GetComponent<TransformComponent>();
-
-		glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
-
-		//check if we have reached next waypoint 
-		float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
-
-		if (sqrMagnitude < 4) //TODO: 4 can be something else, mby even declared 
-			++m_CurrentWaypoint;
-
-		if (m_CurrentWaypoint < m_Path.size())// double check, must be removed
+		if (m_CurrentWaypoint < m_Path.size())
 		{
+			const auto& trc = enemy->GetComponent<TransformComponent>();
+
+			glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
+
+			//check if we have reached next waypoint 
+			float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
+
+			if (sqrMagnitude < 4) //TODO: 4 can be something else, mby even declared 
+				++m_CurrentWaypoint;
+
+			if (m_CurrentWaypoint < m_Path.size())// double check, must be removed
+			{
 				glm::vec2 distance = m_Path[m_CurrentWaypoint] - currentPosition;
 
 				glm::vec2 direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));//normalized distance, because of sqrt might be a good idea to cache it
@@ -62,9 +77,14 @@ void BeeFlyInState::BeeFlyIn()
 				glm::vec2 translation = direction * SystemTime::GetInstance().GetDeltaTime() * m_Speed;
 
 				trc->SetPosition(glm::vec3{ currentPosition.x + translation.x, currentPosition.y + translation.y, 0 });
+			}
+			else
+			{
+				trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x,m_Path[m_Path.size() - 1].y, 0 });//set position to final point
+				EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();//TODO: when everything works try to make observer for this
+				m_CurrentWaypoint = -1;
+			}
 		}
-		else trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x,m_Path[m_Path.size() - 1].y, 0 });//set position to final point
 	}
-
 }
 

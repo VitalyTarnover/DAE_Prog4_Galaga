@@ -1,5 +1,6 @@
 #include "MiniginPCH.h"
 #include "BaseEnemyMovementComponent.h"
+#include "BaseEnemyState.h"
 
 #include "GameObject.h"
 #include "TransformComponent.h"
@@ -29,9 +30,10 @@ float BaseEnemyMovementComponent::GetSpeed()
 	return m_Speed;
 }
 
+	
 void BaseEnemyMovementComponent::Update()
 {
-	//m_CurrentState->Update(m_pGameObject);
+	m_CurrentState->Update(m_pGameObject);
 }
 
 void BaseEnemyMovementComponent::Switch()

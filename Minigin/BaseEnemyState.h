@@ -4,12 +4,11 @@
 class BaseEnemyState
 {
 public:
-	BaseEnemyState(GameObject* enemy);
+	BaseEnemyState();
 	virtual ~BaseEnemyState() {}
-	virtual BaseEnemyState* Update() {}
+	virtual BaseEnemyState* Update(GameObject*) { return nullptr; }
 	virtual void Switch();
 protected:
-	GameObject* m_Enemy;
 	bool m_Switch;//switches to next state
 };
 

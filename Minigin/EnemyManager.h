@@ -11,6 +11,7 @@ class GameObject;
 class EnemyManager final : public dae::Singleton<EnemyManager>
 {
 public:
+	~EnemyManager();
 	void SpawnEnemies(const std::vector<glm::vec2>& posInFormation);
 	void Update();
 	void ResetEnemies();

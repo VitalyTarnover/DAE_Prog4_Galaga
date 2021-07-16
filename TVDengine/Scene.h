@@ -82,7 +82,7 @@ namespace dae
 
 		float m_SceneScale = 2.0f;
 		
-		std::vector< std::shared_ptr<GameObject>> m_pLevels;
+		std::vector<std::shared_ptr<GameObject>> m_pLevels;
 		std::shared_ptr<GameObject> m_pCurrentLevel;
 
 		static unsigned int m_IdCounter;

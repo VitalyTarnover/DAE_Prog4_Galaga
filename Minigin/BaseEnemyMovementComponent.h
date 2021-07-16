@@ -1,8 +1,8 @@
 #pragma once
 #include "BaseComponent.h"
-#include "BaseEnemyState.h"
 
 //states: fly in, in formation, dive down, die
+class BaseEnemyState;
 
 class BaseEnemyMovementComponent : public BaseComponent
 {
@@ -14,6 +14,7 @@ public:
 	virtual void Update();
 	virtual void Switch();
 protected:
+
 	BaseEnemyState* m_CurrentState;
 	glm::vec2 m_PosInFormation;
 	float m_Speed;

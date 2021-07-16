@@ -11,19 +11,25 @@
 #include "Texture2DComponent.h"
 #include "SpriteAnimComponent.h"
 
-#include "BaseEnemyMovementComponent.h"
+//#include "BaseEnemyMovementComponent.h"
+#include "BeeMovementComponent.h"
 #include "EnemyFlyInMovement.h"
 
 #include "CollisionManager.h"
 
+EnemyManager::~EnemyManager()
+{
+	m_Enemies.clear();
+}
+
 void EnemyManager::SpawnEnemies(const std::vector<glm::vec2>& posInFormation)
 {
 	//set state building formation
+	m_BuildingFormation = true;
 	m_BeesPosInFormation = posInFormation;
 	m_NumberOfEnemiesNotInPosition = int(posInFormation.size());
 	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
 	//TODO: okay.. so check how enemies patrol before and after getting everyone in formation. I think it should be synchronized here.
-
 	
 }
 
@@ -47,19 +53,20 @@ void EnemyManager::Update()
 					testEnemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 10 * 8, dae::SceneManager::GetInstance().GetScreenHeight() / 3, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
 					testEnemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
 					testEnemyShip->AddComponent(new SpriteAnimComponent(2));
-					testEnemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
+					//testEnemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
+					testEnemyShip->AddComponent(new BeeMovementComponent(200.f, m_BeesPosInFormation.back()));
 					scene->Add(testEnemyShip);
 					m_Enemies.push_back(testEnemyShip);
 					CollisionManager::GetInstance().AddGameObjectForCheck(true, testEnemyShip);
-
+	
 				}
 				m_BeesPosInFormation.pop_back();
 				m_SpawnTimer = 0;
-
+	
 			}
 			else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
 		}
-
+	
 		if (m_NumberOfEnemiesNotInPosition <= 0)
 		{
 			for (size_t i = 0; i < m_Enemies.size(); i++)
@@ -69,8 +76,8 @@ void EnemyManager::Update()
 			m_BuildingFormation = false;
 		}
 	}
-
-
+	
+	
 }
 
 void EnemyManager::ResetEnemies()

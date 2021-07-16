@@ -5,7 +5,7 @@
 BeeMovementComponent::BeeMovementComponent(float speed, glm::vec2 posInFormation)
 	:BaseEnemyMovementComponent(speed, posInFormation)
 {
-	m_CurrentState = new BeeFlyInState();
+	m_CurrentState = new BeeFlyInState(m_Speed);
 }
 
 void BeeMovementComponent::Update()
