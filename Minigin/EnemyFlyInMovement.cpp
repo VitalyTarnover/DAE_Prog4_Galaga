@@ -231,9 +231,6 @@ void EnemyFlyInMovement::FlyIn()
 			}
 			else trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 2].x,m_Path[m_Path.size() - 2].y, 0 });//teleport to upper screen edge. Only for BFs and birds
 		}
-		
 		else trc->SetPosition(glm::vec3{ m_Path[m_Path.size()-1].x,m_Path[m_Path.size() - 1].y, 0 });//set position to final point
-			
-		
 	}
 }

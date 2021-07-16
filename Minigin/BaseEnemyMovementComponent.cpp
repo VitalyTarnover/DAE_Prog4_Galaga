@@ -34,6 +34,11 @@ void BaseEnemyMovementComponent::Update()
 	//m_CurrentState->Update(m_pGameObject);
 }
 
+void BaseEnemyMovementComponent::Switch()
+{
+	m_CurrentState->Switch();
+}
+
 
 	//Patrolling in formation
 	/*

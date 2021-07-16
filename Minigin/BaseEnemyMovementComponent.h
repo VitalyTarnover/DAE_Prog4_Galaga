@@ -12,6 +12,7 @@ public:
 	virtual glm::vec2 GetPosInFormation();
 	virtual float GetSpeed();
 	virtual void Update();
+	virtual void Switch();
 protected:
 	BaseEnemyState* m_CurrentState;
 	glm::vec2 m_PosInFormation;
