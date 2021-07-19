@@ -11,7 +11,8 @@ public:
 	void Update() override;
 	void Render() override;
 private:
-	//m_Position could have been used as local position
+	//m_Position could have been used as local position, it also was here because text should not have been able to move, so instead of getting transform component
+	//every frame to get the same position, it would just remember this position.
 	std::string m_Text;
 	std::shared_ptr<dae::Font> m_pFont;
 	std::shared_ptr<dae::Texture2D> m_pTexture;

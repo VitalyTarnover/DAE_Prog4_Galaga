@@ -16,11 +16,11 @@ FPSTextComponent::~FPSTextComponent()
 
 void FPSTextComponent::Update()
 {
-	if (!m_IsInitialized && m_pGameObject->GetComponent<TransformComponent>())
+	if (!m_IsInitialized && m_pGameObject)
 	{
 		m_pGameObject->AddComponent(m_pText);
 		m_IsInitialized = true;
-		//m_pText->SetPosition(m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition());
+		//m_pText->SetPosition(m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition()); //obsolete
 	}
 
 	m_FPS = "FPS: " + std::to_string(int(1.f / SystemTime::GetInstance().GetDeltaTime()));

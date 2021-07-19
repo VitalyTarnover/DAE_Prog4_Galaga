@@ -93,8 +93,8 @@ void dae::Minigin::LoadGame() const
 	//fps counter
 	auto go = std::make_shared<GameObject>("FPSCounter");
 	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
-	go->AddComponent(new FPSTextComponent(font2));
 	go->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
+	go->AddComponent(new FPSTextComponent(font2));
 	scene.Add(go);
 
 	//player
@@ -110,10 +110,10 @@ void dae::Minigin::LoadGame() const
 	scene.Add(playerFighter);
 	scene.AddPlayer(playerFighter);
 
-	//auto textTest = std::make_shared<GameObject>("Text");
-	//textTest->AddComponent(new TransformComponent(glm::vec3(200, 200, 0)) );
-	//textTest->AddComponent(new TextComponent("qfqfiofqoijhqfwoijhfqwiojh", font2, SDL_Color{ 255,0,255 }));
-	//scene.Add(textTest);
+	auto textTest = std::make_shared<GameObject>("Text");
+	textTest->AddComponent(new TransformComponent(glm::vec3(200, 200, 0)) );
+	textTest->AddComponent(new TextComponent("textTestText", font2, SDL_Color{ 255,0,255 }));
+	scene.Add(textTest);
 	
 
 	//enemies

@@ -13,7 +13,6 @@ enum class Event
 	DivingButterflyKilled = 160,
 	BirdKilleld = 150,
 	DivingBirdKilleld = 400,
-
 };
 
 class Observer;
