@@ -3,38 +3,38 @@
 
 
 Subject::Subject()
-	:m_ObserverCount{ 0 }, m_pObservers{ nullptr }
 {}
 
 Subject::~Subject()
 {
-	for (size_t i = 0; i < m_ObserverCount; i++)
+	for (size_t i = 0; i < m_pObservers.size(); i++)
 	{
 		delete m_pObservers[i];
 	}
+	m_pObservers.clear();
 }
 
 void Subject::AddObserver(Observer* observer)
 {
-	m_pObservers[m_ObserverCount] = observer;
-	m_ObserverCount++;
+	m_pObservers.push_back(observer);
 }
 
 void Subject::RemoveObserver(Observer* observer)
 {
-	for (size_t i = 0; i < m_ObserverCount; i++)
+	for (size_t i = 0; i < m_pObservers.size(); i++)
 	{
 		if (m_pObservers[i] == observer)
 		{
 			delete m_pObservers[i];
 			m_pObservers[i] = nullptr;
+			m_pObservers.erase(std::remove(m_pObservers.begin(), m_pObservers.end(), m_pObservers[i]), m_pObservers.end());
 		}
 	}
 }
 
 void Subject::Notify(const GameObject* actor, Event event)
 {
-	for (size_t i = 0; i < m_ObserverCount; i++)
+	for (size_t i = 0; i < m_pObservers.size(); i++)
 	{
 		m_pObservers[i]->OnNotify(actor, event);
 	}

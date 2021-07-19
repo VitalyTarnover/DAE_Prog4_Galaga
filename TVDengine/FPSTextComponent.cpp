@@ -11,15 +11,16 @@ FPSTextComponent::FPSTextComponent(const std::shared_ptr<dae::Font>& font)
 
 FPSTextComponent::~FPSTextComponent()
 {
-	delete m_pText;
+	//delete m_pText;//deletion is on the m_pGameObject
 }
 
 void FPSTextComponent::Update()
 {
 	if (!m_IsInitialized && m_pGameObject->GetComponent<TransformComponent>())
 	{
+		m_pGameObject->AddComponent(m_pText);
 		m_IsInitialized = true;
-		m_pText->SetPosition(m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition());
+		//m_pText->SetPosition(m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition());
 	}
 
 	m_FPS = "FPS: " + std::to_string(int(1.f / SystemTime::GetInstance().GetDeltaTime()));

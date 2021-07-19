@@ -22,12 +22,11 @@ TextComponent::TextComponent(const std::string& text, const std::shared_ptr<dae:
 	}
 	SDL_FreeSurface(surf);
 	m_pTexture = std::make_shared<dae::Texture2D>(texture);
+
+	m_IsInitialized = true;
+
 }
 
-void TextComponent::SetPosition(const glm::vec3& pos)
-{
-	m_Position = pos;
-}
 
 void TextComponent::SetIsVisible(bool isVisible, float setVisibleFalseTimer)
 {
@@ -36,7 +35,7 @@ void TextComponent::SetIsVisible(bool isVisible, float setVisibleFalseTimer)
 
 	if (setVisibleFalseTimer != 0)
 	{
-		m_SetTimer = true;
+		m_TimerSet = true;
 		m_SetVisibleFalseTimer = setVisibleFalseTimer;
 	}
 }
@@ -48,13 +47,13 @@ void TextComponent::UpdateText(const std::string& text)
 
 void TextComponent::Update()
 {
-	if (m_SetTimer)
+	if (m_TimerSet)
 	{
 		m_SetVisibleFalseTimer -= SystemTime::GetInstance().GetDeltaTime();
 
 		if (m_SetVisibleFalseTimer <= 0.0f)
 		{
-			m_SetTimer = false;
+			m_TimerSet = false;
 			m_SetVisibleFalseTimer = 0.0f;
 			m_IsVisible = false;
 		}
@@ -63,18 +62,14 @@ void TextComponent::Update()
 
 void TextComponent::Render()
 {
-	if (!m_IsInitialized && m_pGameObject && m_pGameObject->GetComponent<TransformComponent>())
-	{
-		m_IsInitialized = true;
-		m_Position = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
-	}
-
-	if (m_pTexture && m_IsVisible)
+	if (m_pTexture && m_IsVisible && m_pGameObject)
 	{
 		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
 		auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
 		SDL_FreeSurface(surf);
 		m_pTexture = std::make_shared<dae::Texture2D>(texture);
-		dae::Renderer::GetInstance().RenderTexture(*m_pTexture, m_Position.x, m_Position.y);
+		glm::vec3 pos = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
+		dae::Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);//TODO: when everything will be done mby make separate render component
+		//instead of all components having render method. Render component will get all necessary data to make a texture and then it will render it in its update.
 	}
 };
