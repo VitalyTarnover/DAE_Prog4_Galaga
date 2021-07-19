@@ -17,7 +17,9 @@ private:
 	std::shared_ptr<dae::Texture2D> m_pTexture;
 	glm::vec3 m_Position = {};
 	SDL_Color m_Color = {};
+	
 	float m_SetVisibleFalseTimer = {};
+
 	bool m_IsVisible = false;
 	bool m_SetTimer = false;
 };

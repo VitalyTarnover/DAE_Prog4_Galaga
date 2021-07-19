@@ -50,7 +50,7 @@ void EnemyManager::Update()
 					//If it is less than -> spawn birds
 					//We are limitied to this exact amount of enemies per stage now, but just make different formations and increase speed or something
 					auto testEnemyShip = std::make_shared<GameObject>("TestEnemy");
-					testEnemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 10 * 8, dae::SceneManager::GetInstance().GetScreenHeight() / 3, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+					testEnemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2, -100, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
 					testEnemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
 					testEnemyShip->AddComponent(new SpriteAnimComponent(2));
 					//testEnemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
@@ -67,7 +67,7 @@ void EnemyManager::Update()
 			else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
 		}
 	
-		if (m_NumberOfEnemiesNotInPosition <= 0)
+		if (m_NumberOfEnemiesNotInPosition <= 0 && m_CurrentStepNumber <= 0)//here is that check you are looking for
 		{
 			for (size_t i = 0; i < m_Enemies.size(); i++)
 			{
@@ -75,6 +75,8 @@ void EnemyManager::Update()
 			}
 			m_BuildingFormation = false;
 		}
+
+		CalculateStepBeforFormation();
 	}
 	
 	
@@ -89,4 +91,36 @@ void EnemyManager::AnEnemyReachedPositionInFormation()
 {
 	--m_NumberOfEnemiesNotInPosition;
 }
+
+
+
+int EnemyManager::GetStepOffset()
+{
+	return m_CurrentStepNumber;
+}
+
+void EnemyManager::CalculateStepBeforFormation()
+{
+	//Patrolling in formation
+	if (m_StepTimer > 0) m_StepTimer -= SystemTime::GetInstance().GetDeltaTime();
+	else
+	{
+		//float sceneScale = dae::SceneManager::GetInstance().GetCurrentScene()->GetSceneScale();
+
+		if (m_MovingLeft)
+		{
+			++m_CurrentStepNumber;
+			if (m_CurrentStepNumber >= m_StepsNumber) m_MovingLeft = false;
+		}
+		else
+		{
+			--m_CurrentStepNumber;
+			if (m_CurrentStepNumber <= 0) m_MovingLeft = true;
+		}
+
+		m_StepTimer = m_StepTime;
+	}
+	
+}
+	
 

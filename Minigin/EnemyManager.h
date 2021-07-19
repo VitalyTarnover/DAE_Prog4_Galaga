@@ -16,6 +16,10 @@ public:
 	void Update();
 	void ResetEnemies();
 	void AnEnemyReachedPositionInFormation();
+	
+	void CalculateStepBeforFormation();
+	int GetStepOffset();
+
 private:
 	float m_SpawnTimer = 0;
 	float m_SpawnTime = 0.5f;
@@ -28,6 +32,14 @@ private:
 
 	int m_NumberOfEnemiesNotInPosition;
 	int m_NumberOfEnemiesAlive;
+
+
+	//patrolling before formation
+	float m_StepTimer = 0;
+	float m_StepTime = 0.3f;
+	int m_StepsNumber = 5;
+	int m_CurrentStepNumber = 0;
+	bool m_MovingLeft = true;
 
 };
 

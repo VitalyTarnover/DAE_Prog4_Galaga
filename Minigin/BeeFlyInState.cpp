@@ -6,13 +6,15 @@
 
 #include "BeeMovementComponent.h"
 #include "TransformComponent.h"
+#include "SpriteAnimComponent.h"
 
 #include "EnemyManager.h"
 
-BeeFlyInState::BeeFlyInState(float speed)
+BeeFlyInState::BeeFlyInState(float speed, int stepSize)
 	:BaseEnemyState()
 	,m_CurrentWaypoint{0}
 	, m_Speed{speed}
+	, m_StepSize{stepSize}
 {
 }
 
@@ -54,12 +56,14 @@ void BeeFlyInState::CreatePaths(GameObject* enemy)
 
 void BeeFlyInState::BeeFlyIn(GameObject* enemy)
 {
+
+	const auto& trc = enemy->GetComponent<TransformComponent>();
+
 	if (m_CurrentWaypoint != -1)// -1 is stand by state, should as well be switch for patroling before formation is built
 	{
+		
 		if (m_CurrentWaypoint < m_Path.size())
 		{
-			const auto& trc = enemy->GetComponent<TransformComponent>();
-
 			glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
 
 			//check if we have reached next waypoint 
@@ -86,5 +90,18 @@ void BeeFlyInState::BeeFlyIn(GameObject* enemy)
 			}
 		}
 	}
+	else
+	{
+		int currentStep = EnemyManager::GetInstance().GetStepOffset();
+
+		trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x - (currentStep * m_StepSize),m_Path[m_Path.size() - 1].y, 0 });//set position to final point
+
+		enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2));
+
+	}
+
+
+	
+
 }
 

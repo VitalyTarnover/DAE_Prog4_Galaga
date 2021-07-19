@@ -4,7 +4,7 @@
 class BeeFlyInState final : public BaseEnemyState
 {
 public:
-	BeeFlyInState(float speed);
+	BeeFlyInState(float speed, int stepSize = 5);
 	BaseEnemyState* Update(GameObject* enemy) override;
 private:
 	std::vector<glm::vec2> m_Path;
@@ -13,6 +13,8 @@ private:
 
 	void CreatePaths(GameObject* enemy);
 	void BeeFlyIn(GameObject* enemy);
+
+	int m_StepSize;//for patrolling before formation
 
 };
 
