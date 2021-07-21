@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "RocketMovementComponent.h"
 #include "RocketManager.h"
+#include "EnemyManager.h"
 
 void CollisionManager::AddGameObjectForCheck(bool isEnemy, const std::shared_ptr<GameObject>& newGameObject)
 {
@@ -11,7 +12,7 @@ void CollisionManager::AddGameObjectForCheck(bool isEnemy, const std::shared_ptr
 	else m_pRocketsForCheck.push_back(newGameObject);
 }
 
-void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject)
+void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject)//TODO: is it needed?
 {
 
 	for (size_t i = 0; i < m_pRocketsForCheck.size(); ++i)
@@ -86,9 +87,12 @@ void CollisionManager::Update()
 				{
 					if (CheckIfCollide(rocketRect, m_pEnemiesForCheck[j]->GetComponent<TransformComponent>()->GetRect()))
 					{
+						EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[j]);
+						EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
 						m_pEnemiesForCheck[j]->SetMarkedForDelete(true);
 						m_pEnemiesForCheck[j] = nullptr;
 						m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
+
 
 						m_pRocketsForCheck[i]->SetMarkedForDelete(true);
 						m_pRocketsForCheck[i] = nullptr;

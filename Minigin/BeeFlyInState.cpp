@@ -9,6 +9,7 @@
 #include "SpriteAnimComponent.h"
 
 #include "EnemyManager.h"
+#include "InFormationState.h"
 
 BeeFlyInState::BeeFlyInState(float speed, int stepSize)
 	:BaseEnemyState()
@@ -28,10 +29,10 @@ BaseEnemyState* BeeFlyInState::Update(GameObject* enemy)
 
 	BeeFlyIn(enemy);
 
-	//if (m_Switch = true)
-	//{
-	//	return new 
-	//}
+	if (m_Switch)
+	{
+		return new InFormationState();
+	}
 
 	return nullptr;
 }
@@ -92,16 +93,13 @@ void BeeFlyInState::BeeFlyIn(GameObject* enemy)
 	}
 	else
 	{
-		int currentStep = EnemyManager::GetInstance().GetStepOffset();
+		int currentStep = EnemyManager::GetInstance().GetPatrolStep();
 
 		trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x - (currentStep * m_StepSize),m_Path[m_Path.size() - 1].y, 0 });//set position to final point
 
 		enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2));
 
 	}
-
-
-	
 
 }
 

@@ -1,6 +1,8 @@
 #include "MiniginPCH.h"
 #include "EnemyFlyInMovement.h"
 #include "GameObject.h"
+#include "BezierPath.h"
+
 #include "TransformComponent.h"
 #include "SceneManager.h"
 #include "Scene.h"

@@ -71,14 +71,19 @@ void EnemyManager::Update()
 		{
 			for (size_t i = 0; i < m_Enemies.size(); i++)
 			{
-				m_Enemies[i]->GetComponent<BaseEnemyMovementComponent>()->Switch();
+				m_Enemies[i]->GetComponent<BaseEnemyMovementComponent>()->Switch();//works
 			}
 			m_BuildingFormation = false;
 		}
 
-		CalculateStepBeforFormation();
 	}
-	
+
+	if (m_Enemies.size() > 0)
+	{
+		if(!m_BuildingFormation) SendRandomEnemyToAttack();
+
+		CalculatePatrolSteps();
+	}
 	
 }
 
@@ -92,14 +97,40 @@ void EnemyManager::AnEnemyReachedPositionInFormation()
 	--m_NumberOfEnemiesNotInPosition;
 }
 
+void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
+{
+	for (size_t i = 0; i < m_Enemies.size(); ++i)
+	{
+		if (m_Enemies[i] == gameObject)
+		{
+			m_Enemies.erase(std::remove(m_Enemies.begin(), m_Enemies.end(), m_Enemies[i]), m_Enemies.end());
+			return;
+		}
+	}
+
+}
+
+void EnemyManager::SendRandomEnemyToAttack()
+{
+	if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
+	else
+	{
+		int randomEnemyIndex = rand() % m_Enemies.size();
+		m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>()->Switch();
+
+		m_DiveDownTimer = m_DiveDownTime;
+	}
+
+}
 
 
-int EnemyManager::GetStepOffset()
+
+int EnemyManager::GetPatrolStep()
 {
 	return m_CurrentStepNumber;
 }
 
-void EnemyManager::CalculateStepBeforFormation()
+void EnemyManager::CalculatePatrolSteps()
 {
 	//Patrolling in formation
 	if (m_StepTimer > 0) m_StepTimer -= SystemTime::GetInstance().GetDeltaTime();

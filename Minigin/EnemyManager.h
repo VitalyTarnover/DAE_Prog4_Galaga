@@ -16,9 +16,11 @@ public:
 	void Update();
 	void ResetEnemies();
 	void AnEnemyReachedPositionInFormation();
-	
-	void CalculateStepBeforFormation();
-	int GetStepOffset();
+	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
+	void SendRandomEnemyToAttack();
+
+	void CalculatePatrolSteps();
+	int GetPatrolStep();
 
 private:
 	float m_SpawnTimer = 0;
@@ -40,6 +42,11 @@ private:
 	int m_StepsNumber = 5;
 	int m_CurrentStepNumber = 0;
 	bool m_MovingLeft = true;
+
+	//sending to dive down
+	float m_DiveDownTimer = 0;
+	float m_DiveDownTime = 2.0f;
+
 
 };
 

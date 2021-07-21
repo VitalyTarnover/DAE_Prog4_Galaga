@@ -4,7 +4,14 @@
 class BeeDiveDownState : public BaseEnemyState
 {
 public:
-	BeeDiveDownState();
-	virtual BaseEnemyState* Update(BaseEnemyMovementComponent& enemyMovement);
+	BeeDiveDownState(float speed);
+	BaseEnemyState* Update(GameObject* enemy) override;
+private:
+	void CreatePaths(GameObject* enemy);
+	bool BeeDiveDown(GameObject* enemy);
+
+	std::vector<glm::vec2> m_Path;
+	float m_Speed;
+	int m_CurrentWaypoint;
 };
 

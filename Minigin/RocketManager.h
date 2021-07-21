@@ -10,6 +10,6 @@ public:
 
 private:
 	int m_ActiveRocketsNumber = 0;
-	int m_AllowedRocketsNumber = 2;
+	int m_AllowedRocketsNumber = 20;
 };
 
