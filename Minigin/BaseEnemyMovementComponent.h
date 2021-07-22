@@ -4,7 +4,8 @@
 //states: fly in, in formation, dive down, die
 class BaseEnemyState;
 
-class BaseEnemyMovementComponent : public BaseComponent
+class BaseEnemyMovementComponent : public BaseComponent //TODO: rename this class to behavior or spmething, we are not talking only about movement.
+	//Also teach it maybe to shoot from here. And Boolean if is dead or alive.
 {
 public:
 	BaseEnemyMovementComponent(float speed, glm::vec2 posInFormation = glm::vec2{ 200,200 });//TODO: get rid of these nasty numbers after all the tests
@@ -13,6 +14,7 @@ public:
 	virtual float GetSpeed();
 	virtual void Update();
 	virtual void Switch();
+	virtual void Die();
 protected:
 
 	BaseEnemyState* m_CurrentState;

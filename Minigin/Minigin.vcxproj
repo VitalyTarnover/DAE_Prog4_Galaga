@@ -229,6 +229,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="EnemyFlyInMovement.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="BaseEnemyState.h" />
+    <ClInclude Include="ExplosionManager.h" />
     <ClInclude Include="FighterShipMovementComponent.h" />
     <ClInclude Include="BeeFlyInState.h" />
     <ClInclude Include="InFormationState.h" />
@@ -256,6 +257,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="DeadState.cpp" />
     <ClCompile Include="EnemyFlyInMovement.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="ExplosionManager.cpp" />
     <ClCompile Include="FighterShipMovementComponent.cpp" />
     <ClCompile Include="BeeFlyInState.cpp" />
     <ClCompile Include="InFormationState.cpp" />

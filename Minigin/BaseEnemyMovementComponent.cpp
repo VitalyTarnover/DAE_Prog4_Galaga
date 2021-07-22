@@ -41,5 +41,11 @@ void BaseEnemyMovementComponent::Switch()
 	m_CurrentState->Switch();
 }
 
+void BaseEnemyMovementComponent::Die()
+{
+	//explosion manager makes boom here
+	m_CurrentState->Die(m_pGameObject);
+}
+
 
 	

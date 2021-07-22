@@ -5,6 +5,7 @@
 #include "RocketMovementComponent.h"
 #include "RocketManager.h"
 #include "EnemyManager.h"
+#include "BaseEnemyMovementComponent.h"
 
 void CollisionManager::AddGameObjectForCheck(bool isEnemy, const std::shared_ptr<GameObject>& newGameObject)
 {
@@ -89,10 +90,10 @@ void CollisionManager::Update()
 					{
 						EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[j]);
 						EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
-						m_pEnemiesForCheck[j]->SetMarkedForDelete(true);
-						m_pEnemiesForCheck[j] = nullptr;
-						m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
 
+						m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die();
+						
+						m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
 
 						m_pRocketsForCheck[i]->SetMarkedForDelete(true);
 						m_pRocketsForCheck[i] = nullptr;
