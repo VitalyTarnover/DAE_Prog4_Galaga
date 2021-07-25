@@ -15,6 +15,7 @@
 #include "InputManager.h"
 #include "CollisionManager.h"
 #include "EnemyManager.h"
+#include "ExplosionManager.h"
 
 //Input
 #include "Commands.h"
@@ -240,4 +241,5 @@ void dae::Minigin::UpdateManagers()
 {
 	CollisionManager::GetInstance().Update();
 	EnemyManager::GetInstance().Update();
+	ExplosionManager::GetInstance().Update();
 }

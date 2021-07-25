@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "SpriteAnimComponent.h"
+#include "ExplosionManager.h"
 
 BaseEnemyMovementComponent::BaseEnemyMovementComponent(float speed, glm::vec2 posInFormation)
 	:m_CurrentState{nullptr}
@@ -45,6 +46,7 @@ void BaseEnemyMovementComponent::Die()
 {
 	//explosion manager makes boom here
 	m_CurrentState->Die(m_pGameObject);
+	ExplosionManager::GetInstance().MakeExplosion(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
 }
 
 

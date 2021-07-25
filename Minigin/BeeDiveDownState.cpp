@@ -39,6 +39,7 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 
 	//attack for bees
 	//1st part -> 0
+	//TODO: mby make it of speccific attacking color
 	const auto& trc = enemy->GetComponent<TransformComponent>();
 
 	//no need to mirror
