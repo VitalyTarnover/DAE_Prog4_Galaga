@@ -8,6 +8,4 @@ BirdMovementComponent::BirdMovementComponent(float speed, glm::vec2 posInFormati
 	m_CurrentState = new BirdFlyInState(m_Speed);
 }
 
-void BirdMovementComponent::Update()
-{
-}
+

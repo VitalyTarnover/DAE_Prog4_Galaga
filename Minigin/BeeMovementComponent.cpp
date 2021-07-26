@@ -8,12 +8,4 @@ BeeMovementComponent::BeeMovementComponent(float speed, glm::vec2 posInFormation
 	m_CurrentState = new BeeFlyInState(m_Speed);
 }
 
-void BeeMovementComponent::Update()
-{
-	BaseEnemyState* state = m_CurrentState->Update(m_pGameObject);
-	if (state != nullptr)
-	{
-		delete m_CurrentState;
-		m_CurrentState = state;
-	}
-}
+

@@ -34,7 +34,12 @@ float BaseEnemyMovementComponent::GetSpeed()
 	
 void BaseEnemyMovementComponent::Update()
 {
-	m_CurrentState->Update(m_pGameObject);
+	BaseEnemyState* state = m_CurrentState->Update(m_pGameObject);
+	if (state != nullptr)
+	{
+		delete m_CurrentState;
+		m_CurrentState = state;
+	}
 }
 
 void BaseEnemyMovementComponent::Switch()
@@ -44,8 +49,8 @@ void BaseEnemyMovementComponent::Switch()
 
 void BaseEnemyMovementComponent::Die()
 {
-	//explosion manager makes boom here
 	m_CurrentState->Die(m_pGameObject);
+	//explosion manager makes boom here
 	ExplosionManager::GetInstance().MakeExplosion(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
 }
 

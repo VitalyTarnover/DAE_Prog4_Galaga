@@ -154,6 +154,11 @@ void dae::Minigin::LoadGame() const
 
 	std::vector<glm::vec2> enemyPositions{};
 
+	for (size_t i = 0; i < 3; i++)
+	{
+		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 11 * (i + 4), m_WindowHeight / 7 });
+	}
+
 	for (size_t i = 0; i < 10; i++)
 	{
 		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1), m_WindowHeight / 7 * 3 });
@@ -162,11 +167,6 @@ void dae::Minigin::LoadGame() const
 	for (size_t i = 0; i < 10; i++)
 	{
 		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1.5f), m_WindowHeight / 7 * 2 });
-	}
-
-	for (size_t i = 0; i < 3; i++)
-	{
-		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 11 * (i + 4), m_WindowHeight / 7 });
 	}
 
 	//enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (4), m_WindowHeight / 5 * 2 });

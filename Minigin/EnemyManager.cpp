@@ -14,7 +14,8 @@
 //#include "BaseEnemyMovementComponent.h"
 #include "BeeMovementComponent.h"
 #include "BFMovementComponent.h"
-#include "EnemyFlyInMovement.h"
+#include "BirdMovementComponent.h"
+//#include "EnemyFlyInMovement.h"
 
 #include "CollisionManager.h"
 
@@ -50,7 +51,7 @@ void EnemyManager::Update()
 					//If it is less than -> spawn birds
 					//We are limitied to this exact amount of enemies per stage now, but just make different formations and increase speed or something
 
-					if (m_BeesPosInFormation.size() > 10)
+					if (m_BeesPosInFormation.size() > 13)
 					{
 						auto enemyShip = std::make_shared<GameObject>("Bee");
 						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2, -100, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
@@ -62,7 +63,7 @@ void EnemyManager::Update()
 						m_Enemies.push_back(enemyShip);
 						CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
 					}
-					else if (m_BeesPosInFormation.size() <= 10)
+					else if (m_BeesPosInFormation.size() <= 13 && m_BeesPosInFormation.size() > 3)
 					{
 						auto enemyShip = std::make_shared<GameObject>("BF");
 						enemyShip->AddComponent(new TransformComponent(glm::vec3(-100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
@@ -74,9 +75,18 @@ void EnemyManager::Update()
 						m_Enemies.push_back(enemyShip);
 						CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
 					}
-
-
-						
+					else if (m_BeesPosInFormation.size() <= 3)
+					{
+						auto enemyShip = std::make_shared<GameObject>("Bird");
+						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+						enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
+						enemyShip->AddComponent(new SpriteAnimComponent(4));
+						//enemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
+						enemyShip->AddComponent(new BirdMovementComponent(200.f, m_BeesPosInFormation.back()));
+						scene->Add(enemyShip);
+						m_Enemies.push_back(enemyShip);
+						CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
+					}
 	
 				}
 				m_BeesPosInFormation.pop_back();

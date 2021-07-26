@@ -10,11 +10,11 @@ class BaseEnemyMovementComponent : public BaseComponent //TODO: rename this clas
 public:
 	BaseEnemyMovementComponent(float speed, glm::vec2 posInFormation = glm::vec2{ 200,200 });//TODO: get rid of these nasty numbers after all the tests
 	virtual ~BaseEnemyMovementComponent();
-	virtual glm::vec2 GetPosInFormation();
-	virtual float GetSpeed();
-	virtual void Update();
-	virtual void Switch();
-	virtual void Die();
+	float GetSpeed();
+	glm::vec2 GetPosInFormation();
+	void Update();
+	void Switch();
+	void Die();
 
 protected:
 	BaseEnemyState* m_CurrentState;
