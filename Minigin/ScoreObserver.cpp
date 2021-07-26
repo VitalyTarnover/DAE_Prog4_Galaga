@@ -5,7 +5,7 @@
 #include "ScoreComponent.h"
 #include "TextComponent.h"
 
-void ScoreObserver::OnNotify(const GameObject*, Event)
+void ScoreObserver::OnNotify(const GameObject*, OldEvent)
 {
 	
 	//UpdateScore(actor);

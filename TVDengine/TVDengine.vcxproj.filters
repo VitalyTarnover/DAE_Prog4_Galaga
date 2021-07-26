@@ -19,6 +19,9 @@
     <Filter Include="Input">
       <UniqueIdentifier>{8ea4ade0-814a-48d5-9440-1fc60df5a30d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ObserverV2">
+      <UniqueIdentifier>{06e4b3a5-ba59-4d64-be34-30e6d8adc8aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -105,6 +108,9 @@
     <ClInclude Include="ScoreComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>ObserverV2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TVDengine.cpp">
@@ -178,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="ScoreComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>ObserverV2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

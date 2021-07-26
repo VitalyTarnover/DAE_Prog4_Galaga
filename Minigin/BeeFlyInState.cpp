@@ -17,11 +17,12 @@ BeeFlyInState::BeeFlyInState(float speed, int stepSize)
 	, m_Speed{speed}
 	, m_StepSize{stepSize}
 {
+	IEventHandler* enemyManagerEH = &EnemyManager::GetInstance();
+	m_EnemyReachedPosInFormation.AddHandler(enemyManagerEH);
 }
 
 BaseEnemyState* BeeFlyInState::Update(GameObject* enemy)
 {
-
 	if (m_Path.size() == 0)
 	{
 		CreatePaths(enemy);
@@ -86,7 +87,11 @@ void BeeFlyInState::BeeFlyIn(GameObject* enemy)
 			else
 			{
 				trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x,m_Path[m_Path.size() - 1].y, 0 });//set position to final point
-				EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();//TODO: when everything works try to make observer for this
+				
+				//EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
+				
+				m_EnemyReachedPosInFormation.Notify();
+				
 				m_CurrentWaypoint = -1;
 			}
 		}

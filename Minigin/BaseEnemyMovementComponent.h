@@ -15,8 +15,8 @@ public:
 	virtual void Update();
 	virtual void Switch();
 	virtual void Die();
-protected:
 
+protected:
 	BaseEnemyState* m_CurrentState;
 	glm::vec2 m_PosInFormation;
 	float m_Speed;

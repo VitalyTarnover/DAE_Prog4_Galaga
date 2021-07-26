@@ -32,7 +32,7 @@ void Subject::RemoveObserver(Observer* observer)
 	}
 }
 
-void Subject::Notify(const GameObject* actor, Event event)
+void Subject::Notify(const GameObject* actor, OldEvent event)
 {
 	for (size_t i = 0; i < m_pObservers.size(); i++)
 	{

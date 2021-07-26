@@ -2,26 +2,26 @@
 #include "Singleton.h"
 #include <vector>
 #include "glm/vec2.hpp"
-
+#include "Event.h"
 
 //states: building formation, battle
 
 class GameObject;
 
-class EnemyManager final : public dae::Singleton<EnemyManager>
+class EnemyManager final : public dae::Singleton<EnemyManager>, public IEventHandler
 {
 public:
 	~EnemyManager();
 	void SpawnEnemies(const std::vector<glm::vec2>& posInFormation);
 	void Update();
 	void ResetEnemies();
-	void AnEnemyReachedPositionInFormation();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
 	void SendRandomEnemyToAttack();
 
 	void CalculatePatrolSteps();
 	int GetPatrolStep();
 
+	void AnEnemyReachedPositionInFormation();
 private:
 	float m_SpawnTimer = 0;
 	float m_SpawnTime = 0.5f;
@@ -46,6 +46,9 @@ private:
 	//sending to dive down
 	float m_DiveDownTimer = 0;
 	float m_DiveDownTime = 2.0f;
+
+	//for observer pattern
+	void OnEvent();
 
 
 };

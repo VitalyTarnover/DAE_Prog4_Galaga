@@ -7,9 +7,9 @@
 
 
 
-void LivesObserver::OnNotify(const GameObject* actor, Event event)
+void LivesObserver::OnNotify(const GameObject* actor, OldEvent event)
 {
-	if (event == Event::ActorDied)
+	if (event == OldEvent::ActorDied)
 	{
 		UpdateLives(actor);
 	}

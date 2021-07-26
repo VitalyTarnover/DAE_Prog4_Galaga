@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseEnemyState.h"
+#include "Event.h"
 
 class BeeFlyInState final : public BaseEnemyState
 {
@@ -15,6 +16,9 @@ private:
 	void BeeFlyIn(GameObject* enemy);
 
 	int m_StepSize;//for patrolling before formation
+
+	//for observer pattern
+	Event m_EnemyReachedPosInFormation;
 
 };
 

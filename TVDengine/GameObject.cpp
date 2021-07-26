@@ -44,7 +44,7 @@ void GameObject::AddWatcher(Observer* pObserver)
 	m_pActorChanged->AddObserver(pObserver);
 }
 
-void GameObject::Notify(Event event)
+void GameObject::Notify(OldEvent event)
 {
 	m_pActorChanged->Notify(this, event);
 }

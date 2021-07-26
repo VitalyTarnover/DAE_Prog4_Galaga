@@ -3,7 +3,7 @@
 #include "BaseComponent.h"
 #include <vector>
 
-enum class Event
+enum class OldEvent
 {
 	ActorDied,
 	ScoreSet,
@@ -40,7 +40,7 @@ public:
 	void Update() override;
 	void Render() const override;
 
-	void Notify(Event event);
+	void Notify(OldEvent event);
 
 	void AddComponent(BaseComponent* pComponent);
 	void AddWatcher(Observer* pObserver);

@@ -173,6 +173,7 @@
     <ClInclude Include="BaseAnalogTriggerCommand.h" />
     <ClInclude Include="BaseCommand.h" />
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSTextComponent.h" />
     <ClInclude Include="framework.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="BaseAnalogTriggerCommand.cpp" />
     <ClCompile Include="BaseCommand.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSTextComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />

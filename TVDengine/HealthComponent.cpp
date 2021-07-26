@@ -20,7 +20,7 @@ void HealthComponent::Die()
 		return;
 
 	m_Lives--;
-	m_pGameObject->Notify(Event::ActorDied);
+	m_pGameObject->Notify(OldEvent::ActorDied);
 }
 
 void HealthComponent::Respawn()

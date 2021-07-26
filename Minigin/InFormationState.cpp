@@ -2,6 +2,8 @@
 #include "InFormationState.h"
 
 #include "BeeDiveDownState.h"
+#include "BFDiveDownState.h"
+#include "BirdDiveDownState.h"
 
 #include "GameObject.h"
 #include "TransformComponent.h"
@@ -27,10 +29,16 @@ BaseEnemyState* InFormationState::Update(GameObject* enemy)
 
 	Patrol(enemy);
 
+	float diveDownSpeed = 300;
+	
 	if (m_Switch)
 	{
-		float diveDownSpeed = 300;
-		return new BeeDiveDownState(diveDownSpeed);//TODO: make a switch here so any enemy can leave this state
+		std::string enemyType = enemy->GetName();
+
+		if(enemyType == "Bee") return new BeeDiveDownState(diveDownSpeed);
+		else if(enemyType == "BF") return new BFDiveDownState(diveDownSpeed);
+		else if (enemyType == "Bird")return new BirdDiveDownState(diveDownSpeed);
+		
 	}
 
 	return nullptr;
