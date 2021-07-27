@@ -3,7 +3,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "TextComponent.h"
-#include "HealthComponent.h"
 
 
 
@@ -22,12 +21,10 @@ void LivesObserver::UpdateLives(const GameObject* actor)
 	if (actor->GetName() == "Player1") livesDisplay = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetObjectByName("LivesDisplay");
 	else if (actor->GetName() == "Player1") livesDisplay = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetObjectByName("LivesDisplay2");
 
-	auto textComp = std::static_pointer_cast<GameObject>(livesDisplay).get()->GetComponent<TextComponent>();
+	//auto textComp = std::static_pointer_cast<GameObject>(livesDisplay).get()->GetComponent<TextComponent>();
 
-	auto healthComp = actor->GetComponent<HealthComponent>();
+	//auto healthComp = actor->GetComponent<HealthComponent>();
 
-	textComp->UpdateText("Lives: " + std::to_string(healthComp->GetLives()));
-
-
+	//textComp->UpdateText("Lives: " + std::to_string(healthComp->GetLives()));
 
 }

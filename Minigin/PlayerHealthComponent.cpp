@@ -1,0 +1,80 @@
+#include "MiniginPCH.h"
+#include "PlayerHealthComponent.h"
+#include "ExplosionManager.h"
+#include "EnemyManager.h"
+#include "GameObject.h"
+#include "TransformComponent.h"
+#include "Texture2DComponent.h"
+#include "FighterShipMovementComponent.h"
+
+
+PlayerHealthComponent::PlayerHealthComponent(int lives)
+    :m_Lives{ lives }
+    ,m_Dead {false}
+    ,m_RespawnTime{7.0f}
+{
+    m_RespawnTimer = m_RespawnTime;
+}
+
+void PlayerHealthComponent::Update()
+{
+    if (m_Dead)
+    {
+        m_RespawnTimer -= SystemTime::GetInstance().GetDeltaTime();
+        if (m_RespawnTimer <= 0)
+        {
+            Respawn();
+            m_RespawnTimer = m_RespawnTime;
+        }
+    }
+}
+
+int PlayerHealthComponent::GetLives() const
+{
+    return m_Lives;
+}
+
+void PlayerHealthComponent::SetLives(int newLives)
+{
+    m_Lives = newLives;
+}
+
+void PlayerHealthComponent::Die()
+{
+    //Make boom
+    ExplosionManager::GetInstance().MakeExplosion(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
+    //Tell enemy manager that we need every one to be in formation again before we respawn 
+    EnemyManager::GetInstance().SetWaitingForPlayerToRespawn(true);
+    //Make player invisible
+    m_pGameObject->GetComponent<Texture2DComponent>()->SetVisible(false);
+    //Lock movement
+    m_pGameObject->GetComponent<FighterShipMovementComponent>()->SetMovementLocked(true);
+    //-1 life
+    --m_Lives;
+    //dead
+    m_Dead = true;
+}
+
+void PlayerHealthComponent::Respawn()
+{
+    if (m_Lives > 0)
+    {
+        //Make player visible
+        m_pGameObject->GetComponent<Texture2DComponent>()->SetVisible(true);
+        //Unlock movement and set position to the center
+        m_pGameObject->GetComponent<FighterShipMovementComponent>()->SetMovementLocked(false);
+        //Tell enemy manager that we need can play again
+        EnemyManager::GetInstance().SetWaitingForPlayerToRespawn(false);
+        //not dead
+        m_Dead = false;
+    }
+    else
+    {
+        //TODO: inform something that game is over
+    }
+}
+
+bool PlayerHealthComponent::IsAlive() const
+{
+    return !m_Dead;
+}

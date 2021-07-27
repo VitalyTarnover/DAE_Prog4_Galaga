@@ -8,7 +8,9 @@ public:
 
 	std::shared_ptr<dae::Texture2D> GetTexture2D() const { return m_pTexture2D; };
 	void Render() override;
+	void SetVisible(bool visible);
 private:
+	bool m_Visible;
 	std::shared_ptr<dae::Texture2D> m_pTexture2D{};
 	glm::vec3 m_Position = {};
 	float m_Scale;

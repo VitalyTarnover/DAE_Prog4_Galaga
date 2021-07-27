@@ -102,12 +102,6 @@
     <ClInclude Include="FPSTextComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>ObserverV2</Filter>
     </ClInclude>
@@ -177,12 +171,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="FPSTextComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">

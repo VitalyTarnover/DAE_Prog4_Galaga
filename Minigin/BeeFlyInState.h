@@ -17,8 +17,8 @@ private:
 
 	int m_StepSize;//for patrolling before formation
 
-	//for observer pattern
-	Event m_EnemyReachedPosInFormation;
+	//for observer pattern V@
+	//Event m_EnemyReachedPosInFormation;
 
 };
 

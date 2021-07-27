@@ -11,8 +11,9 @@ public:
 
 	void Update() override;
 
-
+	void SetMovementLocked(bool locked);
 private:
+	bool m_MovementLocked;
 	void Move();
 	float m_Speed;
 

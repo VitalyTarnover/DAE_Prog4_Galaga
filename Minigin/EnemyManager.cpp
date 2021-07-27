@@ -109,7 +109,7 @@ void EnemyManager::Update()
 
 	if (m_Enemies.size() > 0)
 	{
-		if(!m_BuildingFormation) SendRandomEnemyToAttack();
+		if(!m_BuildingFormation && !m_WaitingForPlayerToRespawn) SendRandomEnemyToAttack();
 
 		CalculatePatrolSteps();
 	}
@@ -124,6 +124,11 @@ void EnemyManager::ResetEnemies()
 void EnemyManager::AnEnemyReachedPositionInFormation()
 {
 	--m_NumberOfEnemiesNotInPosition;
+}
+
+void EnemyManager::SetWaitingForPlayerToRespawn(bool waiting)
+{
+	m_WaitingForPlayerToRespawn = waiting;
 }
 
 void EnemyManager::OnEvent()

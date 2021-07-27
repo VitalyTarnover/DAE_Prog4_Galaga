@@ -26,19 +26,16 @@
 //Components
 #include "FPSTextComponent.h"
 #include "TransformComponent.h"
-#include "HealthComponent.h"
-#include "ScoreComponent.h"
 #include "Texture2DComponent.h"
 #include "SpriteAnimComponent.h"
 
 #include "FighterShipMovementComponent.h"
 #include "BaseEnemyMovementComponent.h"
 #include "EnemyFlyInMovement.h"
-
+#include "PlayerHealthComponent.h"
 
 //will be moved to loader
 #include "LivesObserver.h"
-#include "ScoreObserver.h"
 
 
 
@@ -101,10 +98,10 @@ void dae::Minigin::LoadGame() const
 	//player
 	auto playerFighter = std::make_shared<GameObject>("Player1");
 	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth / 2, m_WindowHeight / 5 * 4, 0), 15.f, 16.f, scene.GetSceneScale(), scene.GetSceneScale()));
-	playerFighter->AddComponent(new HealthComponent(3));
-	playerFighter->AddComponent(new ScoreComponent(0));
+	//playerFighter->AddComponent(new ScoreComponent(0));
+	playerFighter->AddComponent(new PlayerHealthComponent(3));
 	playerFighter->AddWatcher(new LivesObserver());
-	playerFighter->AddWatcher(new ScoreObserver());
+	//playerFighter->AddWatcher(new ScoreObserver());
 	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));
 	playerFighter->AddComponent(new SpriteAnimComponent(2));
 	playerFighter->AddComponent(new FighterShipMovementComponent(500));

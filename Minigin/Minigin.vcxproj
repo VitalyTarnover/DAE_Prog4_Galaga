@@ -235,9 +235,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="LivesObserver.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginPCH.h" />
+    <ClInclude Include="PlayerHealthComponent.h" />
     <ClInclude Include="RocketManager.h" />
     <ClInclude Include="RocketMovementComponent.h" />
-    <ClInclude Include="ScoreObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEnemyMovementComponent.cpp" />
@@ -269,9 +269,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MiniginPCH.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="PlayerHealthComponent.cpp" />
     <ClCompile Include="RocketManager.cpp" />
     <ClCompile Include="RocketMovementComponent.cpp" />
-    <ClCompile Include="ScoreObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TVDengine\TVDengine.vcxproj">

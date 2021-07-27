@@ -6,11 +6,18 @@
 #include "RocketManager.h"
 #include "EnemyManager.h"
 #include "BaseEnemyMovementComponent.h"
+#include "SceneManager.h"
+#include "Scene.h"
+#include "PlayerHealthComponent.h"
 
 void CollisionManager::AddGameObjectForCheck(bool isEnemy, const std::shared_ptr<GameObject>& newGameObject)
 {
 	if (isEnemy) m_pEnemiesForCheck.push_back(newGameObject);
 	else m_pRocketsForCheck.push_back(newGameObject);
+
+	m_FS1 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0);
+	m_FS2 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(1);
+
 }
 
 void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject)//TODO: is it needed?
@@ -59,23 +66,49 @@ void CollisionManager::CleanUp()
 
 void CollisionManager::Update()
 {
-	//if (m_FS1)
-	//{
-	//	SDL_Rect fs1Rect = m_FS1->GetComponent<TransformComponent>()->GetRect();
-	//
-	//	for (size_t i = 0; i < m_pGameObjectsForCheck.size(); i++)
-	//	{
-	//
-	//		if (CheckIfCollide(fs1Rect, m_pGameObjectsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
-	//		{
-	//			if (m_pGameObjectsForCheck[i]->GetName() == "TestEnemy")
-	//			{
-	//
-	//			}
-	//		}
-	//	}
-	//}
 
+	//killing player
+	if (m_FS1 && m_FS1->GetComponent<PlayerHealthComponent>()->IsAlive())
+	{
+		SDL_Rect fs1Rect = m_FS1->GetComponent<TransformComponent>()->GetRect();
+		for (size_t i = 0; i < m_pEnemiesForCheck.size(); i++)
+		{
+			if (CheckIfCollide(fs1Rect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+			{
+				m_FS1->GetComponent<PlayerHealthComponent>()->Die();
+				EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
+				EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
+
+				m_pEnemiesForCheck[i]->GetComponent<BaseEnemyMovementComponent>()->Die();
+
+				m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[i]), m_pEnemiesForCheck.end());
+
+				break;//so only one thingy kills player
+			}
+		}
+
+		for (size_t i = 0; i < m_pRocketsForCheck.size(); ++i)
+		{
+			if (!m_pRocketsForCheck[i]->GetMarkedForDelete())
+			{
+				if (!m_pRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())//so it goes down and is danger to player
+				{
+					//player->die
+					m_FS1->GetComponent<PlayerHealthComponent>()->Die();
+					m_pRocketsForCheck[i]->SetMarkedForDelete(true);
+					m_pRocketsForCheck[i] = nullptr;
+					m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
+
+					RocketManager::GetInstance().ReduceActiveRocketsNumber();
+					break;
+				}
+			}
+			else m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
+		}
+
+	}
+
+	//killing enemies
 	for (size_t i = 0; i < m_pRocketsForCheck.size(); ++i)
 	{
 		if (!m_pRocketsForCheck[i]->GetMarkedForDelete())//TODO: How come that it isn't nullptr-ed by Scene (delete marked objects), i was trying to check if it is nullptr and it was always something!

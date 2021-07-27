@@ -22,7 +22,10 @@ public:
 	int GetPatrolStep();
 
 	void AnEnemyReachedPositionInFormation();
+
+	void SetWaitingForPlayerToRespawn(bool waiting);
 private:
+	bool m_WaitingForPlayerToRespawn = false;
 	float m_SpawnTimer = 0;
 	float m_SpawnTime = 0.5f;
 

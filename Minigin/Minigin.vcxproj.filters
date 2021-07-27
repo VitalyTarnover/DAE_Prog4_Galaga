@@ -54,9 +54,6 @@
     <ClInclude Include="LivesObserver.h">
       <Filter>Observers</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreObserver.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -123,6 +120,9 @@
     <ClInclude Include="ExplosionManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerHealthComponent.h">
+      <Filter>GalagaComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -135,9 +135,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LivesObserver.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="FighterShipMovementComponent.cpp">
@@ -202,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="ExplosionManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHealthComponent.cpp">
+      <Filter>GalagaComponents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
