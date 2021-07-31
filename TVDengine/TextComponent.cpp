@@ -10,18 +10,18 @@ TextComponent::TextComponent(const std::string& text, const std::shared_ptr<dae:
 	, m_Color{ color }
 	, m_IsVisible{ isVisible }
 {
-	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
-	if (surf == nullptr)
-	{
-		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-	}
-	auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
-	if (texture == nullptr)
-	{
-		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-	}
-	SDL_FreeSurface(surf);
-	m_pTexture = std::make_shared<dae::Texture2D>(texture);
+	//const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
+	//if (surf == nullptr)
+	//{
+	//	throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+	//}
+	//auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
+	//if (texture == nullptr)
+	//{
+	//	throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+	//}
+	//SDL_FreeSurface(surf);
+	//m_pTexture = std::make_shared<dae::Texture2D>(texture);
 
 	m_IsInitialized = true;
 
@@ -62,7 +62,7 @@ void TextComponent::Update()
 
 void TextComponent::Render()
 {
-	if (m_pTexture && m_IsVisible && m_pGameObject)
+	if (m_IsVisible && m_pGameObject)
 	{
 		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
 		auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);

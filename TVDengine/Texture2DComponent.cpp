@@ -15,28 +15,29 @@ void Texture2DComponent::Render()
 {
 	if (m_Visible)
 	{
+		glm::vec3 pos = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
 		if (!m_IsInitialized && m_pGameObject->GetComponent<TransformComponent>())
 		{
 			m_IsInitialized = true;
-			m_Position = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
+			//m_Position = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
 		}
 
 		if (m_IsInitialized)
-			m_Position = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
+			//m_Position = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
 
 		if (m_pGameObject->GetComponent<SpriteAnimComponent>())
 		{
 			SDL_Rect srcRect = m_pGameObject->GetComponent<SpriteAnimComponent>()->GetSrcRect();
 
 			dae::Renderer::GetInstance().RenderTexture(*m_pTexture2D,
-				(int)m_Position.x,
-				(int)m_Position.y,
+				(int)pos.x,
+				(int)pos.y,
 				srcRect.w * (int)m_Scale,
 				srcRect.h * (int)m_Scale,
 				srcRect.x, srcRect.y,
 				srcRect.w, srcRect.h);
 		}
-		else dae::Renderer::GetInstance().RenderTexture(*m_pTexture2D, m_Position.x, m_Position.y, m_Scale);
+		else dae::Renderer::GetInstance().RenderTexture(*m_pTexture2D, pos.x, pos.y, m_Scale);
 	}
 }
 void Texture2DComponent::SetVisible(bool visible)

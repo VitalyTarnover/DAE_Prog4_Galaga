@@ -105,6 +105,9 @@
     <ClInclude Include="Event.h">
       <Filter>ObserverV2</Filter>
     </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TVDengine.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>ObserverV2</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
