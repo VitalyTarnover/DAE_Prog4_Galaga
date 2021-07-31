@@ -74,7 +74,7 @@ class ShootRocket : public Command
 public:
 	ShootRocket(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
 	~ShootRocket() override = default;
-	void Execute() const override { RocketManager::GetInstance().SpawnRocket(true); };
+	void Execute() const override { RocketManager::GetInstance().SpawnPlayerRocket(); };
 	void Release() const override {};
 	void Undo() override {};
 };

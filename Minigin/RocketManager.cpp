@@ -14,9 +14,14 @@ void RocketManager::ReduceActiveRocketsNumber()
 	--m_ActiveRocketsNumber;
 }
 
-void RocketManager::SpawnRocket(bool movesUp) //movesUp also means it was shot by a player
+void RocketManager::ReduceActiveEnemyRocketsNumber()
 {
-	if (movesUp && (m_ActiveRocketsNumber < m_AllowedRocketsNumber))//TODO: Set for 2 players
+	--m_ActiveEnemyRocketsNumber;
+}
+
+void RocketManager::SpawnPlayerRocket() //mby pass index for P1/P2
+{
+	if (m_ActiveRocketsNumber < m_AllowedRocketsNumber)//TODO: Set for 2 players
 	{
 		glm::vec3 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
 
@@ -34,5 +39,27 @@ void RocketManager::SpawnRocket(bool movesUp) //movesUp also means it was shot b
 
 		++m_ActiveRocketsNumber;
 	}
-	
+		
+}
+
+void RocketManager::SpawnEnemyRocket(const glm::vec3& enemyPos)
+{
+	//if (m_ActiveEnemyRocketsNumber < m_AllowedEnemyRocketsNumber)//TODO: allowed is literally level
+	{
+
+		auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+
+		float verticalOffset = 20.f;
+
+		auto rocket = std::make_shared<GameObject>("Rocket");
+		//rocket->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + verticalOffset, 0)));
+		rocket->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + verticalOffset, 0)));
+		rocket->AddComponent(new Texture2DComponent("Rocket.png", scene->GetSceneScale()));
+		rocket->AddComponent(new RocketMovementComponent(false, 250));
+		scene->Add(rocket);
+		CollisionManager::GetInstance().AddGameObjectForCheck(false, rocket);
+
+		++m_ActiveEnemyRocketsNumber;
+	}
+
 }

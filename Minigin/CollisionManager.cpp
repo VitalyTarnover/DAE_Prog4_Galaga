@@ -77,7 +77,6 @@ void CollisionManager::Update()
 			{
 				m_FS1->GetComponent<PlayerHealthComponent>()->Die();
 				EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
-				EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
 
 				m_pEnemiesForCheck[i]->GetComponent<BaseEnemyMovementComponent>()->Die();
 
@@ -93,14 +92,18 @@ void CollisionManager::Update()
 			{
 				if (!m_pRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())//so it goes down and is danger to player
 				{
-					//player->die
-					m_FS1->GetComponent<PlayerHealthComponent>()->Die();
-					m_pRocketsForCheck[i]->SetMarkedForDelete(true);
-					m_pRocketsForCheck[i] = nullptr;
-					m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
+					if (CheckIfCollide(fs1Rect, m_pRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+					{	
+						//player->die
+						m_FS1->GetComponent<PlayerHealthComponent>()->Die();
+						m_pRocketsForCheck[i]->SetMarkedForDelete(true);
+						m_pRocketsForCheck[i] = nullptr;
+						m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 
-					RocketManager::GetInstance().ReduceActiveRocketsNumber();
-					break;
+						RocketManager::GetInstance().ReduceActiveRocketsNumber();
+						break;
+					}
+				
 				}
 			}
 			else m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
@@ -122,7 +125,8 @@ void CollisionManager::Update()
 					if (CheckIfCollide(rocketRect, m_pEnemiesForCheck[j]->GetComponent<TransformComponent>()->GetRect()))
 					{
 						EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[j]);
-						EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
+						if(!m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->GetIsInFormation())
+							EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
 
 						m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die();
 						

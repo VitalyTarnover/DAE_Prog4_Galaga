@@ -96,7 +96,7 @@ void EnemyManager::Update()
 			else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
 		}
 	
-		if (m_NumberOfEnemiesNotInPosition <= 0 && m_CurrentStepNumber <= 0)//here is that check you are looking for
+		if (m_NumberOfEnemiesNotInPosition == 0 && m_CurrentStepNumber == 0)//here is that check you are looking for
 		{
 			for (size_t i = 0; i < m_Enemies.size(); i++)
 			{
@@ -109,6 +109,7 @@ void EnemyManager::Update()
 
 	if (m_Enemies.size() > 0)
 	{
+		ShootersShoot();
 		if(!m_BuildingFormation && !m_WaitingForPlayerToRespawn) SendRandomEnemyToAttack();
 
 		CalculatePatrolSteps();
@@ -124,6 +125,7 @@ void EnemyManager::ResetEnemies()
 void EnemyManager::AnEnemyReachedPositionInFormation()
 {
 	--m_NumberOfEnemiesNotInPosition;
+
 }
 
 void EnemyManager::SetWaitingForPlayerToRespawn(bool waiting)
@@ -131,10 +133,25 @@ void EnemyManager::SetWaitingForPlayerToRespawn(bool waiting)
 	m_WaitingForPlayerToRespawn = waiting;
 }
 
-void EnemyManager::OnEvent()
+void EnemyManager::ShootersShoot()
 {
-	AnEnemyReachedPositionInFormation();
+	if (m_EnemyShooters.size() > 0)
+	{
+		if (m_ShootingTimer > 0) m_ShootingTimer -= SystemTime::GetInstance().GetDeltaTime();
+		else
+		{
+			m_EnemyShooters.back()->GetComponent<BaseEnemyMovementComponent>()->ShootARocket();
+			m_EnemyShooters.pop_back();
+
+			m_ShootingTimer = (rand() % m_ShootingTimeMax + m_ShootingTimeMin)/100.f;
+		}
+	}
 }
+
+//void EnemyManager::OnEvent()
+//{
+//	AnEnemyReachedPositionInFormation();
+//}
 
 void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
 {
@@ -154,11 +171,27 @@ void EnemyManager::SendRandomEnemyToAttack()
 	if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
 	else
 	{
-		int randomEnemyIndex = rand() % m_Enemies.size();
-		m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>()->Switch();
+		int extraEnemiesChance = rand() % 3 + 1;//TODO: instead of 3 take current level...
+
+		for (size_t i = extraEnemiesChance; i > 0; --i)
+		{
+			int randomEnemyIndex = rand() % m_Enemies.size();
+			m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>()->Switch();
+
+			int chanceToShootModifier = 3;
+
+			int chanceToShoot = rand() % chanceToShootModifier + 1;
+			if (chanceToShoot == chanceToShootModifier)
+			{
+				m_EnemyShooters.push_back(m_Enemies[randomEnemyIndex]);
+			}
+
+		}
 
 		m_DiveDownTimer = m_DiveDownTime;
 	}
+
+
 
 }
 

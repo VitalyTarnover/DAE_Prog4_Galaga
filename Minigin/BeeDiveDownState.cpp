@@ -6,14 +6,12 @@
 #include "TransformComponent.h"
 #include "BeeMovementComponent.h"
 #include "InFormationState.h"
-#include "GameObject.h"
-
+#include "EnemyManager.h"
 
 BeeDiveDownState::BeeDiveDownState(float speed)
 	:m_Speed{speed}
 	,m_CurrentWaypoint{0}
 {
-
 }
 
 BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
@@ -23,10 +21,13 @@ BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
 		CreatePaths(enemy);
 	}
 
+
+
 	if (BeeDiveDown(enemy)) return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
 
 	return nullptr;
 }
+
 
 void BeeDiveDownState::CreatePaths(GameObject* enemy)
 {
@@ -109,6 +110,10 @@ bool BeeDiveDownState::BeeDiveDown(GameObject* enemy)
 
 		return false;
 	}
-	else return true;
+	else
+	{
+		//EnemyManager::
+		return true;
+	}
 
 }

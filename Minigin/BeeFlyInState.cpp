@@ -90,7 +90,8 @@ void BeeFlyInState::BeeFlyIn(GameObject* enemy)
 				trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x,m_Path[m_Path.size() - 1].y, 0 });//set position to final point
 				
 				EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
-				
+				enemy->GetComponent<BaseEnemyMovementComponent>()->SetIsInFormation(true);
+
 				//Observer V2
 				//m_EnemyReachedPosInFormation.Notify();
 				

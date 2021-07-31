@@ -4,7 +4,7 @@
 //states: fly in, in formation, dive down, die
 class BaseEnemyState;
 
-class BaseEnemyMovementComponent : public BaseComponent //TODO: rename this class to behavior or spmething, we are not talking only about movement.
+class BaseEnemyMovementComponent : public BaseComponent //TODO: rename this class to behavior or something, we are not talking only about movement.
 	//Also teach it maybe to shoot from here. And Boolean if is dead or alive.
 {
 public:
@@ -14,12 +14,17 @@ public:
 	glm::vec2 GetPosInFormation();
 	void Update();
 	void Switch();
+	void ShootARocket();
 	void Die();
+
+	bool GetIsInFormation() const;
+	void SetIsInFormation(bool inFormation);
 
 protected:
 	BaseEnemyState* m_CurrentState;
 	glm::vec2 m_PosInFormation;
 	float m_Speed;
+	bool m_InFormation;
 
 	//TODO: Mby make getters and setters for these datamembers, this will be a good opportunity to make an adjustable difficulty
 	//float m_StepTimer = 0;

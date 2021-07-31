@@ -6,6 +6,8 @@
 #include "TransformComponent.h"
 #include "Texture2DComponent.h"
 #include "FighterShipMovementComponent.h"
+#include "SceneManager.h"
+#include "Scene.h"
 
 
 PlayerHealthComponent::PlayerHealthComponent(int lives)
@@ -61,6 +63,9 @@ void PlayerHealthComponent::Respawn()
     {
         //Make player visible
         m_pGameObject->GetComponent<Texture2DComponent>()->SetVisible(true);
+        //Reset position
+        glm::vec3 playerPos = m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition();
+        m_pGameObject->GetComponent<TransformComponent>()->SetCenterPosition(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2, playerPos.y, 0));
         //Unlock movement and set position to the center
         m_pGameObject->GetComponent<FighterShipMovementComponent>()->SetMovementLocked(false);
         //Tell enemy manager that we need can play again
