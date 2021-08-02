@@ -10,20 +10,11 @@ TextComponent::TextComponent(const std::string& text, const std::shared_ptr<dae:
 	, m_Color{ color }
 	, m_IsVisible{ isVisible }
 {
-	//const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
-	//if (surf == nullptr)
-	//{
-	//	throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-	//}
-	//auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
-	//if (texture == nullptr)
-	//{
-	//	throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-	//}
-	//SDL_FreeSurface(surf);
-	//m_pTexture = std::make_shared<dae::Texture2D>(texture);
 
-	m_IsInitialized = true;
+	m_Text;
+	m_pFont;
+	m_Color;
+	m_IsVisible;
 
 }
 
@@ -59,17 +50,3 @@ void TextComponent::Update()
 		}
 	}
 }
-
-void TextComponent::Render()
-{
-	if (m_IsVisible && m_pGameObject)
-	{
-		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
-		auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
-		SDL_FreeSurface(surf);
-		m_pTexture = std::make_shared<dae::Texture2D>(texture);
-		glm::vec3 pos = m_pGameObject->GetComponent<TransformComponent>()->GetTransform().GetPosition();
-		dae::Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);//TODO: when everything will be done mby make separate render component
-		//instead of all components having render method. Render component will get all necessary data to make a texture and then it will render it in its update.
-	}
-};

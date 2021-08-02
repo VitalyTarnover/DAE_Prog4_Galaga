@@ -11,12 +11,8 @@ void dae::SceneManager::Update()
 	m_pCurrentScene->Update();
 }
 
-void dae::SceneManager::Render()
+void dae::SceneManager::Render() const
 {
-	//for (const auto& scene : m_Scenes)
-	//{
-	//	scene->Render();
-	//}
 	m_pCurrentScene->Render();
 }
 

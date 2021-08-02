@@ -19,7 +19,7 @@ public:
 	BaseComponent() = default;
 	virtual ~BaseComponent() = default;
 	virtual void Update() {};
-	virtual void Render() {};
+	//virtual void Render() const {};
 	virtual void SetOwnerObject(GameObject* pGameObject);
 protected:
 	GameObject* m_pGameObject = nullptr;

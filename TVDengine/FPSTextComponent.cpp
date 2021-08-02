@@ -27,7 +27,7 @@ void FPSTextComponent::Update()
 	m_pText->UpdateText(m_FPS);
 };
 
-void FPSTextComponent::Render()
-{
-	m_pText->Render();
-}
+//void FPSTextComponent::Render()
+//{
+//	m_pText->Render();
+//}

@@ -9,7 +9,6 @@ public:
 	void SetIsVisible(bool isVisible, float setVisibleFalseTimer = 0);
 	void UpdateText(const std::string& text);
 	void Update() override;
-	void Render() override;
 
 	std::string GetText() { return m_Text; }
 	std::shared_ptr<dae::Font> GetFont() { return m_pFont; }
@@ -20,7 +19,6 @@ private:
 	//every frame to get the same position, it would just remember this position.
 	std::string m_Text;
 	std::shared_ptr<dae::Font> m_pFont;
-	std::shared_ptr<dae::Texture2D> m_pTexture;
 	SDL_Color m_Color = {};
 	
 	float m_SetVisibleFalseTimer = {};//TODO: mby move timer system to game code. This is a good feature but components should be simple

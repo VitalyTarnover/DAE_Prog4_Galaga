@@ -7,7 +7,7 @@
 #include "GameObject.h"
 #include "Texture2DComponent.h"
 #include "CollisionManager.h"
-
+#include "RenderComponent.h"
 
 void RocketManager::ReduceActiveRocketsNumber()
 {
@@ -32,6 +32,7 @@ void RocketManager::SpawnPlayerRocket() //mby pass index for P1/P2
 
 		auto rocket = std::make_shared<GameObject>("Rocket");
 		rocket->AddComponent(new TransformComponent(glm::vec3(playerPos.x, playerPos.y - verticalOffset, 0)));
+		rocket->AddComponent(new RenderComponent());
 		rocket->AddComponent(new Texture2DComponent("Rocket.png", scene->GetSceneScale()));
 		rocket->AddComponent(new RocketMovementComponent(true, 250));
 		scene->Add(rocket);
@@ -54,6 +55,7 @@ void RocketManager::SpawnEnemyRocket(const glm::vec3& enemyPos)
 		auto rocket = std::make_shared<GameObject>("Rocket");
 		//rocket->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + verticalOffset, 0)));
 		rocket->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + verticalOffset, 0)));
+		rocket->AddComponent(new RenderComponent());
 		rocket->AddComponent(new Texture2DComponent("Rocket.png", scene->GetSceneScale()));
 		rocket->AddComponent(new RocketMovementComponent(false, 250));
 		scene->Add(rocket);

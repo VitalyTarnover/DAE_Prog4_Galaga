@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SpriteAnimComponent.h"
 #include "GameObject.h"
-#include "Texture2DComponent.h"
+#include "RenderComponent.h"
 
 SpriteAnimComponent::SpriteAnimComponent(int columnsNr)
 	:m_ColumnsNr{ columnsNr }
@@ -12,7 +12,7 @@ SDL_Rect SpriteAnimComponent::GetSrcRect()
 {
 	if (!m_IsInitialized)
 	{
-		m_pTexture2D = m_pGameObject->GetComponent<Texture2DComponent>()->GetTexture2D();
+		m_pTexture2D = m_pGameObject->GetComponent<RenderComponent>()->GetTexture();
 		m_IsInitialized = true;
 	}
 

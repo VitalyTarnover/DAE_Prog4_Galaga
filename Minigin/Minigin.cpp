@@ -33,6 +33,8 @@
 #include "BaseEnemyMovementComponent.h"
 #include "EnemyFlyInMovement.h"
 #include "PlayerHealthComponent.h"
+#include "RenderComponent.h"
+
 
 //will be moved to loader
 #include "LivesObserver.h"
@@ -93,6 +95,7 @@ void dae::Minigin::LoadGame() const
 	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
 	go->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
 	go->AddComponent(new FPSTextComponent(font2));
+	go->AddComponent(new RenderComponent());
 	scene.Add(go);
 
 	//player
@@ -102,6 +105,7 @@ void dae::Minigin::LoadGame() const
 	playerFighter->AddComponent(new PlayerHealthComponent(3));
 	playerFighter->AddWatcher(new LivesObserver());
 	//playerFighter->AddWatcher(new ScoreObserver());
+	playerFighter->AddComponent(new RenderComponent());
 	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));
 	playerFighter->AddComponent(new SpriteAnimComponent(2));
 	playerFighter->AddComponent(new FighterShipMovementComponent(500));
@@ -111,6 +115,7 @@ void dae::Minigin::LoadGame() const
 	auto textTest = std::make_shared<GameObject>("Text");
 	textTest->AddComponent(new TransformComponent(glm::vec3(200, 200, 0)) );
 	textTest->AddComponent(new TextComponent("textTestText", font2, SDL_Color{ 255,0,255 }));
+	textTest->AddComponent(new RenderComponent());
 	scene.Add(textTest);
 	
 

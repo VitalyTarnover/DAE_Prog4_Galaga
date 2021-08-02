@@ -6,6 +6,7 @@
 #include "TransformComponent.h"	
 #include "Texture2DComponent.h"
 #include "SpriteAnimComponent.h"
+#include "RenderComponent.h"
 
 void ExplosionManager::MakeExplosion(glm::vec3 position)
 {
@@ -14,6 +15,7 @@ void ExplosionManager::MakeExplosion(glm::vec3 position)
 
 	auto explosion = std::make_shared<GameObject>("Rocket");
 	explosion->AddComponent(new TransformComponent(glm::vec3(position.x, position.y, 0)));
+	explosion->AddComponent(new RenderComponent());
 	explosion->AddComponent(new Texture2DComponent("Explosion.png", scene->GetSceneScale()));
 	explosion->AddComponent(new SpriteAnimComponent(4));//TODO: mby make self-destruction component?
 	scene->Add(explosion);

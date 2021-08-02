@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "SystemTime.h"
 #include "Subject.h"
+#include "RenderComponent.h"
 
 GameObject::GameObject(const std::string& name)
 	:SceneObject(name), m_pActorChanged{ new Subject() }
@@ -27,9 +28,11 @@ void GameObject::Update()
 
 void GameObject::Render() const
 {
-	for (size_t i = 0; i < m_pComponents.size(); i++)
+	RenderComponent* renderComponent = GetComponent<RenderComponent>();
+
+	if (renderComponent)
 	{
-		m_pComponents[i]->Render();
+		renderComponent->Render();
 	}
 }
 

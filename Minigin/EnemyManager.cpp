@@ -15,7 +15,7 @@
 #include "BeeMovementComponent.h"
 #include "BFMovementComponent.h"
 #include "BirdMovementComponent.h"
-//#include "EnemyFlyInMovement.h"
+#include "RenderComponent.h"
 
 #include "CollisionManager.h"
 
@@ -50,11 +50,12 @@ void EnemyManager::Update()
 					//If it is less than 24 but more than 4 -> spawn BFs
 					//If it is less than -> spawn birds
 					//We are limitied to this exact amount of enemies per stage now, but just make different formations and increase speed or something
-
+	
 					if (m_BeesPosInFormation.size() > 13)
 					{
 						auto enemyShip = std::make_shared<GameObject>("Bee");
 						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2, -100, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+						enemyShip->AddComponent(new RenderComponent());
 						enemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
 						enemyShip->AddComponent(new SpriteAnimComponent(2));
 						//enemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
@@ -67,6 +68,7 @@ void EnemyManager::Update()
 					{
 						auto enemyShip = std::make_shared<GameObject>("BF");
 						enemyShip->AddComponent(new TransformComponent(glm::vec3(-100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+						enemyShip->AddComponent(new RenderComponent());
 						enemyShip->AddComponent(new Texture2DComponent("Butterfly.png", scene->GetSceneScale()));
 						enemyShip->AddComponent(new SpriteAnimComponent(2));
 						//enemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
@@ -79,6 +81,7 @@ void EnemyManager::Update()
 					{
 						auto enemyShip = std::make_shared<GameObject>("Bird");
 						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+						enemyShip->AddComponent(new RenderComponent());
 						enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
 						enemyShip->AddComponent(new SpriteAnimComponent(4));
 						//enemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
@@ -104,14 +107,14 @@ void EnemyManager::Update()
 			}
 			m_BuildingFormation = false;
 		}
-
+	
 	}
-
+	
 	if (m_Enemies.size() > 0)
 	{
 		ShootersShoot();
 		if(!m_BuildingFormation && !m_WaitingForPlayerToRespawn) SendRandomEnemyToAttack();
-
+	
 		CalculatePatrolSteps();
 	}
 	

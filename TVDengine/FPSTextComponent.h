@@ -9,7 +9,7 @@ public:
 	~FPSTextComponent();
 
 	void Update() override;
-	void Render() override;
+	//void Render() override;
 private:
 
 	std::string m_FPS = "0";
