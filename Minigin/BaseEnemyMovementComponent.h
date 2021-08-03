@@ -8,23 +8,26 @@ class BaseEnemyMovementComponent : public BaseComponent //TODO: rename this clas
 	//Also teach it maybe to shoot from here. And Boolean if is dead or alive.
 {
 public:
-	BaseEnemyMovementComponent(float speed, glm::vec2 posInFormation = glm::vec2{ 200,200 });//TODO: get rid of these nasty numbers after all the tests
+	BaseEnemyMovementComponent(float speed, int birdCompanionIndex = -1, glm::vec2 posInFormation = glm::vec2{ 200,200 });//TODO: get rid of these nasty numbers after all the tests
 	virtual ~BaseEnemyMovementComponent();
 	float GetSpeed();
 	glm::vec2 GetPosInFormation();
 	void Update();
 	void Switch();
 	void ShootARocket();
-	void Die();
+	void Die();//TODO: make unique score++ for each state's Die
 
 	bool GetIsInFormation() const;
 	void SetIsInFormation(bool inFormation);
+	int GetBirdCompanionIndex() { return m_BirdCompanionIndex; }
 
 protected:
 	BaseEnemyState* m_CurrentState;
 	glm::vec2 m_PosInFormation;
 	float m_Speed;
 	bool m_InFormation;
+
+	int m_BirdCompanionIndex;
 
 	//TODO: Mby make getters and setters for these datamembers, this will be a good opportunity to make an adjustable difficulty
 	//float m_StepTimer = 0;

@@ -24,12 +24,18 @@ EnemyManager::~EnemyManager()
 	m_Enemies.clear();
 }
 
-void EnemyManager::SpawnEnemies(const std::vector<glm::vec2>& posInFormation)
+void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
+	const std::vector<std::vector<int>>& bfInfo, 
+	const std::vector<std::vector<int>>& birdInfo)
 {
 	//set state building formation
 	m_BuildingFormation = true;
-	m_BeesPosInFormation = posInFormation;
-	m_NumberOfEnemiesNotInPosition = int(posInFormation.size());
+	
+	m_BeeInfo = beeInfo;
+	m_BFInfo = bfInfo;
+	m_BirdInfo = birdInfo;
+
+	m_NumberOfEnemiesNotInPosition = int(m_BeeInfo.size() + m_BFInfo.size() + m_BirdInfo.size() );
 	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
 	
 }
@@ -39,66 +45,65 @@ void EnemyManager::Update()
 	//building formation
 	if (m_BuildingFormation)
 	{
-		if (m_BeesPosInFormation.size() > 0)
+		int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
+		int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
+
+		if (m_SpawnTimer >= m_SpawnTime)
 		{
-			if (m_SpawnTimer >= m_SpawnTime)
+			auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+			
+			if (m_BeeInfo.size() > 0)
 			{
-				auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
-				{
-					//TODO: make spawning for all types of enemies. It will be a check "how many enemies are left to spawn" 
-					//Just check the size of m_BeesPosInFormation. If it is more than 24 -> spawn bees
-					//If it is less than 24 but more than 4 -> spawn BFs
-					//If it is less than -> spawn birds
-					//We are limitied to this exact amount of enemies per stage now, but just make different formations and increase speed or something
-	
-					if (m_BeesPosInFormation.size() > 13)
-					{
-						auto enemyShip = std::make_shared<GameObject>("Bee");
-						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2, -100, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
-						enemyShip->AddComponent(new RenderComponent());
-						enemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
-						enemyShip->AddComponent(new SpriteAnimComponent(2));
-						//enemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
-						enemyShip->AddComponent(new BeeMovementComponent(200.f, m_BeesPosInFormation.back()));
-						scene->Add(enemyShip);
-						m_Enemies.push_back(enemyShip);
-						CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
-					}
-					else if (m_BeesPosInFormation.size() <= 13 && m_BeesPosInFormation.size() > 3)
-					{
-						auto enemyShip = std::make_shared<GameObject>("BF");
-						enemyShip->AddComponent(new TransformComponent(glm::vec3(-100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
-						enemyShip->AddComponent(new RenderComponent());
-						enemyShip->AddComponent(new Texture2DComponent("Butterfly.png", scene->GetSceneScale()));
-						enemyShip->AddComponent(new SpriteAnimComponent(2));
-						//enemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
-						enemyShip->AddComponent(new BFMovementComponent(200.f, m_BeesPosInFormation.back()));
-						scene->Add(enemyShip);
-						m_Enemies.push_back(enemyShip);
-						CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
-					}
-					else if (m_BeesPosInFormation.size() <= 3)
-					{
-						auto enemyShip = std::make_shared<GameObject>("Bird");
-						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
-						enemyShip->AddComponent(new RenderComponent());
-						enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
-						enemyShip->AddComponent(new SpriteAnimComponent(4));
-						//enemyShip->AddComponent(new EnemyFlyInMovement(m_BeesPosInFormation.back()));
-						enemyShip->AddComponent(new BirdMovementComponent(200.f, m_BeesPosInFormation.back()));
-						scene->Add(enemyShip);
-						m_Enemies.push_back(enemyShip);
-						CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
-					}
-	
-				}
-				m_BeesPosInFormation.pop_back();
-				m_SpawnTimer = 0;
-	
+				auto enemyShip = std::make_shared<GameObject>("Bee");
+				enemyShip->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2, -100, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				enemyShip->AddComponent(new RenderComponent());
+				enemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
+				enemyShip->AddComponent(new SpriteAnimComponent(2));
+				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
+				enemyShip->AddComponent(new BeeMovementComponent
+				(220.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (4 + m_BeeInfo.back()[2]) )));
+				scene->Add(enemyShip);
+				m_Enemies.push_back(enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
+				m_BeeInfo.pop_back();
 			}
-			else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
+			else if (m_BFInfo.size() > 0)
+			{
+				auto enemyShip = std::make_shared<GameObject>("BF");
+				enemyShip->AddComponent(new TransformComponent(glm::vec3(-100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				enemyShip->AddComponent(new RenderComponent());
+				enemyShip->AddComponent(new Texture2DComponent("Butterfly.png", scene->GetSceneScale()));
+				enemyShip->AddComponent(new SpriteAnimComponent(2));
+				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
+				enemyShip->AddComponent(new BFMovementComponent(220.f, 
+					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (2 + m_BFInfo.back()[2]))));
+				scene->Add(enemyShip);
+				m_Enemies.push_back(enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
+				m_BFInfo.pop_back();
+			}
+			else if (m_BirdInfo.size() > 0)
+			{
+				auto enemyShip = std::make_shared<GameObject>("Bird");
+				enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				enemyShip->AddComponent(new RenderComponent());
+				enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
+				enemyShip->AddComponent(new SpriteAnimComponent(4));
+				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
+				enemyShip->AddComponent(new BirdMovementComponent(220.f, 
+					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 14 )));
+				scene->Add(enemyShip);
+				m_Enemies.push_back(enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
+				m_BirdInfo.pop_back();
+			}
+
+			//m_EnemiesPosInFormation.pop_back();
+			m_SpawnTimer = 0;
 		}
-	
+		else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
+
+
 		if (m_NumberOfEnemiesNotInPosition == 0 && m_CurrentStepNumber == 0)//here is that check you are looking for
 		{
 			for (size_t i = 0; i < m_Enemies.size(); i++)
@@ -107,7 +112,7 @@ void EnemyManager::Update()
 			}
 			m_BuildingFormation = false;
 		}
-	
+
 	}
 	
 	if (m_Enemies.size() > 0)

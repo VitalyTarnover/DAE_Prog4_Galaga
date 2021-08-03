@@ -10,10 +10,12 @@
 #include "ExplosionManager.h"
 #include "RocketManager.h"
 
-BaseEnemyMovementComponent::BaseEnemyMovementComponent(float speed, glm::vec2 posInFormation)
+BaseEnemyMovementComponent::BaseEnemyMovementComponent(float speed, int birdCompanionIndex, glm::vec2 posInFormation)
 	:m_CurrentState{nullptr}
+	, m_BirdCompanionIndex {birdCompanionIndex}
 	, m_PosInFormation{posInFormation}
 	, m_Speed{speed}
+	, m_InFormation{false}
 {
 }
 

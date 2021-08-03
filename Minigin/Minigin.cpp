@@ -154,26 +154,72 @@ void dae::Minigin::LoadGame() const
 	//	CollisionManager::GetInstance().AddGameObjectForCheck(true, testEnemyShip);
 	//}
 
-	std::vector<glm::vec2> enemyPositions{};
 
-	for (size_t i = 0; i < 3; i++)
+
+
+	//std::vector<glm::vec2> enemyPositions{};
+	//
+	//for (size_t i = 0; i < 3; i++)
+	//{
+	//	enemyPositions.push_back(glm::vec2{ m_WindowWidth / 11 * (i + 4), m_WindowHeight / 7 });
+	//}
+	//
+	//for (size_t i = 0; i < 10; i++)
+	//{
+	//	enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1), m_WindowHeight / 7 * 3 });
+	//}
+	//
+	//for (size_t i = 0; i < 10; i++)
+	//{
+	//	enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1.5f), m_WindowHeight / 7 * 2 });
+	//}
+
+
+
+	std::vector<std::vector<int>> beeInfo{};
+	std::vector<std::vector<int>> bFInfo{};
+	std::vector<std::vector<int>> birdInfo{};
+
+	int birdsXPosDivisor = 9;
+	for (int i = 0; i < 3; i++)//Birds
 	{
-		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 11 * (i + 4), m_WindowHeight / 7 });
+		std::vector<int> newbirdInfo{};
+		newbirdInfo.push_back(i + 3);//4 5 6
+		newbirdInfo.push_back(birdsXPosDivisor);
+		newbirdInfo.push_back(i + 1);
+
+		birdInfo.push_back(newbirdInfo);
 	}
 
-	for (size_t i = 0; i < 10; i++)
+	int bfXPosDivisor = 12;
+	for (int i = 0; i < 10; i++)//BFs
 	{
-		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1), m_WindowHeight / 7 * 3 });
+		std::vector<int> newBFInfo{};
+		newBFInfo.push_back(i + 1);
+		newBFInfo.push_back(bfXPosDivisor);
+		newBFInfo.push_back(i % 2);
+		if (i == 3)newBFInfo.push_back(1);//4 as well
+		else if (i == 5)newBFInfo.push_back(2);//6 as well
+		else if (i == 7)newBFInfo.push_back(3);//8 as well
+		else newBFInfo.push_back(0);
+		
+		bFInfo.push_back(newBFInfo);
 	}
 	
-	for (size_t i = 0; i < 10; i++)
+	int beeXPosDivisor = 12;
+	for (int i = 0; i < 10; i++)//Bees
 	{
-		enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (i + 1.5f), m_WindowHeight / 7 * 2 });
+		std::vector<int> newBeeInfo{};
+		newBeeInfo.push_back(i+1);
+		newBeeInfo.push_back(beeXPosDivisor);
+		newBeeInfo.push_back(i%2);
+
+		beeInfo.push_back(newBeeInfo);
 	}
 
 	//enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (4), m_WindowHeight / 5 * 2 });
 
-	EnemyManager::GetInstance().SpawnEnemies(enemyPositions);
+	EnemyManager::GetInstance().SpawnEnemies(beeInfo, bFInfo, birdInfo);
 
 }
 

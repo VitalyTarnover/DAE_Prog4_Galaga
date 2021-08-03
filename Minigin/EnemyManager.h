@@ -12,7 +12,9 @@ class EnemyManager final : public dae::Singleton<EnemyManager>//, public IEventH
 {
 public:
 	~EnemyManager();
-	void SpawnEnemies(const std::vector<glm::vec2>& posInFormation);
+	void SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
+		const std::vector<std::vector<int>>& bfInfo, 
+		const std::vector<std::vector<int>>& birdInfo);
 	void Update();
 	void ResetEnemies();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
@@ -32,7 +34,11 @@ private:
 
 	bool m_BuildingFormation;//if not then it is battle stage
 
-	std::vector<glm::vec2> m_BeesPosInFormation;
+	//std::vector<glm::vec2> m_EnemiesPosInFormation;
+	
+	std::vector<std::vector<int>> m_BeeInfo;
+	std::vector<std::vector<int>> m_BFInfo;
+	std::vector<std::vector<int>> m_BirdInfo;
 
 	std::vector<std::shared_ptr<GameObject>> m_Enemies;
 	std::vector<std::shared_ptr<GameObject>> m_EnemyShooters;
