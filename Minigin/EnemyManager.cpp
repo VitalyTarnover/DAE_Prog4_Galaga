@@ -61,7 +61,7 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new SpriteAnimComponent(2));
 				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
 				enemyShip->AddComponent(new BeeMovementComponent
-				(220.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (4 + m_BeeInfo.back()[2]) )));
+				(275.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (5 + m_BeeInfo.back()[2]) )));
 				scene->Add(enemyShip);
 				m_Enemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
@@ -75,8 +75,8 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new Texture2DComponent("Butterfly.png", scene->GetSceneScale()));
 				enemyShip->AddComponent(new SpriteAnimComponent(2));
 				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
-				enemyShip->AddComponent(new BFMovementComponent(220.f, 
-					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (2 + m_BFInfo.back()[2]))));
+				enemyShip->AddComponent(new BFMovementComponent(275.f, 
+					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (3 + m_BFInfo.back()[2]))));
 				scene->Add(enemyShip);
 				m_Enemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
@@ -90,8 +90,8 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
 				enemyShip->AddComponent(new SpriteAnimComponent(4));
 				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
-				enemyShip->AddComponent(new BirdMovementComponent(220.f, 
-					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 14 )));
+				enemyShip->AddComponent(new BirdMovementComponent(275.f, 
+					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9 )));
 				scene->Add(enemyShip);
 				m_Enemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
@@ -127,7 +127,7 @@ void EnemyManager::Update()
 
 void EnemyManager::ResetEnemies()
 {
-	m_Enemies.clear();
+	m_Enemies.clear();//TODO: clear all of them!
 }
 
 void EnemyManager::AnEnemyReachedPositionInFormation()
@@ -179,21 +179,39 @@ void EnemyManager::SendRandomEnemyToAttack()
 	if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
 	else
 	{
-		int extraEnemiesChance = rand() % 3 + 1;//TODO: instead of 3 take current level...
+		int extraEnemiesChance = rand() % 1 + 1;//TODO: instead of 3 take current level...
 
 		for (size_t i = extraEnemiesChance; i > 0; --i)
 		{
 			int randomEnemyIndex = rand() % m_Enemies.size();
-			m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>()->Switch();
+			BaseEnemyMovementComponent* enemyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>();
 
-			int chanceToShootModifier = 3;
 
-			int chanceToShoot = rand() % chanceToShootModifier + 1;
-			if (chanceToShoot == chanceToShootModifier)
+			int birdCompanionIndex = enemyMovement->GetBirdCompanionIndex();
+
+			if (birdCompanionIndex == -1)
 			{
-				m_EnemyShooters.push_back(m_Enemies[randomEnemyIndex]);
-			}
+				enemyMovement->Switch();
 
+				int chanceToShootModifier = 3;
+
+				int chanceToShoot = rand() % chanceToShootModifier + 1;
+				if (chanceToShoot == chanceToShootModifier)
+				{
+					m_EnemyShooters.push_back(m_Enemies[randomEnemyIndex]);
+				}
+			}
+			else
+			{
+				for (size_t j  = 0; j < m_Enemies.size(); j++)
+				{
+					BaseEnemyMovementComponent* nextEnemyMovement = m_Enemies[j]->GetComponent<BaseEnemyMovementComponent>();
+
+					if (birdCompanionIndex == nextEnemyMovement->GetBirdCompanionIndex())
+						nextEnemyMovement->Switch();
+
+				}
+			}
 		}
 
 		m_DiveDownTimer = m_DiveDownTime;

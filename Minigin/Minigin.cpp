@@ -198,24 +198,24 @@ void dae::Minigin::LoadGame() const
 		newBFInfo.push_back(i + 1);
 		newBFInfo.push_back(bfXPosDivisor);
 		newBFInfo.push_back(i % 2);
-		if (i == 3)newBFInfo.push_back(1);//4 as well
-		else if (i == 5)newBFInfo.push_back(2);//6 as well
-		else if (i == 7)newBFInfo.push_back(3);//8 as well
-		else newBFInfo.push_back(0);
+		if (i == 2)newBFInfo.push_back(1);//4 as well
+		else if (i == 4)newBFInfo.push_back(2);//6 as well
+		else if (i == 6)newBFInfo.push_back(3);//8 as well
+		else newBFInfo.push_back(-1);
 		
 		bFInfo.push_back(newBFInfo);
 	}
 	
-	int beeXPosDivisor = 12;
-	for (int i = 0; i < 10; i++)//Bees
-	{
-		std::vector<int> newBeeInfo{};
-		newBeeInfo.push_back(i+1);
-		newBeeInfo.push_back(beeXPosDivisor);
-		newBeeInfo.push_back(i%2);
-
-		beeInfo.push_back(newBeeInfo);
-	}
+	//int beeXPosDivisor = 12;
+	//for (int i = 0; i < 10; i++)//Bees
+	//{
+	//	std::vector<int> newBeeInfo{};
+	//	newBeeInfo.push_back(i+1);
+	//	newBeeInfo.push_back(beeXPosDivisor);
+	//	newBeeInfo.push_back(i%2);
+	//
+	//	beeInfo.push_back(newBeeInfo);
+	//}
 
 	//enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (4), m_WindowHeight / 5 * 2 });
 

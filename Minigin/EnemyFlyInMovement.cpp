@@ -216,7 +216,7 @@ void EnemyFlyInMovement::FlyIn()
 		//check if we have reached next waypoint 
 		float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
 		
-		if (sqrMagnitude < 4) //TODO: 3 can be something else, mby even declared 
+		if (sqrMagnitude < 6) //TODO: 3 can be something else, mby even declared 
 			++m_CurrentWaypoint;
 
 		if (m_CurrentWaypoint < m_Path.size())// double check, must be removed

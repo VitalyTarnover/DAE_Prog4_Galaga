@@ -40,6 +40,7 @@ private:
 	std::vector<std::vector<int>> m_BFInfo;
 	std::vector<std::vector<int>> m_BirdInfo;
 
+
 	std::vector<std::shared_ptr<GameObject>> m_Enemies;
 	std::vector<std::shared_ptr<GameObject>> m_EnemyShooters;
 
@@ -59,7 +60,7 @@ private:
 
 	//sending to dive down
 	float m_DiveDownTimer = 0;
-	float m_DiveDownTime = 2.0f;
+	float m_DiveDownTime = 3.0f;
 
 	//for observer pattern
 	//void OnEvent();

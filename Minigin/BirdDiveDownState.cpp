@@ -36,15 +36,16 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 
 	const auto& trc = enemy->GetComponent<TransformComponent>();
 
+	glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
 	//TODO: tractor attack is not made yet! Do it!
 	//mirror required
 	if (trc->GetCenterPosition().x <= screenWidth / 2)//where do we do first maneuver... For now it makes first virage towards closer screen edge
 	{
 		//1st part -> 0
 		path->AddCurve({ trc->GetCenterPosition(),
-			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
 			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),trc->GetCenterPosition().y } },
+			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
+			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenWidth / 4) } },
 			15);
 		path->Sample(&m_Path, 0);
 
@@ -52,7 +53,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 		path->AddCurve({ m_Path[m_Path.size() - 1],
 			glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
 			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
-			glm::vec2{m_Path[m_Path.size() - 1].x + (screenWidth / 4), m_Path[m_Path.size() - 1].y } },
+			playerPos },
 			15);
 		path->Sample(&m_Path, 1);
 
@@ -61,9 +62,9 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 	{
 		//1st part -> 0
 		path->AddCurve({ trc->GetCenterPosition(),
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8), trc->GetCenterPosition().y},
 			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
-			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 4),trc->GetCenterPosition().y } },
+			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8), trc->GetCenterPosition().y},
+			glm::vec2{trc->GetCenterPosition().x,trc->GetCenterPosition().y + (screenWidth / 4) } },
 			15);
 		path->Sample(&m_Path, 0);
 
@@ -71,13 +72,11 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 		path->AddCurve({ m_Path[m_Path.size() - 1],
 			glm::vec2{m_Path[m_Path.size() - 1].x + (screenWidth / 8), m_Path[m_Path.size() - 1].y},
 			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
-			glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 4), m_Path[m_Path.size() - 1].y } },
+			playerPos },
 			15);
 		path->Sample(&m_Path, 1);
 	}
 
-	glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
-	m_Path.push_back(glm::vec2{ playerPos });//aiming for player
 
 	//going down, beyond lower screen edge, where we have a teleport trigger to upper part
 	m_Path.push_back(glm::vec2{ m_Path[m_Path.size() - 1].x, screenHeight + 100 });
@@ -104,7 +103,7 @@ bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 		//check if we have reached next waypoint 
 		float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
 
-		if (sqrMagnitude < 4) //TODO: 3 can be something else, mby even declared 
+		if (sqrMagnitude < 6) //TODO: 3 can be something else, mby even declared 
 			++m_CurrentWaypoint;
 
 		if (m_CurrentWaypoint < m_Path.size())//TODO: double check, must be removed
