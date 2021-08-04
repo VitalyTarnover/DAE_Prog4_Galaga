@@ -194,7 +194,7 @@ void EnemyManager::SendRandomEnemyToAttack()//TODO: the birs actually wait for e
 			{
 				enemyMovement->Switch();
 
-				int chanceToShootModifier = 3;
+				int chanceToShootModifier = 3;//TODO: magic number also make it dependent on stage/level
 
 				int chanceToShoot = rand() % chanceToShootModifier + 1;
 				if (chanceToShoot == chanceToShootModifier)
@@ -204,17 +204,42 @@ void EnemyManager::SendRandomEnemyToAttack()//TODO: the birs actually wait for e
 			}
 			else
 			{
-				for (size_t j  = 0; j < m_Enemies.size(); j++)
+				BirdMovementComponent* birdMovementComponent = m_Enemies[randomEnemyIndex]->GetComponent<BirdMovementComponent>();
+
+				if (birdMovementComponent)//if it is a bird it is either goes solo tractor-attacking or bombing but with 2 butterflies
 				{
-					BaseEnemyMovementComponent* nextEnemyMovement = m_Enemies[j]->GetComponent<BaseEnemyMovementComponent>();
+					int birdAttackType = rand() % 2;
 
-					if (birdCompanionIndex == nextEnemyMovement->GetBirdCompanionIndex())
-						nextEnemyMovement->Switch();
+					if (birdAttackType == 0)
+					{
+						birdMovementComponent->SetIsBombing(true);
+						birdMovementComponent->Switch();
 
+						for (size_t j = 0; j < m_Enemies.size(); j++)
+						{
+							BFMovementComponent* enemyCompanionMovement = m_Enemies[j]->GetComponent<BFMovementComponent>();
+							if (enemyCompanionMovement && birdCompanionIndex == enemyCompanionMovement->GetBirdCompanionIndex())
+							{
+								enemyCompanionMovement->SetIsWithBird(true);
+								enemyCompanionMovement->Switch();
+							}
+						}
+					}
+					else
+					{
+						birdMovementComponent->SetIsBombing(false);
+						birdMovementComponent->Switch();
+					}
+
+				}
+				else//if it is a butterfly -> then it just does its usual attack
+				{
+					BFMovementComponent* butterflyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BFMovementComponent>();
+					butterflyMovement->SetIsWithBird(false);
+					butterflyMovement->Switch();
 				}
 			}
 		}
-
 		m_DiveDownTimer = m_DiveDownTime;
 	}
 

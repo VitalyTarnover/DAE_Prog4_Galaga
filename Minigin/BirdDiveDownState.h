@@ -15,5 +15,9 @@ private:
 	int m_CurrentWaypoint;
 
 	bool m_BombingAttack;
+
+	float m_TractorBeamTimer = 0.0f;
+	float m_TractorBeamTime = 6.0f;
+
 };
 
