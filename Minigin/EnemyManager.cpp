@@ -174,7 +174,8 @@ void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
 
 }
 
-void EnemyManager::SendRandomEnemyToAttack()
+void EnemyManager::SendRandomEnemyToAttack()//TODO: the birs actually wait for each other to end attack and instead of randomly picking
+//way of attacking they alternate: 1 time bomb run, 1 time tractor beam and so on
 {
 	if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
 	else

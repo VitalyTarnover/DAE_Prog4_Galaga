@@ -13,5 +13,7 @@ private:
 	std::vector<glm::vec2> m_Path;
 	float m_Speed;
 	int m_CurrentWaypoint;
+
+	bool m_BombingAttack;
 };
 

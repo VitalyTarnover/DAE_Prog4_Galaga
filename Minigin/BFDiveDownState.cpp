@@ -34,44 +34,104 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
 
 
-	//1st part -> 0
-	const auto& trc = enemy->GetComponent<TransformComponent>();
-
-	//no need in mirroring
+	if (enemy->GetComponent<BaseEnemyMovementComponent>()->GetBirdCompanionIndex() == -1)
 	{
-		path->AddCurve({ trc->GetCenterPosition(),
-			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) },
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)},
-			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y} },
-			15);
-		path->Sample(&m_Path, 0);
+		//1st part -> 0
+		const auto& trc = enemy->GetComponent<TransformComponent>();
+
+		//no need in mirroring
+		{
+			path->AddCurve({ trc->GetCenterPosition(),
+				glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) },
+				glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)},
+				glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y} },
+				15);
+			path->Sample(&m_Path, 0);
+		}
+
+		//wiggly decending to player
+
+		glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+
+		glm::vec2 tempTrajectoryPoint = m_Path[m_Path.size() - 1];
+
+		glm::vec2 distance = playerPos - glm::vec2{ tempTrajectoryPoint.x,tempTrajectoryPoint.y };
+
+		int samplesNumber = 20;//for wiggly path
+		for (size_t i = 0; i < samplesNumber; i++)
+		{
+			tempTrajectoryPoint.x += distance.x / samplesNumber + (30 * float(sin(i)));//sinus mult can be different
+			tempTrajectoryPoint.y += distance.y / samplesNumber;
+
+			m_Path.push_back(tempTrajectoryPoint);
+		}
+
+		//going down, beyond lower screen edge, where we have a teleport trigger to upper part
+		m_Path.push_back(glm::vec2{ playerPos.x, screenHeight + 100 });
+
+		//the point before the last one to teleport to upper edge
+		m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
+
+		//back to position in formation
+		m_Path.push_back(glm::vec2{ enemy->GetComponent<BFMovementComponent>()->GetPosInFormation() });
 	}
-
-	//wiggly decending to player
-
-	glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
-
-	glm::vec2 tempTrajectoryPoint = m_Path[m_Path.size() - 1];
-
-	glm::vec2 distance = playerPos - glm::vec2{ tempTrajectoryPoint.x,tempTrajectoryPoint.y };
-
-	int samplesNumber = 20;//for wiggly path
-	for (size_t i = 0; i < samplesNumber; i++)
+	else
 	{
-		tempTrajectoryPoint.x += distance.x / samplesNumber + (30 * float(sin(i)));//sinus mult can be different
-		tempTrajectoryPoint.y += distance.y / samplesNumber;
+		//dive down attack for birds and bird companions
 
-		m_Path.push_back(tempTrajectoryPoint);
+		const auto& trc = enemy->GetComponent<TransformComponent>();
+
+		glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+		//TODO: tractor attack is not made yet! Do it!
+		//mirror required
+		if (trc->GetCenterPosition().x <= screenWidth / 2)//where do we do first maneuver... For now it makes first virage towards closer screen edge
+		{
+			//1st part -> 0
+			path->AddCurve({ trc->GetCenterPosition(),
+				glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
+				glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
+				glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenWidth / 4) } },
+				15);
+			path->Sample(&m_Path, 0);
+
+			//2nd part -> 1		
+			path->AddCurve({ m_Path[m_Path.size() - 1],
+				glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
+				glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
+				playerPos },
+				15);
+			path->Sample(&m_Path, 1);
+
+		}
+		else
+		{
+			//1st part -> 0
+			path->AddCurve({ trc->GetCenterPosition(),
+				glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
+				glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8), trc->GetCenterPosition().y},
+				glm::vec2{trc->GetCenterPosition().x,trc->GetCenterPosition().y + (screenWidth / 4) } },
+				15);
+			path->Sample(&m_Path, 0);
+
+			//2nd part -> 1		
+			path->AddCurve({ m_Path[m_Path.size() - 1],
+				glm::vec2{m_Path[m_Path.size() - 1].x + (screenWidth / 8), m_Path[m_Path.size() - 1].y},
+				glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
+				playerPos },
+				15);
+			path->Sample(&m_Path, 1);
+		}
+
+
+		//going down, beyond lower screen edge, where we have a teleport trigger to upper part
+		m_Path.push_back(glm::vec2{ m_Path[m_Path.size() - 1].x, screenHeight + 100 });
+
+		//the point before the last one to teleport to upper edge
+		m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
+
+		//back to position in formation
+		m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation() });
 	}
-
-	//going down, beyond lower screen edge, where we have a teleport trigger to upper part
-	m_Path.push_back(glm::vec2{ playerPos.x, screenHeight + 100 });
-
-	//the point before the last one to teleport to upper edge
-	m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
-
-	//back to position in formation
-	m_Path.push_back(glm::vec2{ enemy->GetComponent<BFMovementComponent>()->GetPosInFormation() });
 
 	delete path;
 

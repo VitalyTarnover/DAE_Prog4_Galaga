@@ -10,6 +10,7 @@
 BirdDiveDownState::BirdDiveDownState(float speed)
 	:m_Speed{speed}
 	,m_CurrentWaypoint{0}
+	,m_BombingAttack{true}
 {
 }
 
@@ -28,64 +29,77 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 void BirdDiveDownState::CreatePaths(GameObject* enemy)
 {
 	BezierPath* path = new BezierPath();
-
-	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
-	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
-
-	//dive down attack for birds
-
-	const auto& trc = enemy->GetComponent<TransformComponent>();
-
-	glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
-	//TODO: tractor attack is not made yet! Do it!
-	//mirror required
-	if (trc->GetCenterPosition().x <= screenWidth / 2)//where do we do first maneuver... For now it makes first virage towards closer screen edge
+	
+	int randomChance = rand() % 2 + 1;
+	
+	if (randomChance % 2)
 	{
-		//1st part -> 0
-		path->AddCurve({ trc->GetCenterPosition(),
-			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
-			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
-			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenWidth / 4) } },
-			15);
-		path->Sample(&m_Path, 0);
+		m_BombingAttack = true;
 
-		//2nd part -> 1		
-		path->AddCurve({ m_Path[m_Path.size() - 1],
-			glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
-			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
-			playerPos },
-			15);
-		path->Sample(&m_Path, 1);
+		int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
+		int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
 
+		//dive down attack for birds
+
+		const auto& trc = enemy->GetComponent<TransformComponent>();
+
+		glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+		//TODO: tractor attack is not made yet! Do it!
+		//mirror required
+		if (trc->GetCenterPosition().x <= screenWidth / 2)//where do we do first maneuver... For now it makes first virage towards closer screen edge
+		{
+			//1st part -> 0
+			path->AddCurve({ trc->GetCenterPosition(),
+				glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
+				glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
+				glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenWidth / 4) } },
+				15);
+			path->Sample(&m_Path, 0);
+
+			//2nd part -> 1		
+			path->AddCurve({ m_Path[m_Path.size() - 1],
+				glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
+				glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
+				playerPos },
+				15);
+			path->Sample(&m_Path, 1);
+
+		}
+		else
+		{
+			//1st part -> 0
+			path->AddCurve({ trc->GetCenterPosition(),
+				glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
+				glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8), trc->GetCenterPosition().y},
+				glm::vec2{trc->GetCenterPosition().x,trc->GetCenterPosition().y + (screenWidth / 4) } },
+				15);
+			path->Sample(&m_Path, 0);
+
+			//2nd part -> 1		
+			path->AddCurve({ m_Path[m_Path.size() - 1],
+				glm::vec2{m_Path[m_Path.size() - 1].x + (screenWidth / 8), m_Path[m_Path.size() - 1].y},
+				glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
+				playerPos },
+				15);
+			path->Sample(&m_Path, 1);
+		}
+
+
+		//going down, beyond lower screen edge, where we have a teleport trigger to upper part
+		m_Path.push_back(glm::vec2{ m_Path[m_Path.size() - 1].x, screenHeight + 100 });
+
+		//the point before the last one to teleport to upper edge
+		m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
+
+		//back to position in formation
+		m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation() });
 	}
 	else
 	{
-		//1st part -> 0
-		path->AddCurve({ trc->GetCenterPosition(),
-			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8), trc->GetCenterPosition().y},
-			glm::vec2{trc->GetCenterPosition().x,trc->GetCenterPosition().y + (screenWidth / 4) } },
-			15);
-		path->Sample(&m_Path, 0);
+		m_BombingAttack = false;
 
-		//2nd part -> 1		
-		path->AddCurve({ m_Path[m_Path.size() - 1],
-			glm::vec2{m_Path[m_Path.size() - 1].x + (screenWidth / 8), m_Path[m_Path.size() - 1].y},
-			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
-			playerPos },
-			15);
-		path->Sample(&m_Path, 1);
 	}
-
-
-	//going down, beyond lower screen edge, where we have a teleport trigger to upper part
-	m_Path.push_back(glm::vec2{ m_Path[m_Path.size() - 1].x, screenHeight + 100 });
-
-	//the point before the last one to teleport to upper edge
-	m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
-
-	//back to position in formation
-	m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation() });
+	
 
 	delete path;
 
@@ -94,6 +108,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 //TODO: mby make extra inheritance-base-classes for dive downs and fly ins since they all share the same mechanism of get
 bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 {
+	
 	if (m_CurrentWaypoint < m_Path.size())
 	{
 		const auto& trc = enemy->GetComponent<TransformComponent>();
