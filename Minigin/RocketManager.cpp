@@ -8,6 +8,7 @@
 #include "Texture2DComponent.h"
 #include "CollisionManager.h"
 #include "RenderComponent.h"
+#include "PlayerHealthComponent.h"
 
 void RocketManager::ReduceActiveRocketsNumber()
 {
@@ -23,22 +24,26 @@ void RocketManager::SpawnPlayerRocket() //mby pass index for P1/P2
 {
 	if (m_ActiveRocketsNumber < m_AllowedRocketsNumber)//TODO: Set for 2 players
 	{
-		glm::vec3 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+		if (dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<PlayerHealthComponent>()->IsAlive())
+		{
+			glm::vec3 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
 
-		auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+			auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
 
-		float verticalOffset = 20.f;
+			float verticalOffset = 20.f;
 
 
-		auto rocket = std::make_shared<GameObject>("Rocket");
-		rocket->AddComponent(new TransformComponent(glm::vec3(playerPos.x, playerPos.y - verticalOffset, 0)));
-		rocket->AddComponent(new RenderComponent());
-		rocket->AddComponent(new Texture2DComponent("Rocket.png", scene->GetSceneScale()));
-		rocket->AddComponent(new RocketMovementComponent(true, 250));
-		scene->Add(rocket);
-		CollisionManager::GetInstance().AddGameObjectForCheck(false, rocket);
+			auto rocket = std::make_shared<GameObject>("Rocket");
+			rocket->AddComponent(new TransformComponent(glm::vec3(playerPos.x, playerPos.y - verticalOffset, 0)));
+			rocket->AddComponent(new RenderComponent());
+			rocket->AddComponent(new Texture2DComponent("Rocket.png", scene->GetSceneScale()));
+			rocket->AddComponent(new RocketMovementComponent(true, 250));
+			scene->Add(rocket);
+			CollisionManager::GetInstance().AddGameObjectForCheck(rocket);
 
-		++m_ActiveRocketsNumber;
+			++m_ActiveRocketsNumber;
+		}
+		
 	}
 		
 }

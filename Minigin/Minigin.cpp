@@ -255,18 +255,20 @@ void dae::Minigin::LoadGame() const
 		bFInfo.push_back(newBFInfo);
 	}
 	
-	//int beeXPosDivisor = 12;
-	//for (int i = 0; i < 10; i++)//Bees
-	//{
-	//	std::vector<int> newBeeInfo{};
-	//	newBeeInfo.push_back(i+1);
-	//	newBeeInfo.push_back(beeXPosDivisor);
-	//	newBeeInfo.push_back(i%2);
-	//
-	//	beeInfo.push_back(newBeeInfo);
-	//}
+	int beeXPosDivisor = 12;
+	for (int i = 0; i < 10; i++)//Bees
+	{
+		std::vector<int> newBeeInfo{};
+		newBeeInfo.push_back(i+1);
+		newBeeInfo.push_back(beeXPosDivisor);
+		newBeeInfo.push_back(i%2);
+	
+		beeInfo.push_back(newBeeInfo);
+	}
 
 	//enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (4), m_WindowHeight / 5 * 2 });
+
+	CollisionManager::GetInstance().SetPlayersCollisions();
 
 	EnemyManager::GetInstance().SpawnEnemies(beeInfo, bFInfo, birdInfo);
 

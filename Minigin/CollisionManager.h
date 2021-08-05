@@ -10,7 +10,9 @@ class GameObject;
 class CollisionManager final : public dae::Singleton<CollisionManager>
 {
 public:
-	void AddGameObjectForCheck(bool isEnemy, const std::shared_ptr<GameObject>& newGameObject);//if not enemy -> it is rocket
+	void AddGameObjectForCheck(const std::shared_ptr<GameObject>& newGameObject);//if not enemy -> it is rocket
+	void SetPlayersCollisions();
+
 	void DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject);
 	void CleanUp();
 
@@ -20,6 +22,7 @@ private:
 
 	std::vector<std::shared_ptr<GameObject>> m_pEnemiesForCheck;
 	std::vector<std::shared_ptr<GameObject>> m_pRocketsForCheck;
+	std::vector<std::shared_ptr<GameObject>> m_pTractorBeamsForCheck;
 
 	std::shared_ptr<GameObject> m_FS1;//Fighter ship, basically player
 	std::shared_ptr<GameObject> m_FS2;//for player 2

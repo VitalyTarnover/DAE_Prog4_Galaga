@@ -10,14 +10,19 @@
 #include "Scene.h"
 #include "PlayerHealthComponent.h"
 
-void CollisionManager::AddGameObjectForCheck(bool isEnemy, const std::shared_ptr<GameObject>& newGameObject)
+void CollisionManager::AddGameObjectForCheck(const std::shared_ptr<GameObject>& newGameObject)
 {
-	if (isEnemy) m_pEnemiesForCheck.push_back(newGameObject);
-	else m_pRocketsForCheck.push_back(newGameObject);
 
+	std::string objectName = newGameObject->GetName();
+	if (objectName == "Bee" || objectName == "BF" || objectName == "Bird") m_pEnemiesForCheck.push_back(newGameObject);
+	else if (objectName == "Rocket") m_pRocketsForCheck.push_back(newGameObject);
+	else if (objectName == "TractorBeam") m_pTractorBeamsForCheck.push_back(newGameObject);
+}
+
+void CollisionManager::SetPlayersCollisions()
+{
 	m_FS1 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0);
 	m_FS2 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(1);
-
 }
 
 void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject)//TODO: is it needed?

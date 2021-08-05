@@ -42,7 +42,7 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 		//no need in mirroring
 		{
 			path->AddCurve({ trc->GetCenterPosition(),
-				glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) },
+				glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 4) },
 				glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)},
 				glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y} },
 				15);

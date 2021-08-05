@@ -7,6 +7,7 @@ public:
 	BirdDiveDownState(float speed);
 	BaseEnemyState* Update(GameObject* enemy) override;
 private:
+	void ActivateTractorBeam();
 	void CreatePaths(GameObject* enemy);
 	bool BirdDiveDown(GameObject* enemy);
 
@@ -15,6 +16,7 @@ private:
 	int m_CurrentWaypoint;
 
 	bool m_BombingAttack;
+	bool m_TractorBeamActivated = false;
 
 	float m_TractorBeamTimer = 0.0f;
 	float m_TractorBeamTime = 6.0f;

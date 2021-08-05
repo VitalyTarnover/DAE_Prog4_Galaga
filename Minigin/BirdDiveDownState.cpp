@@ -7,6 +7,8 @@
 #include "Scene.h"
 #include "TransformComponent.h"
 #include "BirdMovementComponent.h"
+#include "TractorBeamComponent.h"
+#include "CollisionManager.h"
 
 BirdDiveDownState::BirdDiveDownState(float speed)
 	:m_Speed{speed}
@@ -25,6 +27,21 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 	if (BirdDiveDown(enemy)) return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
 
 	return nullptr;
+}
+
+void BirdDiveDownState::ActivateTractorBeam()
+{
+	//glm::vec3 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+
+	auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+
+
+	auto tractorBeam = std::make_shared<GameObject>("TractorBeam");
+	//tractorBeam->AddComponent(new TransformComponent(glm::vec3(playerPos.x, playerPos.y - verticalOffset, 0)));
+	//tractorBeam->AddComponent(new RenderComponent());
+	scene->Add(tractorBeam);
+	CollisionManager::GetInstance().AddGameObjectForCheck(tractorBeam);
+
 }
 
 void BirdDiveDownState::CreatePaths(GameObject* enemy)
@@ -68,7 +85,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 		path->AddCurve({ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
-			glm::vec2{playerPos.x, playerPos.y - (screenHeight / 6) } },
+			glm::vec2{playerPos.x, playerPos.y - (screenHeight / 8) } },
 			15);
 		path->Sample(&m_Path, 0);
 
@@ -95,6 +112,12 @@ bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 	{
 		if (!m_BombingAttack && m_CurrentWaypoint == m_Path.size() - 4 && m_TractorBeamTimer < m_TractorBeamTime)//moment where to stop for tractor beam
 		{
+			if (!m_TractorBeamActivated)
+			{
+				//activate it somehow
+				m_TractorBeamActivated = true;
+			}
+
 			m_TractorBeamTimer += SystemTime::GetInstance().GetDeltaTime();
 			//TODO: also give some sign to something that... tractor beam should be engaged
 		}
