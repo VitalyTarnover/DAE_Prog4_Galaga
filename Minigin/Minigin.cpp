@@ -35,12 +35,11 @@
 #include "PlayerHealthComponent.h"
 #include "RenderComponent.h"
 
+#include "TractorBeamComponent.h"
+
 
 //will be moved to loader
 #include "LivesObserver.h"
-
-
-
 
 using namespace std;
 using namespace std::chrono;
@@ -106,7 +105,7 @@ void dae::Minigin::LoadGame() const
 	playerFighter->AddWatcher(new LivesObserver());
 	//playerFighter->AddWatcher(new ScoreObserver());
 	playerFighter->AddComponent(new RenderComponent());
-	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));
+	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
 	playerFighter->AddComponent(new SpriteAnimComponent(2));
 	playerFighter->AddComponent(new FighterShipMovementComponent(500));
 	scene.Add(playerFighter);
@@ -118,6 +117,41 @@ void dae::Minigin::LoadGame() const
 	textTest->AddComponent(new RenderComponent());
 	scene.Add(textTest);
 	
+
+	//TractorBeam test
+
+	glm::vec3 tractorBeam1Pos{ m_WindowWidth / 2, m_WindowHeight / 2, 0 };
+	glm::vec3 tractorBeam2Pos{ tractorBeam1Pos.x, tractorBeam1Pos.y + (18 * scene.GetSceneScale()), 0 };
+	glm::vec3 tractorBeam3Pos{ tractorBeam2Pos.x, tractorBeam2Pos.y + (16 * scene.GetSceneScale()), 0 };
+
+	auto tractorBeam1 = std::make_shared<GameObject>("Text");
+	tractorBeam1->AddComponent(new TransformComponent(tractorBeam1Pos));
+	tractorBeam1->AddComponent(new Texture2DComponent("TractorBeam1.png", scene.GetSceneScale()));
+	tractorBeam1->AddComponent(new SpriteAnimComponent(3));
+	tractorBeam1->AddComponent(new TractorBeamComponent());
+	tractorBeam1->AddComponent(new RenderComponent());
+	scene.Add(tractorBeam1);
+
+
+	auto tractorBeam2 = std::make_shared<GameObject>("Text");
+	tractorBeam2->AddComponent(new TransformComponent(tractorBeam2Pos));
+	tractorBeam2->AddComponent(new Texture2DComponent("TractorBeam2.png", scene.GetSceneScale()));
+	tractorBeam2->AddComponent(new SpriteAnimComponent(3));
+	tractorBeam2->AddComponent(new TractorBeamComponent());
+	tractorBeam2->AddComponent(new RenderComponent());
+	scene.Add(tractorBeam2);
+
+
+	auto tractorBeam3 = std::make_shared<GameObject>("Text");
+	tractorBeam3->AddComponent(new TransformComponent(tractorBeam3Pos));
+	tractorBeam3->AddComponent(new Texture2DComponent("TractorBeam3.png", scene.GetSceneScale()));
+	tractorBeam3->AddComponent(new SpriteAnimComponent(3));
+	tractorBeam3->AddComponent(new TractorBeamComponent());
+	tractorBeam3->AddComponent(new RenderComponent());
+	scene.Add(tractorBeam3);
+
+
+
 
 	//enemies
 
