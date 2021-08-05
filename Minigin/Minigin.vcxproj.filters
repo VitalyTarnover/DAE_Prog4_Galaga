@@ -124,6 +124,9 @@
       <Filter>GalagaComponents</Filter>
     </ClInclude>
     <ClInclude Include="TractorBeamComponent.h">
+      <Filter>GalagaComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GalagaBackgroundComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -207,6 +210,9 @@
       <Filter>GalagaComponents</Filter>
     </ClCompile>
     <ClCompile Include="TractorBeamComponent.cpp">
+      <Filter>GalagaComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="GalagaBackgroundComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

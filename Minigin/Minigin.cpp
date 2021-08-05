@@ -36,7 +36,7 @@
 #include "RenderComponent.h"
 
 #include "TractorBeamComponent.h"
-
+#include "GalagaBackgroundComponent.h"
 
 //will be moved to loader
 #include "LivesObserver.h"
@@ -88,6 +88,21 @@ void dae::Minigin::LoadGame() const
 	srand(int(time(NULL)));
 
 	dae::Scene& scene = SceneManager::GetInstance().CreateScene("Game");
+
+	//Background
+	auto background = std::make_shared<GameObject>("Background");
+	background->AddComponent(new TransformComponent(glm::vec3(0,0,0)));
+	background->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
+	background->AddComponent(new GalagaBackgroundComponent);
+	background->AddComponent(new RenderComponent());
+	scene.Add(background);
+
+	auto background1 = std::make_shared<GameObject>("Background");
+	background1->AddComponent(new TransformComponent(glm::vec3(0, -m_WindowHeight, 0)));
+	background1->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
+	background1->AddComponent(new GalagaBackgroundComponent);
+	background1->AddComponent(new RenderComponent());
+	scene.Add(background1);
 
 	//fps counter
 	auto go = std::make_shared<GameObject>("FPSCounter");
