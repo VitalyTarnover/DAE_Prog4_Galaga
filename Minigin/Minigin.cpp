@@ -135,19 +135,19 @@ void dae::Minigin::LoadGame() const
 
 	//TractorBeam test
 	
-	glm::vec3 tractorBeam1Pos{ m_WindowWidth / 2, m_WindowHeight / 2, 0 };
-	glm::vec3 tractorBeam2Pos{ tractorBeam1Pos.x, tractorBeam1Pos.y + (18 * scene.GetSceneScale()), 0 };
-	glm::vec3 tractorBeam3Pos{ tractorBeam2Pos.x, tractorBeam2Pos.y + (16 * scene.GetSceneScale()), 0 };
+	//glm::vec3 tractorBeam1Pos{ m_WindowWidth / 2, m_WindowHeight / 2, 0 };
+	//glm::vec3 tractorBeam2Pos{ tractorBeam1Pos.x, tractorBeam1Pos.y + (18 * scene.GetSceneScale()), 0 };
+	//glm::vec3 tractorBeam3Pos{ tractorBeam2Pos.x, tractorBeam2Pos.y + (16 * scene.GetSceneScale()), 0 };
+	//
+	//auto tractorBeam1 = std::make_shared<GameObject>("tractorBeam1");
+	//tractorBeam1->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
+	//tractorBeam1->AddComponent(new Texture2DComponent("TractorBeam1.png", scene.GetSceneScale()));
+	////tractorBeam1->AddComponent(new SpriteAnimComponent(3));
+	////tractorBeam1->AddComponent(new TractorBeamComponent(10));
+	//tractorBeam1->AddComponent(new RenderComponent());
+	//scene.Add(tractorBeam1);
 	
-	auto tractorBeam1 = std::make_shared<GameObject>("tractorBeam1");
-	tractorBeam1->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
-	tractorBeam1->AddComponent(new Texture2DComponent("TractorBeam1.png", scene.GetSceneScale()));
-	//tractorBeam1->AddComponent(new SpriteAnimComponent(3));
-	//tractorBeam1->AddComponent(new TractorBeamComponent(10));
-	tractorBeam1->AddComponent(new RenderComponent());
-	scene.Add(tractorBeam1);
-	
-	
+
 	//auto tractorBeam2 = std::make_shared<GameObject>("tractorBeam2");
 	//tractorBeam2->AddComponent(new TransformComponent(tractorBeam2Pos));
 	//tractorBeam2->AddComponent(new Texture2DComponent("TractorBeam2.png", scene.GetSceneScale()));

@@ -9,6 +9,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "PlayerHealthComponent.h"
+#include "TractorBeamDangerComponent.h"
+#include "BirdMovementComponent.h"
 
 void CollisionManager::AddGameObjectForCheck(const std::shared_ptr<GameObject>& newGameObject)
 {
@@ -21,7 +23,7 @@ void CollisionManager::AddGameObjectForCheck(const std::shared_ptr<GameObject>& 
 
 void CollisionManager::SetPlayersCollisions()
 {
-	m_FS1 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0);
+	m_FS1 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0);//TODO: make a vector of players, to minimize check code (use for loop)
 	m_FS2 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(1);
 }
 
@@ -76,6 +78,7 @@ void CollisionManager::Update()
 	if (m_FS1 && m_FS1->GetComponent<PlayerHealthComponent>()->IsAlive())
 	{
 		SDL_Rect fs1Rect = m_FS1->GetComponent<TransformComponent>()->GetRect();
+		
 		for (size_t i = 0; i < m_pEnemiesForCheck.size(); i++)
 		{
 			if (CheckIfCollide(fs1Rect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
@@ -112,6 +115,24 @@ void CollisionManager::Update()
 				}
 			}
 			else m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
+		}
+
+		for (size_t i = 0; i < m_pTractorBeamsForCheck.size(); ++i)
+		{
+			if (!m_pTractorBeamsForCheck[i]->GetMarkedForDelete())
+			{
+
+				if (CheckIfCollide(fs1Rect, m_pTractorBeamsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+				{
+					//player->die
+					m_FS1->GetComponent<PlayerHealthComponent>()->Die();
+					m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->GetBirdOwner()->
+						GetComponent<BirdMovementComponent>()->FighterCaptured();
+					break;
+				}
+			}
+			else m_pTractorBeamsForCheck.erase(std::remove(m_pTractorBeamsForCheck.begin(), m_pTractorBeamsForCheck.end(), m_pTractorBeamsForCheck[i]), m_pTractorBeamsForCheck.end());
+
 		}
 
 	}

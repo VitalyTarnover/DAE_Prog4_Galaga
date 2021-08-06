@@ -12,7 +12,7 @@ public:
 	virtual ~BaseEnemyMovementComponent();
 	float GetSpeed();
 	glm::vec2 GetPosInFormation();
-	void Update();
+	virtual void Update();
 	void Switch();
 	void ShootARocket();
 	void Die();//TODO: make unique score++ for each state's Die
