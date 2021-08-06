@@ -35,7 +35,7 @@
 #include "PlayerHealthComponent.h"
 #include "RenderComponent.h"
 
-#include "TractorBeamComponent.h"
+#include "TractorBeamDangerComponent.h"
 #include "GalagaBackgroundComponent.h"
 
 //will be moved to loader
@@ -134,36 +134,36 @@ void dae::Minigin::LoadGame() const
 	
 
 	//TractorBeam test
-
+	
 	glm::vec3 tractorBeam1Pos{ m_WindowWidth / 2, m_WindowHeight / 2, 0 };
 	glm::vec3 tractorBeam2Pos{ tractorBeam1Pos.x, tractorBeam1Pos.y + (18 * scene.GetSceneScale()), 0 };
 	glm::vec3 tractorBeam3Pos{ tractorBeam2Pos.x, tractorBeam2Pos.y + (16 * scene.GetSceneScale()), 0 };
-
-	auto tractorBeam1 = std::make_shared<GameObject>("Text");
-	tractorBeam1->AddComponent(new TransformComponent(tractorBeam1Pos));
+	
+	auto tractorBeam1 = std::make_shared<GameObject>("tractorBeam1");
+	tractorBeam1->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
 	tractorBeam1->AddComponent(new Texture2DComponent("TractorBeam1.png", scene.GetSceneScale()));
-	tractorBeam1->AddComponent(new SpriteAnimComponent(3));
-	tractorBeam1->AddComponent(new TractorBeamComponent());
+	//tractorBeam1->AddComponent(new SpriteAnimComponent(3));
+	//tractorBeam1->AddComponent(new TractorBeamComponent(10));
 	tractorBeam1->AddComponent(new RenderComponent());
 	scene.Add(tractorBeam1);
-
-
-	auto tractorBeam2 = std::make_shared<GameObject>("Text");
-	tractorBeam2->AddComponent(new TransformComponent(tractorBeam2Pos));
-	tractorBeam2->AddComponent(new Texture2DComponent("TractorBeam2.png", scene.GetSceneScale()));
-	tractorBeam2->AddComponent(new SpriteAnimComponent(3));
-	tractorBeam2->AddComponent(new TractorBeamComponent());
-	tractorBeam2->AddComponent(new RenderComponent());
-	scene.Add(tractorBeam2);
-
-
-	auto tractorBeam3 = std::make_shared<GameObject>("Text");
-	tractorBeam3->AddComponent(new TransformComponent(tractorBeam3Pos));
-	tractorBeam3->AddComponent(new Texture2DComponent("TractorBeam3.png", scene.GetSceneScale()));
-	tractorBeam3->AddComponent(new SpriteAnimComponent(3));
-	tractorBeam3->AddComponent(new TractorBeamComponent());
-	tractorBeam3->AddComponent(new RenderComponent());
-	scene.Add(tractorBeam3);
+	
+	
+	//auto tractorBeam2 = std::make_shared<GameObject>("tractorBeam2");
+	//tractorBeam2->AddComponent(new TransformComponent(tractorBeam2Pos));
+	//tractorBeam2->AddComponent(new Texture2DComponent("TractorBeam2.png", scene.GetSceneScale()));
+	//tractorBeam2->AddComponent(new SpriteAnimComponent(3));
+	//tractorBeam2->AddComponent(new TractorBeamComponent(7));
+	//tractorBeam2->AddComponent(new RenderComponent());
+	//scene.Add(tractorBeam2);
+	//
+	//
+	//auto tractorBeam3 = std::make_shared<GameObject>("tractorBeam3");
+	//tractorBeam3->AddComponent(new TransformComponent(tractorBeam3Pos));
+	//tractorBeam3->AddComponent(new Texture2DComponent("TractorBeam3.png", scene.GetSceneScale()));
+	//tractorBeam3->AddComponent(new SpriteAnimComponent(3));
+	//tractorBeam3->AddComponent(new TractorBeamDangerComponent(4));
+	//tractorBeam3->AddComponent(new RenderComponent());
+	//scene.Add(tractorBeam3);
 
 
 
@@ -240,31 +240,31 @@ void dae::Minigin::LoadGame() const
 		birdInfo.push_back(newbirdInfo);
 	}
 
-	int bfXPosDivisor = 12;
-	for (int i = 0; i < 10; i++)//BFs
-	{
-		std::vector<int> newBFInfo{};
-		newBFInfo.push_back(i + 1);
-		newBFInfo.push_back(bfXPosDivisor);
-		newBFInfo.push_back(i % 2);
-		if (i == 2)newBFInfo.push_back(1);//4 as well
-		else if (i == 4)newBFInfo.push_back(2);//6 as well
-		else if (i == 6)newBFInfo.push_back(3);//8 as well
-		else newBFInfo.push_back(-1);
-		
-		bFInfo.push_back(newBFInfo);
-	}
-	
-	int beeXPosDivisor = 12;
-	for (int i = 0; i < 10; i++)//Bees
-	{
-		std::vector<int> newBeeInfo{};
-		newBeeInfo.push_back(i+1);
-		newBeeInfo.push_back(beeXPosDivisor);
-		newBeeInfo.push_back(i%2);
-	
-		beeInfo.push_back(newBeeInfo);
-	}
+	//int bfXPosDivisor = 12;
+	//for (int i = 0; i < 10; i++)//BFs
+	//{
+	//	std::vector<int> newBFInfo{};
+	//	newBFInfo.push_back(i + 1);
+	//	newBFInfo.push_back(bfXPosDivisor);
+	//	newBFInfo.push_back(i % 2);
+	//	if (i == 2)newBFInfo.push_back(1);//4 as well
+	//	else if (i == 4)newBFInfo.push_back(2);//6 as well
+	//	else if (i == 6)newBFInfo.push_back(3);//8 as well
+	//	else newBFInfo.push_back(-1);
+	//	
+	//	bFInfo.push_back(newBFInfo);
+	//}
+	//
+	//int beeXPosDivisor = 12;
+	//for (int i = 0; i < 10; i++)//Bees
+	//{
+	//	std::vector<int> newBeeInfo{};
+	//	newBeeInfo.push_back(i+1);
+	//	newBeeInfo.push_back(beeXPosDivisor);
+	//	newBeeInfo.push_back(i%2);
+	//
+	//	beeInfo.push_back(newBeeInfo);
+	//}
 
 	//enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (4), m_WindowHeight / 5 * 2 });
 

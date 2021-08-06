@@ -64,7 +64,7 @@ void RocketManager::SpawnEnemyRocket(const glm::vec3& enemyPos)
 		rocket->AddComponent(new Texture2DComponent("Rocket.png", scene->GetSceneScale()));
 		rocket->AddComponent(new RocketMovementComponent(false, 250));
 		scene->Add(rocket);
-		CollisionManager::GetInstance().AddGameObjectForCheck(false, rocket);
+		CollisionManager::GetInstance().AddGameObjectForCheck(rocket);
 
 		++m_ActiveEnemyRocketsNumber;
 	}

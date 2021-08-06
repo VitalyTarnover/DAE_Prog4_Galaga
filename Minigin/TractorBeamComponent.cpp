@@ -1,9 +1,11 @@
 #include "MiniginPCH.h"
 #include "TractorBeamComponent.h"
 #include "SpriteAnimComponent.h"
+#include "CollisionManager.h"
 #include "GameObject.h"
 
-TractorBeamComponent::TractorBeamComponent()
+TractorBeamComponent::TractorBeamComponent(float lifeTime)
+	:m_LifeTime{lifeTime}
 {
 }
 
@@ -20,4 +22,6 @@ void TractorBeamComponent::Update()
 		m_TractorBeamAnimation->NextFrame();
 	}
 
+	if (m_LifeTime >= 0) m_LifeTime -= SystemTime::GetInstance().GetDeltaTime();
+	else m_pGameObject->SetMarkedForDelete(true);
 }

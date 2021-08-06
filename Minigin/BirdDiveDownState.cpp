@@ -7,8 +7,12 @@
 #include "Scene.h"
 #include "TransformComponent.h"
 #include "BirdMovementComponent.h"
-#include "TractorBeamComponent.h"
+#include "TractorBeamDangerComponent.h"
 #include "CollisionManager.h"
+
+#include "Texture2DComponent.h"
+#include "SpriteAnimComponent.h"
+#include "RenderComponent.h"
 
 BirdDiveDownState::BirdDiveDownState(float speed)
 	:m_Speed{speed}
@@ -24,24 +28,84 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 		CreatePaths(enemy);
 	}
 
+	TractorBeamAttack(enemy);
+
 	if (BirdDiveDown(enemy)) return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
 
 	return nullptr;
 }
 
-void BirdDiveDownState::ActivateTractorBeam()
+void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 {
-	//glm::vec3 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+	if (m_TractorBeamActivated)
+	{
+		//waves lifetime: 1st = 0-6, 2nd = 1-5, 3rd = 2-4
+		if (m_TractorBeamTimer <= m_TractorBeamTime)
+		{
+			
+			if (m_TractorBeamStage == TractorBeamStage::stage0)
+			{
+				auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+				float scale = scene->GetSceneScale();
+				glm::vec3 enemyPos = enemy->GetComponent<TransformComponent>()->GetTransform().GetPosition();
+				int enemyHeight = enemy->GetComponent<TransformComponent>()->GetRect().h;
 
-	auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+				auto tractorBeam = std::make_shared<GameObject>("TractorBeam");
+				tractorBeam->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + enemyHeight, 0)));
+				tractorBeam->AddComponent(new Texture2DComponent("TractorBeam1.png", scale));
+				tractorBeam->AddComponent(new SpriteAnimComponent(3));
+				tractorBeam->AddComponent(new TractorBeamComponent(6));
+				tractorBeam->AddComponent(new RenderComponent());
+				scene->Add(tractorBeam);
+
+				m_TractorBeamStage = TractorBeamStage::stage1;
+			}
+			else if (m_TractorBeamStage == TractorBeamStage::stage1 && m_TractorBeamTimer >= 1.f)
+			{
+				auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+				float scale = scene->GetSceneScale();
+				glm::vec3 enemyPos = enemy->GetComponent<TransformComponent>()->GetTransform().GetPosition();
+				int enemyHeight = enemy->GetComponent<TransformComponent>()->GetRect().h;
+				float firstWaveHeight = 18.f;
+
+				auto tractorBeam = std::make_shared<GameObject>("TractorBeam");
+				tractorBeam->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + enemyHeight + (firstWaveHeight * scale), 0)));
+				tractorBeam->AddComponent(new Texture2DComponent("TractorBeam2.png", scale));
+				tractorBeam->AddComponent(new SpriteAnimComponent(3));
+				tractorBeam->AddComponent(new TractorBeamComponent(4));
+				tractorBeam->AddComponent(new RenderComponent());
+				scene->Add(tractorBeam);
+
+				m_TractorBeamStage = TractorBeamStage::stage2;
+			}
+			else if (m_TractorBeamStage == TractorBeamStage::stage2 && m_TractorBeamTimer >= 2.f)
+			{
+				auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+				float scale = scene->GetSceneScale();
+				glm::vec3 enemyPos = enemy->GetComponent<TransformComponent>()->GetTransform().GetPosition();
+				int enemyHeight = enemy->GetComponent<TransformComponent>()->GetRect().h;
+				float firstWaveHeight = 18.f;
+				float secondWaveHeight = 16.f;
 
 
-	auto tractorBeam = std::make_shared<GameObject>("TractorBeam");
-	//tractorBeam->AddComponent(new TransformComponent(glm::vec3(playerPos.x, playerPos.y - verticalOffset, 0)));
-	//tractorBeam->AddComponent(new RenderComponent());
-	scene->Add(tractorBeam);
-	CollisionManager::GetInstance().AddGameObjectForCheck(tractorBeam);
+				auto tractorBeam = std::make_shared<GameObject>("TractorBeam");
+				tractorBeam->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + enemyHeight + ((firstWaveHeight + secondWaveHeight) * scale), 0)));
+				tractorBeam->AddComponent(new Texture2DComponent("TractorBeam3.png", scale));
+				tractorBeam->AddComponent(new SpriteAnimComponent(3));
+				tractorBeam->AddComponent(new TractorBeamComponent(2));
+				tractorBeam->AddComponent(new RenderComponent());
+				scene->Add(tractorBeam);
+				m_TractorBeamStage = TractorBeamStage::stage3;
+				//CollisionManager::GetInstance().AddGameObjectForCheck(tractorBeam);
+			}
+		}
+		else
+		{
+			m_TractorBeamActivated = false;//TODO: check if needed
+		}
 
+	}
+	
 }
 
 void BirdDiveDownState::CreatePaths(GameObject* enemy)
@@ -85,7 +149,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 		path->AddCurve({ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
-			glm::vec2{playerPos.x, playerPos.y - (screenHeight / 8) } },
+			glm::vec2{playerPos.x, playerPos.y } },
 			15);
 		path->Sample(&m_Path, 0);
 

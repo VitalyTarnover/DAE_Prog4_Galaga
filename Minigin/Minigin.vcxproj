@@ -240,6 +240,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="RocketManager.h" />
     <ClInclude Include="RocketMovementComponent.h" />
     <ClInclude Include="TractorBeamComponent.h" />
+    <ClInclude Include="TractorBeamDangerComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEnemyMovementComponent.cpp" />
@@ -276,6 +277,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="RocketManager.cpp" />
     <ClCompile Include="RocketMovementComponent.cpp" />
     <ClCompile Include="TractorBeamComponent.cpp" />
+    <ClCompile Include="TractorBeamDangerComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TVDengine\TVDengine.vcxproj">

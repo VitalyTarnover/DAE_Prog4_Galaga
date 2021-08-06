@@ -3,15 +3,14 @@
 
 class SpriteAnimComponent;
 
-class TractorBeamComponent final : public BaseComponent
+class TractorBeamComponent : public BaseComponent
 {
 public:
+	TractorBeamComponent(float lifeTime);
+	virtual void Update() override;
 
-	TractorBeamComponent();
-	void Update() override;
-
-private:
+protected:
 	SpriteAnimComponent* m_TractorBeamAnimation = nullptr;
-	
+	float m_LifeTime;
 };
 

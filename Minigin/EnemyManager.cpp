@@ -64,7 +64,7 @@ void EnemyManager::Update()
 				(275.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (5 + m_BeeInfo.back()[2]) )));
 				scene->Add(enemyShip);
 				m_Enemies.push_back(enemyShip);
-				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BeeInfo.pop_back();
 			}
 			else if (m_BFInfo.size() > 0)
@@ -79,13 +79,13 @@ void EnemyManager::Update()
 					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (3 + m_BFInfo.back()[2]))));
 				scene->Add(enemyShip);
 				m_Enemies.push_back(enemyShip);
-				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BFInfo.pop_back();
 			}
 			else if (m_BirdInfo.size() > 0)
 			{
 				auto enemyShip = std::make_shared<GameObject>("Bird");
-				enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
 				enemyShip->AddComponent(new RenderComponent());
 				enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
 				enemyShip->AddComponent(new SpriteAnimComponent(4));
@@ -94,7 +94,7 @@ void EnemyManager::Update()
 					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9 )));
 				scene->Add(enemyShip);
 				m_Enemies.push_back(enemyShip);
-				CollisionManager::GetInstance().AddGameObjectForCheck(true, enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BirdInfo.pop_back();
 			}
 
