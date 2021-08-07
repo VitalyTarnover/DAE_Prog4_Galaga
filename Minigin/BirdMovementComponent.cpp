@@ -26,12 +26,6 @@ void BirdMovementComponent::Update()
 {
 	BaseEnemyMovementComponent::Update();
 	HandleCapturedFighter();
-	//BaseEnemyState* state = m_CurrentState->Update(m_pGameObject);
-	//if (state != nullptr)
-	//{
-	//	delete m_CurrentState;
-	//	m_CurrentState = state;
-	//}
 }
 
 void BirdMovementComponent::HandleCapturedFighter()
@@ -43,6 +37,16 @@ void BirdMovementComponent::HandleCapturedFighter()
 			glm::vec3 birdCenterPos = m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition();
 			int birdHeight = m_pGameObject->GetComponent<TransformComponent>()->GetRect().h;
 			m_pCapturedFighter->GetComponent<TransformComponent>()->SetCenterPosition(glm::vec3(birdCenterPos.x, birdCenterPos.y - birdHeight / 2, birdCenterPos.z));
+
+			if (m_CapturedFighterShootingTimer <= m_CapturedFighterShootingTime)
+			{
+				m_CapturedFighterShootingTimer += SystemTime::GetInstance().GetDeltaTime();
+			}
+			else
+			{
+				m_CapturedFighterShootingTimer = 0;
+				ShootARocket();
+			}
 		}
 		else
 		{

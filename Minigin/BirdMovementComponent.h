@@ -16,9 +16,14 @@ public:
 	void FighterCaptured() { m_HasFighterCaptured = true; };
 
 	void HandleCapturedFighter();
+
+	bool GetHasFighterCaptured() const { return m_HasFighterCaptured; };
 private:
 	bool m_BombingAttack = false;//so by default if it is picked it will tractor beam attack
 	bool m_HasFighterCaptured = false;
+
+	float m_CapturedFighterShootingTime = 3.f;
+	float m_CapturedFighterShootingTimer = 0.f;
 
 	std::shared_ptr<GameObject> m_pCapturedFighter = nullptr;
 

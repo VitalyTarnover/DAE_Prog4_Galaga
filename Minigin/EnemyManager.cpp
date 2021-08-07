@@ -174,8 +174,7 @@ void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
 
 }
 
-void EnemyManager::SendRandomEnemyToAttack()//TODO: the birs actually wait for each other to end attack and instead of randomly picking
-//way of attacking they alternate: 1 time bomb run, 1 time tractor beam and so on
+void EnemyManager::SendRandomEnemyToAttack()
 {
 	if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
 	else
@@ -186,7 +185,6 @@ void EnemyManager::SendRandomEnemyToAttack()//TODO: the birs actually wait for e
 		{
 			int randomEnemyIndex = rand() % m_Enemies.size();
 			BaseEnemyMovementComponent* enemyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>();
-
 
 			int birdCompanionIndex = enemyMovement->GetBirdCompanionIndex();
 
@@ -208,7 +206,9 @@ void EnemyManager::SendRandomEnemyToAttack()//TODO: the birs actually wait for e
 
 				if (birdMovementComponent)//if it is a bird it is either goes solo tractor-attacking or bombing but with 2 butterflies
 				{
-					int birdAttackType = rand() % 2;
+					int birdAttackType;
+					if (!birdMovementComponent->GetHasFighterCaptured()) birdAttackType = rand() % 2;
+					else birdAttackType = 0;
 
 					if (birdAttackType == 0)
 					{
