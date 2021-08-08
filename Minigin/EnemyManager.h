@@ -2,11 +2,12 @@
 #include "Singleton.h"
 #include <vector>
 #include "glm/vec2.hpp"
-#include "Event.h"
+
 
 //states: building formation, battle
 
 class GameObject;
+
 
 class EnemyManager final : public dae::Singleton<EnemyManager>//, public IEventHandler
 {
@@ -26,6 +27,7 @@ public:
 	void AnEnemyReachedPositionInFormation();
 
 	void SetWaitingForPlayerToRespawn(bool waiting);
+
 private:
 	void ShootersShoot();
 	bool m_WaitingForPlayerToRespawn = false;

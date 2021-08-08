@@ -43,7 +43,7 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 		if (m_TractorBeamTimer <= m_TractorBeamTime)
 		{
 			
-			if (m_TractorBeamStage == TractorBeamStage::stage0)
+			if (m_TractorBeamStage == TractorBeamStage::Stage0)
 			{
 				auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
 				float scale = scene->GetSceneScale();
@@ -59,9 +59,9 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 				tractorBeam->AddComponent(new RenderComponent());
 				scene->Add(tractorBeam);
 
-				m_TractorBeamStage = TractorBeamStage::stage1;
+				m_TractorBeamStage = TractorBeamStage::Stage1;
 			}
-			else if (m_TractorBeamStage == TractorBeamStage::stage1 && m_TractorBeamTimer >= 1.f)
+			else if (m_TractorBeamStage == TractorBeamStage::Stage1 && m_TractorBeamTimer >= 1.f)
 			{
 				auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
 				float scale = scene->GetSceneScale();
@@ -79,9 +79,9 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 				tractorBeam->AddComponent(new RenderComponent());
 				scene->Add(tractorBeam);
 
-				m_TractorBeamStage = TractorBeamStage::stage2;
+				m_TractorBeamStage = TractorBeamStage::Stage2;
 			}
-			else if (m_TractorBeamStage == TractorBeamStage::stage2 && m_TractorBeamTimer >= 2.f)
+			else if (m_TractorBeamStage == TractorBeamStage::Stage2 && m_TractorBeamTimer >= 2.f)
 			{
 				auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
 				float scale = scene->GetSceneScale();
@@ -100,7 +100,7 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 				tractorBeam->GetComponent<TractorBeamDangerComponent>()->SetBirdOwner(enemy);
 				tractorBeam->AddComponent(new RenderComponent());
 				scene->Add(tractorBeam);
-				m_TractorBeamStage = TractorBeamStage::stage3;
+				m_TractorBeamStage = TractorBeamStage::Stage3;
 				CollisionManager::GetInstance().AddGameObjectForCheck(tractorBeam);
 			}
 		}

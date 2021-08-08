@@ -12,7 +12,7 @@ void Event::RemoveHandler(IEventHandler* handler)
 	//loop that checks if such thingy actually exists there... which prevents crash i guess;
 }
 
-void Event::Notify()
+void Event::Notify(std::string argument)
 {
-	for (size_t i = 0; i < m_Handlers.size(); i++) m_Handlers[i]->OnEvent();
+	for (size_t i = 0; i < m_Handlers.size(); i++) m_Handlers[i]->OnEvent(argument);
 }

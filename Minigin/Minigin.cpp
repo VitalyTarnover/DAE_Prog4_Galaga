@@ -17,6 +17,8 @@
 #include "EnemyManager.h"
 #include "ExplosionManager.h"
 
+#include "GalagaFileReader.h"
+
 //Input
 #include "Commands.h"
 #include "AnalogStickCommand.h"
@@ -40,6 +42,7 @@
 
 //will be moved to loader
 #include "LivesObserver.h"
+#include "Event.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -225,21 +228,21 @@ void dae::Minigin::LoadGame() const
 
 
 
-	std::vector<std::vector<int>> beeInfo{};
-	std::vector<std::vector<int>> bFInfo{};
-	std::vector<std::vector<int>> birdInfo{};
-
-	int birdsXPosDivisor = 9;
-	for (int i = 0; i < 3; i++)//Birds
-	{
-		std::vector<int> newbirdInfo{};
-		newbirdInfo.push_back(i + 3);//4 5 6
-		newbirdInfo.push_back(birdsXPosDivisor);
-		newbirdInfo.push_back(i + 1);
-
-		birdInfo.push_back(newbirdInfo);
-	}
-
+	//std::vector<std::vector<int>> beeInfo{};
+	//std::vector<std::vector<int>> bFInfo{};
+	//std::vector<std::vector<int>> birdInfo{};
+	//
+	//int birdsXPosDivisor = 9;
+	//for (int i = 0; i < 3; i++)//Birds
+	//{
+	//	std::vector<int> newbirdInfo{};
+	//	newbirdInfo.push_back(i + 3);//4 5 6
+	//	newbirdInfo.push_back(birdsXPosDivisor);
+	//	newbirdInfo.push_back(i + 1);
+	//
+	//	birdInfo.push_back(newbirdInfo);
+	//}
+	//
 	//int bfXPosDivisor = 12;
 	//for (int i = 0; i < 10; i++)//BFs
 	//{
@@ -270,8 +273,12 @@ void dae::Minigin::LoadGame() const
 
 	CollisionManager::GetInstance().SetPlayersCollisions();
 
-	EnemyManager::GetInstance().SpawnEnemies(beeInfo, bFInfo, birdInfo);
+	GalagaFileReader* gfr = new GalagaFileReader();
+	gfr->ReadLevelInfo("Resources/Level1.txt");
 
+	EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo());
+
+	delete gfr;
 }
 
 void dae::Minigin::Cleanup()

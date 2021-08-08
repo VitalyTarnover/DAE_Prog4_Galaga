@@ -3,10 +3,10 @@
 
 enum class TractorBeamStage
 {
-	stage0,
-	stage1,
-	stage2,
-	stage3
+	Stage0,
+	Stage1,
+	Stage2,
+	Stage3
 };
 
 class BirdDiveDownState : public BaseEnemyState
@@ -29,6 +29,6 @@ private:
 	float m_TractorBeamTimer = 0.0f;
 	float m_TractorBeamTime = 6.0f;
 
-	TractorBeamStage m_TractorBeamStage = TractorBeamStage::stage0;
+	TractorBeamStage m_TractorBeamStage = TractorBeamStage::Stage0;
 };
 

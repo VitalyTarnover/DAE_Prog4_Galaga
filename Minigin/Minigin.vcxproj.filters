@@ -37,6 +37,9 @@
     <Filter Include="GalagaComponents\Movement\Enemy\States">
       <UniqueIdentifier>{d6a24acc-b5fe-4046-99b4-ebe187427d83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GalagaFileReader">
+      <UniqueIdentifier>{146509dc-e941-42e3-8d3d-6ce06de85ff2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -132,6 +135,12 @@
     <ClInclude Include="TractorBeamDangerComponent.h">
       <Filter>GalagaComponents</Filter>
     </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GalagaFileReader.h">
+      <Filter>GalagaFileReader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -219,7 +228,13 @@
       <Filter>GalagaComponents</Filter>
     </ClCompile>
     <ClCompile Include="TractorBeamDangerComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GalagaComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GalagaFileReader.cpp">
+      <Filter>GalagaFileReader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
