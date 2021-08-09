@@ -204,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioLocator.cpp" />
-    <ClCompile Include="AudioService.cpp" />
     <ClCompile Include="AudioServiceProvider.cpp" />
     <ClCompile Include="BaseAnalogStickCommand.cpp" />
     <ClCompile Include="BaseAnalogTriggerCommand.cpp" />

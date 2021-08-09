@@ -2,7 +2,7 @@
 #include "AudioService.h"
 #include "AudioNullService.h"
 
-class AudioLocator //here was final for some reason
+class AudioLocator
 {
 public:
 	static void SetAudioService(AudioService* ss);

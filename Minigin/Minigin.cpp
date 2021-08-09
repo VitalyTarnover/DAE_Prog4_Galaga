@@ -90,7 +90,7 @@ void dae::Minigin::Initialize()
 
 
 	AudioLocator::SetAudioService(new AudioServiceProvider());
-	AudioLocator::GetAudioService().AddSoundToLibrary(AudioService::SoundNames::DiscSFX, "Resources/QbertDiscSFX.wav");
+	AudioLocator::GetAudioService().AddSoundToLibrary("someSound", "Resources/QbertDiscSFX.wav", false);
 	
 }
 
@@ -319,7 +319,7 @@ void dae::Minigin::Run()
 
 	std::thread audioThread(&AudioService::Update, &AudioLocator::GetAudioService());
 
-	AudioLocator::GetAudioService().QueueSound(AudioService::SoundNames::DiscSFX, 30.f);
+	AudioLocator::GetAudioService().QueueSound("someSound", 30.f);
 
 	while (doContinue)
 	{

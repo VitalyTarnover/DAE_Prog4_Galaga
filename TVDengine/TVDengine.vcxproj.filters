@@ -200,9 +200,6 @@
     <ClCompile Include="AudioLocator.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
-    <ClCompile Include="AudioService.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
     <ClCompile Include="AudioServiceProvider.cpp">
       <Filter>Audio</Filter>
     </ClCompile>

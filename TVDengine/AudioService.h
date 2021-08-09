@@ -4,25 +4,10 @@
 class AudioService
 {
 public:
-	enum class SoundNames
-	{
-		JumpSFX,
-		FallSFX,
-		DiscSFX,
-		LevelCompleteSFX,
-	};
-
-	enum class MusicNames
-	{
-		Background01,
-		Background02
-	};
-
 	struct SoundUnit
 	{
-		int id;
+		std::string id;
 		float volume;
-		bool music;
 	};
 
 	virtual ~AudioService() = default;
@@ -33,11 +18,9 @@ public:
 	AudioService(AudioService&&) = delete;
 	AudioService& operator= (AudioService&&) = delete;
 
-	virtual void QueueSound(const SoundNames&, float = 1.0f) = 0;
-	virtual void QueueSound(const MusicNames&, float = 1.0f) = 0;
+	virtual void QueueSound(const std::string&, float volume = 1.0f) = 0;
 
-	virtual void AddSoundToLibrary(const SoundNames&, const std::string&) = 0;
-	virtual void AddSoundToLibrary(const MusicNames&, const std::string&) = 0;
+	virtual void AddSoundToLibrary(const std::string&, const std::string&, bool) = 0;
 
 	virtual void Update() = 0;
 
@@ -45,8 +28,7 @@ public:
 
 protected:
 
-	virtual void Play(const SoundNames&, float volume = 1.0f) = 0;
-	virtual void Play(const MusicNames&, float volume = 1.0f) = 0;
+	virtual void Play(const std::string&, float volume = 1.0f) = 0;
 
 	//virtual void StopAllSoundEffects() = 0;
 	//virtual void StopSoundStream(SoundNames ) = 0;
