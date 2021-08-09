@@ -10,7 +10,6 @@
 #include "Scene.h"
 #include "SystemTime.h"
 
-
 //Managers
 #include "InputManager.h"
 #include "CollisionManager.h"
@@ -40,6 +39,11 @@
 #include "TractorBeamDangerComponent.h"
 #include "GalagaBackgroundComponent.h"
 
+//Audio
+#include "AudioLocator.h"
+#include "AudioServiceProvider.h"
+
+
 //will be moved to loader
 #include "LivesObserver.h"
 #include "Event.h"
@@ -57,12 +61,12 @@ void dae::Minigin::Initialize()
 	if (SDL_Init(SDL_INIT_AUDIO) != 0)
 		throw std::runtime_error(std::string("SDL_Init_Audio Error: ") + SDL_GetError());
 
-	//int frequency = 44100;
-	//int chunkSize = 2048;
-	//int channels = 2;
+	int frequency = 44100;
+	int chunkSize = 2048;
+	int channels = 2;
 
-	//if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, chunkSize) < 0)
-	//	throw std::runtime_error(std::string("SDL_Audio Error: ") + Mix_GetError());
+	if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, chunkSize) < 0)
+		throw std::runtime_error(std::string("SDL_Audio Error: ") + Mix_GetError());
 
 	m_WindowWidth = 1280;
 	m_WindowHeight = 720;
@@ -83,6 +87,10 @@ void dae::Minigin::Initialize()
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+
+
+	AudioLocator::SetAudioService(new AudioServiceProvider());
+	AudioLocator::GetAudioService().AddSoundToLibrary(AudioService::SoundNames::DiscSFX, "Resources/QbertDiscSFX.wav");
 	
 }
 
@@ -274,7 +282,7 @@ void dae::Minigin::LoadGame() const
 	CollisionManager::GetInstance().SetPlayersCollisions();
 
 	GalagaFileReader* gfr = new GalagaFileReader();
-	gfr->ReadLevelInfo("Resources/Level1.txt");
+	gfr->ReadLevelInfo("Resources/Level1.bin");
 
 	EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo());
 
@@ -286,8 +294,8 @@ void dae::Minigin::Cleanup()
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
-	//AudioLocator::Reset();
-	//Mix_Quit();
+	AudioLocator::Reset();
+	Mix_Quit();
 	SDL_Quit();
 }
 
@@ -309,7 +317,9 @@ void dae::Minigin::Run()
 
 	BindCommands();
 
+	std::thread audioThread(&AudioService::Update, &AudioLocator::GetAudioService());
 
+	AudioLocator::GetAudioService().QueueSound(AudioService::SoundNames::DiscSFX, 30.f);
 
 	while (doContinue)
 	{
@@ -334,6 +344,7 @@ void dae::Minigin::Run()
 		std::this_thread::sleep_for(std::chrono::milliseconds(int(duration<float>(currentTime - high_resolution_clock::now()).count()) + m_MsPerFrame ));
 	}
 
+	audioThread.detach();
 	Cleanup();
 }
 

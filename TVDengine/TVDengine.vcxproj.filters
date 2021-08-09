@@ -22,6 +22,9 @@
     <Filter Include="ObserverV2">
       <UniqueIdentifier>{06e4b3a5-ba59-4d64-be34-30e6d8adc8aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{44a044a6-6935-4f04-bdde-19dcdbb81184}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -108,6 +111,18 @@
     <ClInclude Include="RenderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="AudioLocator.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioNullService.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioService.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioServiceProvider.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TVDengine.cpp">
@@ -181,6 +196,15 @@
     </ClCompile>
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLocator.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioService.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioServiceProvider.cpp">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -169,6 +169,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AudioLocator.h" />
+    <ClInclude Include="AudioNullService.h" />
+    <ClInclude Include="AudioService.h" />
+    <ClInclude Include="AudioServiceProvider.h" />
     <ClInclude Include="BaseAnalogStickCommand.h" />
     <ClInclude Include="BaseAnalogTriggerCommand.h" />
     <ClInclude Include="BaseCommand.h" />
@@ -199,6 +203,9 @@
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioLocator.cpp" />
+    <ClCompile Include="AudioService.cpp" />
+    <ClCompile Include="AudioServiceProvider.cpp" />
     <ClCompile Include="BaseAnalogStickCommand.cpp" />
     <ClCompile Include="BaseAnalogTriggerCommand.cpp" />
     <ClCompile Include="BaseCommand.cpp" />
