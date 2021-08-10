@@ -67,8 +67,12 @@ void BirdMovementComponent::HandleCapturedFighter()
 			m_pCapturedFighter = capturedFighter;
 		}
 	}
-	
+}
 
+void BirdMovementComponent::Hurt()
+{
+	if (!m_IsHurt) m_IsHurt = true;
+	else Die();
 }
 
 

@@ -24,4 +24,6 @@ void TractorBeamComponent::Update()
 
 	if (m_LifeTime >= 0) m_LifeTime -= SystemTime::GetInstance().GetDeltaTime();
 	else m_pGameObject->SetMarkedForDelete(true);
+
+	if (m_BirdOwner->GetMarkedForDelete())m_pGameObject->SetMarkedForDelete(true);
 }

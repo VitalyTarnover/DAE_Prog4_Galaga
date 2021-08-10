@@ -11,7 +11,7 @@ public:
 
 	void Update() override;
 private:
-	bool m_TestBool = false; 
+	bool m_TestBool = false; //TODO: what is that?
 	std::vector<glm::vec2> m_Path;
 
 	glm::vec2 m_PosInFormation;

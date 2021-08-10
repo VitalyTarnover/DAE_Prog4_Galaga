@@ -141,6 +141,9 @@
     <ClInclude Include="GalagaFileReader.h">
       <Filter>GalagaFileReader</Filter>
     </ClInclude>
+    <ClInclude Include="BirdInFormationState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="GalagaFileReader.cpp">
       <Filter>GalagaFileReader</Filter>
+    </ClCompile>
+    <ClCompile Include="BirdInFormationState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

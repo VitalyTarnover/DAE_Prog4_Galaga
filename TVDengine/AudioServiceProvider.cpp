@@ -49,9 +49,7 @@ void AudioServiceProvider::Update()
 			std::unique_lock<std::mutex> mLock{ m_Mutex };
 			SoundUnit ps = m_SoundQueue.front();
 			m_SoundQueue.pop();
-
 			Play(ps.id, ps.volume);
-			
 		}
 		std::unique_lock<std::mutex> guard{ m_Mutex };
 		m_QueueActive.wait(guard);

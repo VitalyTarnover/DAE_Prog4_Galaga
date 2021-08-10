@@ -29,7 +29,7 @@ glm::vec2 BaseEnemyMovementComponent::GetPosInFormation()
 	return m_PosInFormation;
 }
 
-float BaseEnemyMovementComponent::GetSpeed()
+float BaseEnemyMovementComponent::GetSpeed() const
 {
 	return m_Speed;
 }

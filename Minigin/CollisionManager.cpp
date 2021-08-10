@@ -150,13 +150,19 @@ void CollisionManager::Update()
 				{
 					if (CheckIfCollide(rocketRect, m_pEnemiesForCheck[j]->GetComponent<TransformComponent>()->GetRect()))
 					{
-						EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[j]);
-						if(!m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->GetIsInFormation())
-							EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
-
-						m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die();
+						BirdMovementComponent* enemyBird = m_pEnemiesForCheck[j]->GetComponent<BirdMovementComponent>();
 						
-						m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
+						if (enemyBird) enemyBird->Hurt();
+
+						if (!enemyBird || (enemyBird && m_pEnemiesForCheck[j]->GetMarkedForDelete()))
+						{
+							EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[j]);
+							if (!m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->GetIsInFormation())
+								EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
+
+							m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die();
+							m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
+						}
 
 						m_pRocketsForCheck[i]->SetMarkedForDelete(true);
 						m_pRocketsForCheck[i] = nullptr;
@@ -165,6 +171,8 @@ void CollisionManager::Update()
 						RocketManager::GetInstance().ReduceActiveRocketsNumber();//TODO: can be done with an observer as well
 
 						break;
+
+						
 					}
 				}
 

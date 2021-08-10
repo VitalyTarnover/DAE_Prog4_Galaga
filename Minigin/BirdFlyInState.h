@@ -11,6 +11,9 @@ private:
 	int m_CurrentWaypoint;
 	float m_Speed;
 
+	bool m_SpriteOffset = false;
+
+	void SetSpriteState(GameObject* enemy);
 	void CreatePaths(GameObject* enemy);
 	void BirdFlyIn(GameObject* enemy);
 

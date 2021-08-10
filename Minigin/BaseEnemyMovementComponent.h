@@ -10,7 +10,7 @@ class BaseEnemyMovementComponent : public BaseComponent //TODO: rename this clas
 public:
 	BaseEnemyMovementComponent(float speed, int birdCompanionIndex = -1, glm::vec2 posInFormation = glm::vec2{ 200,200 });//TODO: get rid of these nasty numbers after all the tests
 	virtual ~BaseEnemyMovementComponent();
-	float GetSpeed();
+	float GetSpeed() const;//TODO: is it required?
 	glm::vec2 GetPosInFormation();
 	virtual void Update();
 	void Switch();
@@ -19,7 +19,11 @@ public:
 
 	bool GetIsInFormation() const;
 	void SetIsInFormation(bool inFormation);
+	
 	int GetBirdCompanionIndex() { return m_BirdCompanionIndex; }
+
+
+	BaseEnemyState* GetCurrentState() const { return m_CurrentState; };
 
 protected:
 	BaseEnemyState* m_CurrentState;

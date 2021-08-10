@@ -18,7 +18,13 @@ public:
 	void HandleCapturedFighter();
 
 	bool GetHasFighterCaptured() const { return m_HasFighterCaptured; };
+
+	bool GetIsHurt() const { return m_IsHurt; };
+	void Hurt();
 private:
+
+	bool m_IsHurt = false;
+
 	bool m_BombingAttack = false;//so by default if it is picked it will tractor beam attack
 	bool m_HasFighterCaptured = false;
 

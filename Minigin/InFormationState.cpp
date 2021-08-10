@@ -19,16 +19,10 @@ InFormationState::InFormationState()
 
 BaseEnemyState* InFormationState::Update(GameObject* enemy)
 {
-	if (!m_StepSizeInitialized)//TODO: test out, mby we will have to use bool
-	{
-		const auto& trc = enemy->GetComponent<TransformComponent>();
-		int stepDivisor = 40;
-		m_StepSize = abs(int(trc->GetCenterPosition().x) - dae::SceneManager::GetInstance().GetScreenWidth() / 2) / stepDivisor;
-		m_StepSizeInitialized = true;
-	}
-
+	InitializeStepSize(enemy);
 	Patrol(enemy);
-
+	SetSpriteState(enemy);
+	
 	float diveDownSpeed = 300;
 	
 	if (m_Switch)
@@ -37,13 +31,18 @@ BaseEnemyState* InFormationState::Update(GameObject* enemy)
 
 		if(enemyType == "Bee") return new BeeDiveDownState(diveDownSpeed);
 		else if(enemyType == "BF") return new BFDiveDownState(diveDownSpeed);
-		else if (enemyType == "Bird")return new BirdDiveDownState(diveDownSpeed);
-		
+		//else if (enemyType == "Bird")return new BirdDiveDownState(diveDownSpeed);
 	}
 
 	return nullptr;
 }
 
+
+void InFormationState::SetSpriteState(GameObject* enemy)
+{
+	int currentStep = EnemyManager::GetInstance().GetPatrolStep();
+	enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2));
+}
 
 void InFormationState::Patrol(GameObject* enemy)
 {
@@ -57,6 +56,15 @@ void InFormationState::Patrol(GameObject* enemy)
 		trc->SetCenterPosition(glm::vec3{ posInFormation.x + m_StepSize * currentStep, trc->GetCenterPosition().y, trc->GetCenterPosition().z });
 	else 
 		trc->SetCenterPosition(glm::vec3{ posInFormation.x - m_StepSize * currentStep, trc->GetCenterPosition().y, trc->GetCenterPosition().z });
+}
 
-	enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2));
+void InFormationState::InitializeStepSize(GameObject* enemy)
+{
+	if (!m_StepSizeInitialized)//TODO: test out, mby we will have to use bool
+	{
+		const auto& trc = enemy->GetComponent<TransformComponent>();
+		int stepDivisor = 40;
+		m_StepSize = abs(int(trc->GetCenterPosition().x) - dae::SceneManager::GetInstance().GetScreenWidth() / 2) / stepDivisor;
+		m_StepSizeInitialized = true;
+	}
 }

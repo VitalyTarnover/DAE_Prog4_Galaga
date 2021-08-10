@@ -1,12 +1,13 @@
 #include "MiniginPCH.h"
 #include "BirdFlyInState.h"
-#include "InFormationState.h"
+#include "BirdInFormationState.h"
 #include "BezierPath.h"
 #include "SceneManager.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "SpriteAnimComponent.h"
 #include "EnemyManager.h"
+#include "BirdMovementComponent.h"
 
 BirdFlyInState::BirdFlyInState(float speed, int stepSize)
 	:BaseEnemyState()
@@ -22,15 +23,26 @@ BaseEnemyState* BirdFlyInState::Update(GameObject* enemy)
 	{
 		CreatePaths(enemy);
 	}
-
+	SetSpriteState(enemy);
 	BirdFlyIn(enemy);
 
 	if (m_Switch)
 	{
-		return new InFormationState();
+		return new BirdInFormationState();
 	}
 
 	return nullptr;
+}
+
+void BirdFlyInState::SetSpriteState(GameObject* enemy)
+{
+	bool spriteOffset = enemy->GetComponent<BirdMovementComponent>()->GetIsHurt();
+
+	if (spriteOffset != m_SpriteOffset)
+	{
+		enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(2);
+		m_SpriteOffset = spriteOffset;
+	}
 }
 
 void BirdFlyInState::CreatePaths(GameObject* enemy)
@@ -97,8 +109,9 @@ void BirdFlyInState::BirdFlyIn(GameObject* enemy)
 
 		trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x - (currentStep * m_StepSize),m_Path[m_Path.size() - 1].y, 0 });//set position to final point
 
-		enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2));
-
+		bool spriteOffset = enemy->GetComponent<BirdMovementComponent>()->GetIsHurt();
+		enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2) + (spriteOffset * 2));
 	}
 
 }
+

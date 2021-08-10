@@ -1,6 +1,6 @@
 #include "MiniginPCH.h"
 #include "BirdDiveDownState.h"
-#include "InFormationState.h"
+#include "BirdInFormationState.h"
 #include "GameObject.h"
 #include "BezierPath.h"
 #include "SceneManager.h"
@@ -29,10 +29,23 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 	}
 
 	TractorBeamAttack(enemy);
+	SetSpriteState(enemy);
 
-	if (BirdDiveDown(enemy)) return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+
+	if (BirdDiveDown(enemy)) return new BirdInFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
 
 	return nullptr;
+}
+
+void BirdDiveDownState::SetSpriteState(GameObject* enemy)
+{
+	bool spriteOffset = enemy->GetComponent<BirdMovementComponent>()->GetIsHurt();
+
+	if (spriteOffset != m_SpriteOffset)
+	{
+		enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(2);
+		m_SpriteOffset = spriteOffset;
+	}
 }
 
 void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
@@ -56,6 +69,7 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 				tractorBeam->AddComponent(new Texture2DComponent("TractorBeam1.png", scale));
 				tractorBeam->AddComponent(new SpriteAnimComponent(3));
 				tractorBeam->AddComponent(new TractorBeamComponent(6));
+				tractorBeam->GetComponent<TractorBeamComponent>()->SetBirdOwner(enemy);
 				tractorBeam->AddComponent(new RenderComponent());
 				scene->Add(tractorBeam);
 
@@ -76,6 +90,7 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 				tractorBeam->AddComponent(new Texture2DComponent("TractorBeam2.png", scale));
 				tractorBeam->AddComponent(new SpriteAnimComponent(3));
 				tractorBeam->AddComponent(new TractorBeamComponent(4));
+				tractorBeam->GetComponent<TractorBeamComponent>()->SetBirdOwner(enemy);
 				tractorBeam->AddComponent(new RenderComponent());
 				scene->Add(tractorBeam);
 

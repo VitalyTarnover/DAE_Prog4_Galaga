@@ -16,5 +16,4 @@ void BaseEnemyState::Die(GameObject* enemy)
 {
 	enemy->SetMarkedForDelete(true);
 	enemy = nullptr;
-
 }
