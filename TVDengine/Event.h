@@ -11,10 +11,9 @@ public:
     virtual void OnEvent(GameObject* actor, const std::string& argument) = 0;
 };
 
-
 class Event 
 {
-    std::vector<std::shared_ptr<IEventHandler>> m_Handlers;
+    std::vector<std::shared_ptr<IEventHandler>> m_pHandlers;
 public:
     void AddHandler(std::shared_ptr<IEventHandler> handler);
     void RemoveHandler(std::shared_ptr<IEventHandler> handler);

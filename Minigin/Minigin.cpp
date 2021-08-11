@@ -39,10 +39,14 @@
 #include "TractorBeamDangerComponent.h"
 #include "GalagaBackgroundComponent.h"
 
+#include "ScoreComponent.h"
+
 //Audio
 #include "AudioLocator.h"
 #include "AudioServiceProvider.h"
 
+//ObserverV2
+#include "ScoreEventHandler.h"
 
 //will be moved to loader
 #include "LivesObserver.h"
@@ -141,12 +145,13 @@ void dae::Minigin::LoadGame() const
 	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth / 2, m_WindowHeight / 5 * 4, 0), 15.f, 16.f, scene.GetSceneScale(), scene.GetSceneScale()));
 	//playerFighter->AddComponent(new ScoreComponent(0));
 	playerFighter->AddComponent(new PlayerHealthComponent(3));
-	playerFighter->AddWatcher(new LivesObserver());
+	playerFighter->AddWatcher(new LivesObserver());//TODO: ?????
 	//playerFighter->AddWatcher(new ScoreObserver());
 	playerFighter->AddComponent(new RenderComponent());
 	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
 	playerFighter->AddComponent(new SpriteAnimComponent(2));
 	playerFighter->AddComponent(new FighterShipMovementComponent(500));
+	playerFighter->AddComponent(new ScoreComponent());
 	scene.Add(playerFighter);
 	scene.AddPlayer(playerFighter);
 
@@ -300,6 +305,15 @@ void dae::Minigin::LoadGame() const
 	EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo());
 
 	delete gfr;
+
+	std::vector<std::shared_ptr<IEventHandler>> handlers;
+
+	std::shared_ptr<ScoreEventHandler> scoreEventhandler = std::make_shared<ScoreEventHandler>();
+
+	handlers.push_back(scoreEventhandler);
+
+	CollisionManager::GetInstance().InitializeEvents(handlers);
+
 }
 
 void dae::Minigin::Cleanup()

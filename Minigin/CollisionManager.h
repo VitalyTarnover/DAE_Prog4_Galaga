@@ -18,7 +18,7 @@ public:
 	void CleanUp();
 
 	void Update();
-	void InializeEvents(std::vector<std::shared_ptr<IEventHandler>>eventHandlers);
+	void InitializeEvents(std::vector<std::shared_ptr<IEventHandler>>eventHandlers);
 private:
 	bool CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2);
 
