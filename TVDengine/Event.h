@@ -19,7 +19,7 @@ public:
     void AddHandler(std::shared_ptr<IEventHandler> handler);
     void RemoveHandler(std::shared_ptr<IEventHandler> handler);
     void Notify(GameObject* actor, const std::string& argument);
-
+    void ResetHandlers();
 };
 
 

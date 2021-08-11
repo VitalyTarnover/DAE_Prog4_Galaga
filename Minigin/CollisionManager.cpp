@@ -11,10 +11,10 @@
 #include "PlayerHealthComponent.h"
 #include "TractorBeamDangerComponent.h"
 #include "BirdMovementComponent.h"
+#include "ScoreEventHandler.h"
 
 void CollisionManager::AddGameObjectForCheck(const std::shared_ptr<GameObject>& newGameObject)
 {
-
 	std::string objectName = newGameObject->GetName();
 	if (objectName == "Bee" || objectName == "BF" || objectName == "Bird") m_pEnemiesForCheck.push_back(newGameObject);
 	else if (objectName == "Rocket") m_pRocketsForCheck.push_back(newGameObject);
@@ -69,10 +69,14 @@ void CollisionManager::CleanUp()
 	m_FS1 = nullptr;
 	m_FS2 = nullptr;//TODO: Check if it actually must be done. For everything. Those are smart pointers after all...
 
+	m_EventEnemyKilled.ResetHandlers();
+	m_EventPlayerKilled.ResetHandlers();
 }
 
 void CollisionManager::Update()
 {
+
+
 
 	//killing player
 	if (m_FS1 && m_FS1->GetComponent<PlayerHealthComponent>()->IsAlive())
@@ -181,6 +185,19 @@ void CollisionManager::Update()
 		else m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 	}
 
+}
+
+void CollisionManager::InializeEvents(std::vector<std::shared_ptr<IEventHandler>> eventHandlers)
+{
+	m_pEvents.push_back(std::shared_ptr<Event>());
+
+	Event m_EventEnemyKilled;
+	Event m_EventPlayerKilled;
+
+	//0 - ScoreEH
+	//1 - HealthEH
+	//2 - AudioEH
+	m_EventPlayerKilled.AddHandler(eventHandlers[0]);
 }
 
 bool CollisionManager::CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2)

@@ -16,3 +16,8 @@ void Event::Notify(GameObject* actor, const std::string& argument)
 {
 	for (size_t i = 0; i < m_Handlers.size(); i++) m_Handlers[i]->OnEvent(actor, argument);
 }
+
+void Event::ResetHandlers()
+{
+	m_Handlers.clear();
+}

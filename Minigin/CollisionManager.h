@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.h"
+#include "Event.h"
 #include <SDL.h>
 
 
@@ -17,6 +18,7 @@ public:
 	void CleanUp();
 
 	void Update();
+	void InializeEvents(std::vector<std::shared_ptr<IEventHandler>>eventHandlers);
 private:
 	bool CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2);
 
@@ -24,7 +26,10 @@ private:
 	std::vector<std::shared_ptr<GameObject>> m_pRocketsForCheck;
 	std::vector<std::shared_ptr<GameObject>> m_pTractorBeamsForCheck;
 
-	std::shared_ptr<GameObject> m_FS1;//Fighter ship, basically player
+	std::vector<std::shared_ptr<Event>> m_pEvents;
+	
+
+	std::shared_ptr<GameObject> m_FS1;//Fighter ship, basically player TODO: mby make it a vector
 	std::shared_ptr<GameObject> m_FS2;//for player 2
 };
 
