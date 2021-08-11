@@ -99,6 +99,7 @@ void dae::Minigin::LoadGame() const
 	srand(int(time(NULL)));
 
 	dae::Scene& scene = SceneManager::GetInstance().CreateScene("Game");
+	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 
 	//Background
 	auto background = std::make_shared<GameObject>("Background");
@@ -117,11 +118,23 @@ void dae::Minigin::LoadGame() const
 
 	//fps counter
 	auto go = std::make_shared<GameObject>("FPSCounter");
-	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 14);
-	go->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
+	go->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
 	go->AddComponent(new FPSTextComponent(font2));
 	go->AddComponent(new RenderComponent());
 	scene.Add(go);
+
+	//score
+	auto player1Text = std::make_shared<GameObject>("Player1Text");
+	player1Text->AddComponent(new TransformComponent(glm::vec3(10, 10, 0)));
+	player1Text->AddComponent(new TextComponent("Player 1", font2, SDL_Color{ 255,255,255 }));
+	player1Text->AddComponent(new RenderComponent());
+	scene.Add(player1Text);
+
+	auto scoreDisplay = std::make_shared<GameObject>("ScoreDisplay");
+	scoreDisplay->AddComponent(new TransformComponent(glm::vec3(10, 25, 0)));
+	scoreDisplay->AddComponent(new TextComponent("Score: 0", font2, SDL_Color{ 255,255,255 }));
+	scoreDisplay->AddComponent(new RenderComponent());
+	scene.Add(scoreDisplay);
 
 	//player
 	auto playerFighter = std::make_shared<GameObject>("Player1");
@@ -319,7 +332,7 @@ void dae::Minigin::Run()
 
 	std::thread audioThread(&AudioService::Update, &AudioLocator::GetAudioService());
 
-	AudioLocator::GetAudioService().QueueSound("someSound", 30.f);
+	//AudioLocator::GetAudioService().QueueSound("someSound", 30.f);
 
 	while (doContinue)
 	{
@@ -344,6 +357,8 @@ void dae::Minigin::Run()
 		std::this_thread::sleep_for(std::chrono::milliseconds(int(duration<float>(currentTime - high_resolution_clock::now()).count()) + m_MsPerFrame ));
 	}
 
+	//join - blocks until the thread of execution that's associated with the calling object completes.
+	//detach - detaches the associated thread. The operating system becomes responsible for releasing thread resources on termination.
 	audioThread.detach();
 	Cleanup();
 }

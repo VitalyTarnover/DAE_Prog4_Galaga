@@ -17,7 +17,7 @@ BeeFlyInState::BeeFlyInState(float speed, int stepSize)
 	, m_Speed{speed}
 	, m_StepSize{stepSize}
 {
-	//Observer V2
+	//Observer V2 TODO: clean up!
 	//IEventHandler* enemyManagerEH = &EnemyManager::GetInstance();
 	//m_EnemyReachedPosInFormation.AddHandler(enemyManagerEH);
 }

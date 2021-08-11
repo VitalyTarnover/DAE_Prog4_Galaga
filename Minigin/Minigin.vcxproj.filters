@@ -40,6 +40,9 @@
     <Filter Include="GalagaFileReader">
       <UniqueIdentifier>{146509dc-e941-42e3-8d3d-6ce06de85ff2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GalagaObserverV2">
+      <UniqueIdentifier>{2b5185b9-29c0-45a2-ac81-69b57fa2e7d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -144,6 +147,18 @@
     <ClInclude Include="BirdInFormationState.h">
       <Filter>GalagaComponents\Movement\Enemy\States</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEventHandler.h">
+      <Filter>GalagaObserverV2</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthEventHandler.h">
+      <Filter>GalagaObserverV2</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreEventHandler.h">
+      <Filter>GalagaObserverV2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -241,6 +256,18 @@
     </ClCompile>
     <ClCompile Include="BirdInFormationState.cpp">
       <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEventHandler.cpp">
+      <Filter>GalagaObserverV2</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthEventHandler.cpp">
+      <Filter>GalagaObserverV2</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreEventHandler.cpp">
+      <Filter>GalagaObserverV2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -212,6 +212,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
   <ItemGroup>
     <ClInclude Include="AnalogStickCommand.h" />
     <ClInclude Include="AnalogTriggerCommand.h" />
+    <ClInclude Include="AudioEventHandler.h" />
     <ClInclude Include="BaseEnemyMovementComponent.h" />
     <ClInclude Include="BeeDiveDownState.h" />
     <ClInclude Include="BeeMovementComponent.h" />
@@ -234,6 +235,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="BeeFlyInState.h" />
     <ClInclude Include="GalagaBackgroundComponent.h" />
     <ClInclude Include="GalagaFileReader.h" />
+    <ClInclude Include="HealthEventHandler.h" />
     <ClInclude Include="InFormationState.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LivesObserver.h" />
@@ -242,10 +244,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="PlayerHealthComponent.h" />
     <ClInclude Include="RocketManager.h" />
     <ClInclude Include="RocketMovementComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="ScoreEventHandler.h" />
     <ClInclude Include="TractorBeamComponent.h" />
     <ClInclude Include="TractorBeamDangerComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioEventHandler.cpp" />
     <ClCompile Include="BaseEnemyMovementComponent.cpp" />
     <ClCompile Include="BaseEnemyState.cpp" />
     <ClCompile Include="BeeDiveDownState.cpp" />
@@ -267,6 +272,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="BeeFlyInState.cpp" />
     <ClCompile Include="GalagaBackgroundComponent.cpp" />
     <ClCompile Include="GalagaFileReader.cpp" />
+    <ClCompile Include="HealthEventHandler.cpp" />
     <ClCompile Include="InFormationState.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LivesObserver.cpp" />
@@ -282,6 +288,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="PlayerHealthComponent.cpp" />
     <ClCompile Include="RocketManager.cpp" />
     <ClCompile Include="RocketMovementComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="ScoreEventHandler.cpp" />
     <ClCompile Include="TractorBeamComponent.cpp" />
     <ClCompile Include="TractorBeamDangerComponent.cpp" />
   </ItemGroup>

@@ -17,12 +17,12 @@ Scene::Scene(const std::string& name)
 	, m_pPlayers{}
 {}
 
-void Scene::Add(const std::shared_ptr<SceneObject>& object)
+void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
 	m_Objects.push_back(object);
 }
 
-void Scene::DeleteGameObject(std::shared_ptr<SceneObject> objectToDelete)
+void Scene::DeleteGameObject(std::shared_ptr<GameObject> objectToDelete)
 {
 	for (size_t i = 0; i < m_Objects.size(); i++)
 	{
@@ -89,7 +89,7 @@ void dae::Scene::SetGameLevel(GameLevel levelNumber)
 	//m_pCurrentLevel->GetComponent<LevelComponent>()->SwitchGameLevel(levelNumber);
 }
 
-std::shared_ptr<SceneObject> Scene::GetObjectByName(const std::string& name) const
+std::shared_ptr<GameObject> Scene::GetObjectByName(const std::string& name) const
 {
 	for (const auto& object : m_Objects)
 	{
@@ -104,7 +104,6 @@ std::shared_ptr<SceneObject> Scene::GetObjectByName(const std::string& name) con
 void Scene::AddPlayer(const std::shared_ptr<GameObject>& player)
 {
 	m_pPlayers.push_back(player);
-	m_PlayerSpawnPos = player->GetComponent<TransformComponent>()->GetTransform().GetPosition();
 }
 
 

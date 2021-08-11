@@ -21,12 +21,11 @@ enum class GameMode
 
 namespace dae
 {
-	class SceneObject;
 	class Scene
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		void Add(const std::shared_ptr<SceneObject>& object);
+		void Add(const std::shared_ptr<GameObject>& object);
 
 		~Scene() = default;
 		Scene(const Scene& other) = delete;
@@ -45,11 +44,11 @@ namespace dae
 
 		GameLevel GetGameLevel() const { return m_CurrentGameLevel; }
 
-		std::shared_ptr<SceneObject> GetObjectByName(const std::string& name) const;
+		std::shared_ptr<GameObject> GetObjectByName(const std::string& name) const;
 		void AddPlayer(const std::shared_ptr<GameObject>& player);
 		std::shared_ptr<GameObject> GetPlayer(int index);
 
-
+		//TODO: Clean up!
 		void AddLevel(const std::shared_ptr<GameObject>& level)
 		{
 			m_pLevels.push_back(level);
@@ -60,7 +59,7 @@ namespace dae
 		void SetCurrentLevel(const std::shared_ptr<GameObject>& level) { m_pCurrentLevel = level; }
 		std::shared_ptr<GameObject> GetCurrentLevel() const { return m_pCurrentLevel; };
 
-		void DeleteGameObject(std::shared_ptr<SceneObject> objectToDelete);
+		void DeleteGameObject(std::shared_ptr<GameObject> objectToDelete);
 		
 		void DeleteMarkedForDelteGameObjects();
 		
@@ -75,10 +74,8 @@ namespace dae
 		explicit Scene(const std::string& name);
 
 		std::string m_Name;
-		std::vector<std::shared_ptr<SceneObject>> m_Objects{};
+		std::vector<std::shared_ptr<GameObject>> m_Objects{};
 		std::vector<std::shared_ptr<GameObject>> m_pPlayers{};
-
-		glm::vec3 m_PlayerSpawnPos;
 
 		float m_SceneScale = 2.0f;
 		
