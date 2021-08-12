@@ -17,6 +17,8 @@
 #include "BirdMovementComponent.h"
 #include "RenderComponent.h"
 
+#include "ScoreEventHandler.h"
+
 #include "CollisionManager.h"
 
 EnemyManager::~EnemyManager()
@@ -26,7 +28,8 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
 	const std::vector<std::vector<int>>& bfInfo, 
-	const std::vector<std::vector<int>>& birdInfo)
+	const std::vector<std::vector<int>>& birdInfo,
+	std::shared_ptr<ScoreEventHandler> scoreEventHandler)
 {
 	//set state building formation
 	m_BuildingFormation = true;
@@ -37,6 +40,7 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 
 	m_NumberOfEnemiesNotInPosition = int(m_BeeInfo.size() + m_BFInfo.size() + m_BirdInfo.size() );
 	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
+	m_ScoreEventHandler = scoreEventHandler;
 	
 }
 
@@ -62,6 +66,7 @@ void EnemyManager::Update()
 				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
 				enemyShip->AddComponent(new BeeMovementComponent
 				(275.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (5 + m_BeeInfo.back()[2]) )));
+				enemyShip->GetComponent<BeeMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
 				scene->Add(enemyShip);
 				m_Enemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
@@ -78,6 +83,7 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new BFMovementComponent(275.f, 
 					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (3 + m_BFInfo.back()[2]))));
 				scene->Add(enemyShip);
+				enemyShip->GetComponent<BFMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
 				m_Enemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BFInfo.pop_back();
@@ -93,6 +99,7 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new BirdMovementComponent(275.f, 
 					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9 )));
 				scene->Add(enemyShip);
+				enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
 				m_Enemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BirdInfo.pop_back();

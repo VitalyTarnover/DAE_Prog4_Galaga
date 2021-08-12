@@ -92,7 +92,7 @@ void CollisionManager::Update()
 				m_FS1->GetComponent<PlayerHealthComponent>()->Die();
 				EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
 
-				m_pEnemiesForCheck[i]->GetComponent<BaseEnemyMovementComponent>()->Die();
+				m_pEnemiesForCheck[i]->GetComponent<BaseEnemyMovementComponent>()->Die(m_FS1);
 
 				m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[i]), m_pEnemiesForCheck.end());
 
@@ -158,7 +158,7 @@ void CollisionManager::Update()
 					{
 						BirdMovementComponent* enemyBird = m_pEnemiesForCheck[j]->GetComponent<BirdMovementComponent>();
 						
-						if (enemyBird) enemyBird->Hurt();
+						if (enemyBird) enemyBird->Hurt(m_FS1);
 
 						if (!enemyBird || (enemyBird && m_pEnemiesForCheck[j]->GetMarkedForDelete()))
 						{
@@ -166,8 +166,8 @@ void CollisionManager::Update()
 							if (!m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->GetIsInFormation())
 								EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
 
-							m_pEvents[0]->Notify(m_FS1.get(), "BeeKilled");
-							m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die();
+							//m_pEvents[0]->Notify(m_FS1.get(), "BeeKilled");//old
+							m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die(m_FS1);
 							m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
 						}
 

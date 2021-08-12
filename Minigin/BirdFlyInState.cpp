@@ -28,6 +28,7 @@ BaseEnemyState* BirdFlyInState::Update(GameObject* enemy)
 
 	if (m_Switch)
 	{
+		enemy->GetComponent<BirdMovementComponent>()->SetIsAttacking(false);
 		return new BirdInFormationState();
 	}
 

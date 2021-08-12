@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "BirdMovementComponent.h"
 #include "BirdFlyInState.h"
+#include "BirdDiveDownState.h"
 
 #include "GameObject.h"
 #include "SceneManager.h"
@@ -69,10 +70,16 @@ void BirdMovementComponent::HandleCapturedFighter()
 	}
 }
 
-void BirdMovementComponent::Hurt()
+void BirdMovementComponent::Hurt(std::shared_ptr<GameObject> killerObject)
 {
 	if (!m_IsHurt) m_IsHurt = true;
-	else Die();
+	else
+	{
+		Die(killerObject);
+		if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBirdKilled");
+		else GetEventEnemyKilledHandler()->Notify(killerObject.get(), "BirdKilled");
+	}
+
 }
 
 

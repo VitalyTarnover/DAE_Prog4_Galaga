@@ -23,7 +23,11 @@ BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
 
 
 
-	if (BeeDiveDown(enemy)) return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+	if (BeeDiveDown(enemy))
+	{
+		enemy->GetComponent<BeeMovementComponent>()->SetIsAttacking(false);
+		return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+	}
 
 	return nullptr;
 }

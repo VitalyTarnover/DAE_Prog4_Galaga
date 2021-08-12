@@ -24,7 +24,11 @@ BaseEnemyState* BirdInFormationState::Update(GameObject* enemy)
 
 	float diveDownSpeed = 300;
 	
-	if (m_Switch) return new BirdDiveDownState(diveDownSpeed);
+	if (m_Switch)
+	{
+		enemy->GetComponent<BirdMovementComponent>()->SetIsAttacking(true);
+		return new BirdDiveDownState(diveDownSpeed);
+	}
 
 	return nullptr;
 }

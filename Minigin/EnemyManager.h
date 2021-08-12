@@ -7,7 +7,7 @@
 //states: building formation, battle
 
 class GameObject;
-
+class ScoreEventHandler;
 
 class EnemyManager final : public dae::Singleton<EnemyManager>//, public IEventHandler
 {
@@ -15,7 +15,8 @@ public:
 	~EnemyManager();
 	void SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
 		const std::vector<std::vector<int>>& bfInfo, 
-		const std::vector<std::vector<int>>& birdInfo);
+		const std::vector<std::vector<int>>& birdInfo,
+		std::shared_ptr<ScoreEventHandler> scoreEventHandler);
 	void Update();
 	void ResetEnemies();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
@@ -45,6 +46,8 @@ private:
 
 	std::vector<std::shared_ptr<GameObject>> m_Enemies;
 	std::vector<std::shared_ptr<GameObject>> m_EnemyShooters;
+
+	std::shared_ptr<ScoreEventHandler> m_ScoreEventHandler;
 
 	int m_NumberOfEnemiesNotInPosition;
 	int m_NumberOfEnemiesAlive;

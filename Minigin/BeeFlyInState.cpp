@@ -33,6 +33,7 @@ BaseEnemyState* BeeFlyInState::Update(GameObject* enemy)
 
 	if (m_Switch)
 	{
+		enemy->GetComponent<BeeMovementComponent>()->SetIsAttacking(false);
 		return new InFormationState();
 	}
 

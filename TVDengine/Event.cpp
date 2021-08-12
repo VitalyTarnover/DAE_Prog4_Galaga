@@ -6,6 +6,7 @@ void Event::AddHandler(std::shared_ptr<IEventHandler> handler)
 	m_pHandlers.push_back(handler);
 }
 
+
 void Event::RemoveHandler(std::shared_ptr<IEventHandler> handler)
 {
 	m_pHandlers.erase(std::remove(m_pHandlers.begin(), m_pHandlers.end(), handler), m_pHandlers.end());//TODO: check if it is done correctly, cuz usually it is for 

@@ -5,6 +5,8 @@
 #include "BFDiveDownState.h"
 #include "BirdDiveDownState.h"
 
+#include "BaseEnemyMovementComponent.h"
+
 #include "GameObject.h"
 #include "TransformComponent.h"
 
@@ -28,10 +30,13 @@ BaseEnemyState* InFormationState::Update(GameObject* enemy)
 	if (m_Switch)
 	{
 		std::string enemyType = enemy->GetName();
+		
+		enemy->GetComponent<BaseEnemyMovementComponent>()->SetIsAttacking(true);
 
 		if(enemyType == "Bee") return new BeeDiveDownState(diveDownSpeed);
 		else if(enemyType == "BF") return new BFDiveDownState(diveDownSpeed);
 		//else if (enemyType == "Bird")return new BirdDiveDownState(diveDownSpeed);
+
 	}
 
 	return nullptr;

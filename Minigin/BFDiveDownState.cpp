@@ -21,7 +21,11 @@ BaseEnemyState* BFDiveDownState::Update(GameObject* enemy)
 		CreatePaths(enemy);
 	}
 
-	if (BFDiveDown(enemy)) return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+	if (BFDiveDown(enemy))
+	{
+		enemy->GetComponent<BFMovementComponent>()->SetIsAttacking(false);
+		return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+	}
 
 	return nullptr;
 }

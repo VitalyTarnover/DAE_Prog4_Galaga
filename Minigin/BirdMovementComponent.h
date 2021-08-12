@@ -20,7 +20,7 @@ public:
 	bool GetHasFighterCaptured() const { return m_HasFighterCaptured; };
 
 	bool GetIsHurt() const { return m_IsHurt; };
-	void Hurt();
+	void Hurt(std::shared_ptr<GameObject> killerObject);
 private:
 
 	bool m_IsHurt = false;

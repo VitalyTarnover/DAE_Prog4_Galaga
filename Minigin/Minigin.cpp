@@ -301,16 +301,17 @@ void dae::Minigin::LoadGame() const
 
 	GalagaFileReader* gfr = new GalagaFileReader();
 	gfr->ReadLevelInfo("Resources/Level1.bin");
+	
+	std::shared_ptr<ScoreEventHandler> scoreEventHandler = std::make_shared<ScoreEventHandler>();
 
-	EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo());
+	EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo(), scoreEventHandler);
 
 	delete gfr;
 
 	std::vector<std::shared_ptr<IEventHandler>> handlers;
 
-	std::shared_ptr<ScoreEventHandler> scoreEventhandler = std::make_shared<ScoreEventHandler>();
 
-	handlers.push_back(scoreEventhandler);
+	handlers.push_back(scoreEventHandler);
 
 	CollisionManager::GetInstance().InitializeEvents(handlers);
 

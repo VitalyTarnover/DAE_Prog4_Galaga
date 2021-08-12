@@ -1,8 +1,10 @@
 #pragma once
 #include "BaseComponent.h"
+#include "Event.h"
 
 //states: fly in, in formation, dive down, die
 class BaseEnemyState;
+class Event;
 
 class BaseEnemyMovementComponent : public BaseComponent //TODO: rename this class to behavior or something, we are not talking only about movement.
 	//Also teach it maybe to shoot from here. And Boolean if is dead or alive.
@@ -15,7 +17,7 @@ public:
 	virtual void Update();
 	void Switch();
 	void ShootARocket();
-	void Die();//TODO: make unique score++ for each state's Die
+	virtual void Die(std::shared_ptr<GameObject> killerObject);
 
 	bool GetIsInFormation() const;
 	void SetIsInFormation(bool inFormation);
@@ -25,13 +27,21 @@ public:
 
 	BaseEnemyState* GetCurrentState() const { return m_CurrentState; };
 
+	std::shared_ptr<Event> GetEventEnemyKilledHandler() const { return m_pEventEnemyKilled; };
+
+	void SetIsAttacking(bool isAttacking) { m_IsAttacking = isAttacking; };
+	bool GetIsAttacking() { return m_IsAttacking; };
+
 protected:
 	BaseEnemyState* m_CurrentState;
 	glm::vec2 m_PosInFormation;
 	float m_Speed;
 	bool m_InFormation;
+	bool m_IsAttacking = false;
 
 	int m_BirdCompanionIndex;
+
+	std::shared_ptr<Event> m_pEventEnemyKilled;//It works well if it is a shared ptr
 
 	//TODO: Mby make getters and setters for these datamembers, this will be a good opportunity to make an adjustable difficulty
 	//float m_StepTimer = 0;

@@ -28,6 +28,7 @@ BaseEnemyState* BFFlyInState::Update(GameObject* enemy)
 
 	if (m_Switch)
 	{
+		enemy->GetComponent<BFMovementComponent>()->SetIsAttacking(false);
 		return new InFormationState();
 	}
 

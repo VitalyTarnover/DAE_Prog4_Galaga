@@ -17,6 +17,7 @@ BaseEnemyMovementComponent::BaseEnemyMovementComponent(float speed, int birdComp
 	, m_Speed{speed}
 	, m_InFormation{false}
 {
+	m_pEventEnemyKilled = std::make_shared<Event>();
 }
 
 BaseEnemyMovementComponent::~BaseEnemyMovementComponent()
@@ -55,7 +56,7 @@ void BaseEnemyMovementComponent::ShootARocket()
 	RocketManager::GetInstance().SpawnEnemyRocket(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
 }
 
-void BaseEnemyMovementComponent::Die()
+void BaseEnemyMovementComponent::Die(std::shared_ptr<GameObject> killerObject)
 {
 	m_CurrentState->Die(m_pGameObject);
 	//explosion manager makes boom here
