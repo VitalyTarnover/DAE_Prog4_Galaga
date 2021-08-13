@@ -25,7 +25,6 @@ BaseEnemyState* InFormationState::Update(GameObject* enemy)
 	Patrol(enemy);
 	SetSpriteState(enemy);
 	
-	float diveDownSpeed = 300;
 	
 	if (m_Switch)
 	{
@@ -33,6 +32,7 @@ BaseEnemyState* InFormationState::Update(GameObject* enemy)
 		
 		enemy->GetComponent<BaseEnemyMovementComponent>()->SetIsAttacking(true);
 
+		float diveDownSpeed = 300;
 		if(enemyType == "Bee") return new BeeDiveDownState(diveDownSpeed);
 		else if(enemyType == "BF") return new BFDiveDownState(diveDownSpeed);
 		//else if (enemyType == "Bird")return new BirdDiveDownState(diveDownSpeed);

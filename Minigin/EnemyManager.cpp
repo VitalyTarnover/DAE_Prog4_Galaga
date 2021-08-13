@@ -20,7 +20,7 @@
 
 EnemyManager::~EnemyManager()
 {
-	m_Enemies.clear();
+	m_pEnemies.clear();
 }
 
 void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
@@ -37,7 +37,11 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 
 	m_NumberOfEnemiesNotInPosition = int(m_BeeInfo.size() + m_BFInfo.size() + m_BirdInfo.size() );
 	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
-	
+
+	m_PanicMode = false;
+
+	m_DiveDownTimer = m_DiveDownTime;
+
 	if (!m_ScoreEventHandler) m_ScoreEventHandler = handlers[0];
 	//m_EventLevelCleared = std::make_shared<Event>();
 	m_EventLevelCleared.ResetHandlers();
@@ -63,12 +67,12 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new RenderComponent());
 				enemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
 				enemyShip->AddComponent(new SpriteAnimComponent(2));
-				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
+				//enemyShip->AddComponent(new EnemyFlyInMovement(m_pEnemiesPosInFormation.back()));
 				enemyShip->AddComponent(new BeeMovementComponent
 				(275.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (5 + m_BeeInfo.back()[2]) )));
 				enemyShip->GetComponent<BeeMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
 				scene->Add(enemyShip);
-				m_Enemies.push_back(enemyShip);
+				m_pEnemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BeeInfo.pop_back();
 			}
@@ -79,12 +83,12 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new RenderComponent());
 				enemyShip->AddComponent(new Texture2DComponent("Butterfly.png", scene->GetSceneScale()));
 				enemyShip->AddComponent(new SpriteAnimComponent(2));
-				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
+				//enemyShip->AddComponent(new EnemyFlyInMovement(m_pEnemiesPosInFormation.back()));
 				enemyShip->AddComponent(new BFMovementComponent(275.f, 
 					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (3 + m_BFInfo.back()[2]))));
 				scene->Add(enemyShip);
 				enemyShip->GetComponent<BFMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
-				m_Enemies.push_back(enemyShip);
+				m_pEnemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BFInfo.pop_back();
 			}
@@ -95,17 +99,17 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new RenderComponent());
 				enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
 				enemyShip->AddComponent(new SpriteAnimComponent(4));
-				//enemyShip->AddComponent(new EnemyFlyInMovement(m_EnemiesPosInFormation.back()));
+				//enemyShip->AddComponent(new EnemyFlyInMovement(m_pEnemiesPosInFormation.back()));
 				enemyShip->AddComponent(new BirdMovementComponent(275.f, 
 					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9 )));
 				scene->Add(enemyShip);
 				enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
-				m_Enemies.push_back(enemyShip);
+				m_pEnemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BirdInfo.pop_back();
 			}
 
-			//m_EnemiesPosInFormation.pop_back();
+			//m_pEnemiesPosInFormation.pop_back();
 			m_SpawnTimer = 0;
 		}
 		else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
@@ -113,29 +117,29 @@ void EnemyManager::Update()
 
 		if (m_NumberOfEnemiesNotInPosition == 0 && m_CurrentStepNumber == 0)//here is that check you are looking for
 		{
-			for (size_t i = 0; i < m_Enemies.size(); i++)
+			for (size_t i = 0; i < m_pEnemies.size(); i++)
 			{
-				m_Enemies[i]->GetComponent<BaseEnemyMovementComponent>()->Switch();//works
+				m_pEnemies[i]->GetComponent<BaseEnemyMovementComponent>()->Switch();//works
 			}
 			m_BuildingFormation = false;
 		}
 
 	}
 	
-	if (m_Enemies.size() > 0)
+	if (m_pEnemies.size() > 0)
 	{
 		if (!m_WaitingForPlayerToRespawn && !m_BuildingFormation)
 		{
 			SendRandomEnemyToAttack();
 			ShootersShoot();
 		}
-	
 		CalculatePatrolSteps();
 	}
 	
-	if (m_Enemies.size() <= 0 && !m_BuildingFormation)
+	if (m_pEnemies.size() <= 0 && !m_BuildingFormation)
 	{
 		m_BuildingFormation = true;
+		++m_CurrentDifficultyLevel;
 		m_EventLevelCleared.Notify(nullptr, "LevelCleared");
 	}
 	
@@ -143,7 +147,7 @@ void EnemyManager::Update()
 
 void EnemyManager::ResetEnemies()
 {
-	m_Enemies.clear();//TODO: clear all of them!
+	m_pEnemies.clear();//TODO: clear all of them!
 }
 
 void EnemyManager::AnEnemyReachedPositionInFormation()
@@ -179,11 +183,11 @@ void EnemyManager::ShootersShoot()
 
 void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
 {
-	for (size_t i = 0; i < m_Enemies.size(); ++i)
+	for (size_t i = 0; i < m_pEnemies.size(); ++i)
 	{
-		if (m_Enemies[i] == gameObject)
+		if (m_pEnemies[i] == gameObject)
 		{
-			m_Enemies.erase(std::remove(m_Enemies.begin(), m_Enemies.end(), m_Enemies[i]), m_Enemies.end());
+			m_pEnemies.erase(std::remove(m_pEnemies.begin(), m_pEnemies.end(), m_pEnemies[i]), m_pEnemies.end());
 			return;
 		}
 	}
@@ -192,79 +196,95 @@ void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
 
 void EnemyManager::SendRandomEnemyToAttack()
 {
-	if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
-	else
+	if (!m_PanicMode)
 	{
-		int extraEnemiesChance = rand() % 1 + 1;//TODO: instead of 3 take current level...
-
-		for (size_t i = extraEnemiesChance; i > 0; --i)
+		if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
+		else
 		{
-			int randomEnemyIndex = rand() % m_Enemies.size();
-			BaseEnemyMovementComponent* enemyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>();
-
-			if (!enemyMovement->GetIsAttacking())
+			if (m_pEnemies.size() <= m_PanicEnemiesNumber)
 			{
-				int birdCompanionIndex = enemyMovement->GetBirdCompanionIndex();
-
-				if (birdCompanionIndex == -1)
+				m_PanicMode = true;
+				for (auto enemy : m_pEnemies)
 				{
-					enemyMovement->Switch();
-
-					int chanceToShootModifier = 3;//TODO: magic number also make it dependent on stage/level
-
-					int chanceToShoot = rand() % chanceToShootModifier + 1;
-					if (chanceToShoot == chanceToShootModifier)
-					{
-						m_EnemyShooters.push_back(m_Enemies[randomEnemyIndex]);
-					}
+					BaseEnemyMovementComponent* movementComponent = enemy->GetComponent<BaseEnemyMovementComponent>();
+					movementComponent->SetPanic();
+					movementComponent->Switch();
 				}
-				else
+			}
+			else
+			{
+				int extraEnemiesChance = rand() % m_CurrentDifficultyLevel + 1;
+				for (size_t i = extraEnemiesChance; i > 0; --i)
 				{
-					BirdMovementComponent* birdMovementComponent = m_Enemies[randomEnemyIndex]->GetComponent<BirdMovementComponent>();
+					int randomEnemyIndex = rand() % m_pEnemies.size();
+					BaseEnemyMovementComponent* enemyMovement = m_pEnemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>();
 
-					if (birdMovementComponent)//if it is a bird it is either goes solo tractor-attacking or bombing but with 2 butterflies
+					if (!enemyMovement->GetIsAttacking())
 					{
-						int birdAttackType;
-						if (!birdMovementComponent->GetHasFighterCaptured()) birdAttackType = rand() % 2;
-						else birdAttackType = 0;
+						int birdCompanionIndex = enemyMovement->GetBirdCompanionIndex();
 
-						if (birdAttackType == 0)
+						if (birdCompanionIndex == -1)
 						{
-							birdMovementComponent->SetIsBombing(true);
-							birdMovementComponent->Switch();
+							enemyMovement->Switch();
 
-							for (size_t j = 0; j < m_Enemies.size(); j++)
+							int chanceToShootModifier = 4 - m_CurrentDifficultyLevel;//Max amount of levels
+
+							int chanceToShoot = rand() % chanceToShootModifier + 1;
+							if (chanceToShoot == chanceToShootModifier)
 							{
-								BFMovementComponent* enemyCompanionMovement = m_Enemies[j]->GetComponent<BFMovementComponent>();
-								if (enemyCompanionMovement && birdCompanionIndex == enemyCompanionMovement->GetBirdCompanionIndex())
-								{
-									enemyCompanionMovement->SetIsWithBird(true);
-									enemyCompanionMovement->Switch();
-								}
+								m_EnemyShooters.push_back(m_pEnemies[randomEnemyIndex]);
 							}
 						}
 						else
 						{
-							birdMovementComponent->SetIsBombing(false);
-							birdMovementComponent->Switch();
-						}
+							BirdMovementComponent* birdMovementComponent = m_pEnemies[randomEnemyIndex]->GetComponent<BirdMovementComponent>();
 
-					}
-					else//if it is a butterfly -> then it just does its usual attack
-					{
-						BFMovementComponent* butterflyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BFMovementComponent>();
-						butterflyMovement->SetIsWithBird(false);
-						butterflyMovement->Switch();
+							if (birdMovementComponent)//if it is a bird it is either goes solo tractor-attacking or bombing but with 2 butterflies
+							{
+								int birdAttackType;
+								if (!birdMovementComponent->GetHasFighterCaptured()) birdAttackType = rand() % 2;
+								else birdAttackType = 0;
+
+								if (birdAttackType == 0)
+								{
+									birdMovementComponent->SetIsBombing(true);
+									birdMovementComponent->Switch();
+
+									for (size_t j = 0; j < m_pEnemies.size(); j++)
+									{
+										BFMovementComponent* enemyCompanionMovement = m_pEnemies[j]->GetComponent<BFMovementComponent>();
+										if (enemyCompanionMovement && birdCompanionIndex == enemyCompanionMovement->GetBirdCompanionIndex())
+										{
+											enemyCompanionMovement->SetIsWithBird(true);
+											enemyCompanionMovement->Switch();
+										}
+									}
+								}
+								else
+								{
+									birdMovementComponent->SetIsBombing(false);
+									birdMovementComponent->Switch();
+								}
+
+							}
+							else//if it is a butterfly -> then it just does its usual attack
+							{
+								BFMovementComponent* butterflyMovement = m_pEnemies[randomEnemyIndex]->GetComponent<BFMovementComponent>();
+								butterflyMovement->SetIsWithBird(false);
+								butterflyMovement->Switch();
+							}
+						}
 					}
 				}
+
+				m_DiveDownTimer = m_DiveDownTime;
 			}
-			//else ++i;//causes infinite for-looping
+
+			
 
 		}
-		m_DiveDownTimer = m_DiveDownTime;
+
 	}
-
-
 
 }
 

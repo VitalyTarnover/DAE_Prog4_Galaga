@@ -16,6 +16,8 @@ public:
 	glm::vec2 GetPosInFormation();
 	virtual void Update();
 	void Switch();
+	void SetPanic() { m_Panic = true; };
+	bool GetIsPanicing() const { return m_Panic; };
 	void ShootARocket();
 	virtual void Die(std::shared_ptr<GameObject> killerObject);
 
@@ -38,6 +40,7 @@ protected:
 	float m_Speed;
 	bool m_InFormation;
 	bool m_IsAttacking = false;
+	bool m_Panic = false;
 
 	int m_BirdCompanionIndex;
 

@@ -45,7 +45,7 @@ private:
 	std::vector<std::vector<int>> m_BirdInfo;
 
 
-	std::vector<std::shared_ptr<GameObject>> m_Enemies;
+	std::vector<std::shared_ptr<GameObject>> m_pEnemies;
 	std::vector<std::shared_ptr<GameObject>> m_EnemyShooters;
 
 	std::shared_ptr<IEventHandler> m_ScoreEventHandler;
@@ -62,7 +62,10 @@ private:
 	float m_StepTime = 0.3f;
 	int m_StepsNumber = 5;
 	int m_CurrentStepNumber = 0;
+	int m_CurrentDifficultyLevel = 1;
+	int m_PanicEnemiesNumber = 8;
 	bool m_MovingLeft = true;
+	bool m_PanicMode = false;
 
 	//sending to dive down
 	float m_DiveDownTimer = 0;
@@ -70,6 +73,7 @@ private:
 
 	//for observer pattern
 	Event m_EventLevelCleared;
+
 
 };
 

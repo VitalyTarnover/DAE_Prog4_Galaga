@@ -21,12 +21,18 @@ BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
 		CreatePaths(enemy);
 	}
 
-
-
 	if (BeeDiveDown(enemy))
 	{
-		enemy->GetComponent<BeeMovementComponent>()->SetIsAttacking(false);
-		return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+		BeeMovementComponent* movementComponent = enemy->GetComponent<BeeMovementComponent>();
+		
+		movementComponent->SetIsAttacking(false);
+
+		if (!movementComponent->GetIsPanicing())return new InFormationState();
+		else
+		{
+			float diveDownSpeed = 300;
+			return new BeeDiveDownState(diveDownSpeed);
+		}
 	}
 
 	return nullptr;

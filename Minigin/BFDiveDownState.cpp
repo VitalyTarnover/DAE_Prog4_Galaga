@@ -23,8 +23,16 @@ BaseEnemyState* BFDiveDownState::Update(GameObject* enemy)
 
 	if (BFDiveDown(enemy))
 	{
-		enemy->GetComponent<BFMovementComponent>()->SetIsAttacking(false);
-		return new InFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+		BFMovementComponent* movementComponent = enemy->GetComponent<BFMovementComponent>();
+
+		movementComponent->SetIsAttacking(false);
+
+		if (!movementComponent->GetIsPanicing())return new InFormationState();
+		else
+		{
+			float diveDownSpeed = 300;
+			return new BFDiveDownState(diveDownSpeed);
+		}
 	}
 
 	return nullptr;

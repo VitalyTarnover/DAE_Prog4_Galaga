@@ -7,7 +7,7 @@
 
 void LevelManager::NextLevel()
 {
-	if (m_CurrentLevel <= 3)
+	if (m_CurrentLevel < 3)
 	{
 		++m_CurrentLevel;
 		//TODO: manager resets

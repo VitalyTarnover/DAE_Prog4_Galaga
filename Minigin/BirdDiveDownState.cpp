@@ -34,8 +34,16 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 
 	if (BirdDiveDown(enemy))
 	{
-		enemy->GetComponent<BirdMovementComponent>()->SetIsAttacking(false);
-		return new BirdInFormationState();//TODO: you can use switch-bool so the enemy manager will not try to force same enemy twice to dive down
+		BirdMovementComponent* movementComponent = enemy->GetComponent<BirdMovementComponent>();
+
+		movementComponent->SetIsAttacking(false);
+
+		if (!movementComponent->GetIsPanicing())return new InFormationState();
+		else
+		{
+			float diveDownSpeed = 300;
+			return new BirdDiveDownState(diveDownSpeed);
+		}
 	}
 
 	return nullptr;
