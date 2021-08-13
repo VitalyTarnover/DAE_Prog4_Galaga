@@ -237,6 +237,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="GalagaFileReader.h" />
     <ClInclude Include="HealthEventHandler.h" />
     <ClInclude Include="InFormationState.h" />
+    <ClInclude Include="LevelClearedEventHandler.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LivesObserver.h" />
     <ClInclude Include="Minigin.h" />
@@ -274,6 +275,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="GalagaFileReader.cpp" />
     <ClCompile Include="HealthEventHandler.cpp" />
     <ClCompile Include="InFormationState.cpp" />
+    <ClCompile Include="LevelClearedEventHandler.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LivesObserver.cpp" />
     <ClCompile Include="Main.cpp" />

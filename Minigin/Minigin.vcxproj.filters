@@ -159,6 +159,9 @@
     <ClInclude Include="ScoreEventHandler.h">
       <Filter>GalagaObserverV2</Filter>
     </ClInclude>
+    <ClInclude Include="LevelClearedEventHandler.h">
+      <Filter>GalagaObserverV2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -267,6 +270,9 @@
       <Filter>GalagaObserverV2</Filter>
     </ClCompile>
     <ClCompile Include="ScoreEventHandler.cpp">
+      <Filter>GalagaObserverV2</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelClearedEventHandler.cpp">
       <Filter>GalagaObserverV2</Filter>
     </ClCompile>
   </ItemGroup>

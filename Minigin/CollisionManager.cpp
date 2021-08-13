@@ -165,7 +165,6 @@ void CollisionManager::Update()
 							m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
 						}
 
-
 						m_pRocketsForCheck[i]->SetMarkedForDelete(true);
 						m_pRocketsForCheck[i] = nullptr;
 						m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());

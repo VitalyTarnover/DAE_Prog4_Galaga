@@ -1,18 +1,13 @@
 #pragma once
 #include "Singleton.h"
 
-enum class Level
-{
-	Level1,
-	Level2,
-	Level3
-};
-
 class LevelManager : public dae::Singleton<LevelManager>
 {
-	Level GetCurrentLevel() const { return m_CurrentLevel; };
-	void SetLevel(int level) { m_CurrentLevel = Level(level); };
+public:
+	int GetCurrentLevel() const { return m_CurrentLevel; };
+	void NextLevel();
+	void ResetLevel() { m_CurrentLevel = 0; };
 private:
-	Level m_CurrentLevel = Level::Level1;
+	int m_CurrentLevel = 0;
 };
 

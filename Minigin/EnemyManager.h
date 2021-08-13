@@ -2,6 +2,7 @@
 #include "Singleton.h"
 #include <vector>
 #include "glm/vec2.hpp"
+#include "Event.h"
 
 
 //states: building formation, battle
@@ -16,7 +17,7 @@ public:
 	void SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
 		const std::vector<std::vector<int>>& bfInfo, 
 		const std::vector<std::vector<int>>& birdInfo,
-		std::shared_ptr<ScoreEventHandler> scoreEventHandler);
+		std::vector<std::shared_ptr<IEventHandler>> handlers);
 	void Update();
 	void ResetEnemies();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
@@ -47,7 +48,7 @@ private:
 	std::vector<std::shared_ptr<GameObject>> m_Enemies;
 	std::vector<std::shared_ptr<GameObject>> m_EnemyShooters;
 
-	std::shared_ptr<ScoreEventHandler> m_ScoreEventHandler;
+	std::shared_ptr<IEventHandler> m_ScoreEventHandler;
 
 	int m_NumberOfEnemiesNotInPosition;
 	int m_NumberOfEnemiesAlive;
@@ -68,8 +69,7 @@ private:
 	float m_DiveDownTime = 3.0f;
 
 	//for observer pattern
-	//void OnEvent();
-
+	Event m_EventLevelCleared;
 
 };
 

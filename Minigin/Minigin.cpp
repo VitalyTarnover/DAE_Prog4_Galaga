@@ -13,10 +13,10 @@
 //Managers
 #include "InputManager.h"
 #include "CollisionManager.h"
+#include "LevelManager.h"
 #include "EnemyManager.h"
 #include "ExplosionManager.h"
 
-#include "GalagaFileReader.h"
 
 //Input
 #include "Commands.h"
@@ -105,6 +105,20 @@ void dae::Minigin::LoadGame() const
 	dae::Scene& scene = SceneManager::GetInstance().CreateScene("Game");
 	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 
+	//managers
+
+	std::vector<std::shared_ptr<IEventHandler>> handlers;
+
+	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
+
+	handlers.push_back(healthEventHandler);
+
+	CollisionManager::GetInstance().InitializeEvents(handlers);
+
+	LevelManager::GetInstance().NextLevel();
+
+
+
 	//Background
 	auto background = std::make_shared<GameObject>("Background");
 	background->AddComponent(new TransformComponent(glm::vec3(0,0,0)));
@@ -121,11 +135,12 @@ void dae::Minigin::LoadGame() const
 	scene.Add(background1);
 
 	//fps counter
-	auto go = std::make_shared<GameObject>("FPSCounter");
-	go->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
-	go->AddComponent(new FPSTextComponent(font2));
-	go->AddComponent(new RenderComponent());
-	scene.Add(go);
+	//auto go = std::make_shared<GameObject>("FPSCounter");
+	//go->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
+	//go->AddComponent(new FPSTextComponent(font2));
+	//go->AddComponent(new RenderComponent());
+	//scene.Add(go);
+
 
 
 
@@ -142,6 +157,7 @@ void dae::Minigin::LoadGame() const
 	playerFighter->AddComponent(new ScoreComponent());
 	scene.Add(playerFighter);
 	scene.AddPlayer(playerFighter);
+	CollisionManager::GetInstance().SetPlayersCollisions();//!!!
 
 	//HUD
 	auto player1Text = std::make_shared<GameObject>("Player1Text");
@@ -162,6 +178,12 @@ void dae::Minigin::LoadGame() const
 		"Lives: " + std::to_string(playerFighter->GetComponent<PlayerHealthComponent>()->GetLives()), font2, SDL_Color{ 255,255,255 }));
 	healthDisplay->AddComponent(new RenderComponent());
 	scene.Add(healthDisplay);
+
+	auto levelDisplay = std::make_shared<GameObject>("LevelDisplay");
+	levelDisplay->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
+	levelDisplay->AddComponent(new TextComponent("Level: "+std::to_string(LevelManager::GetInstance().GetCurrentLevel()), font2, SDL_Color{ 255,255,255 }));
+	levelDisplay->AddComponent(new RenderComponent());
+	scene.Add(levelDisplay);
 
 
 	auto textTest = std::make_shared<GameObject>("Text");
@@ -306,24 +328,7 @@ void dae::Minigin::LoadGame() const
 
 	//enemyPositions.push_back(glm::vec2{ m_WindowWidth / 12 * (4), m_WindowHeight / 5 * 2 });
 
-	CollisionManager::GetInstance().SetPlayersCollisions();
 
-	std::shared_ptr<ScoreEventHandler> scoreEventHandler = std::make_shared<ScoreEventHandler>();
-	
-	GalagaFileReader* gfr = new GalagaFileReader();
-	gfr->ReadLevelInfo("Resources/Level1.bin");
-
-	EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo(), scoreEventHandler);
-
-	delete gfr;
-
-	std::vector<std::shared_ptr<IEventHandler>> handlers;
-
-	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
-
-	handlers.push_back(healthEventHandler);
-
-	CollisionManager::GetInstance().InitializeEvents(handlers);
 
 }
 

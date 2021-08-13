@@ -16,9 +16,6 @@
 #include "BFMovementComponent.h"
 #include "BirdMovementComponent.h"
 #include "RenderComponent.h"
-
-#include "ScoreEventHandler.h"
-
 #include "CollisionManager.h"
 
 EnemyManager::~EnemyManager()
@@ -29,7 +26,7 @@ EnemyManager::~EnemyManager()
 void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
 	const std::vector<std::vector<int>>& bfInfo, 
 	const std::vector<std::vector<int>>& birdInfo,
-	std::shared_ptr<ScoreEventHandler> scoreEventHandler)
+	std::vector<std::shared_ptr<IEventHandler>> handlers)
 {
 	//set state building formation
 	m_BuildingFormation = true;
@@ -40,8 +37,11 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 
 	m_NumberOfEnemiesNotInPosition = int(m_BeeInfo.size() + m_BFInfo.size() + m_BirdInfo.size() );
 	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
-	m_ScoreEventHandler = scoreEventHandler;
 	
+	if (!m_ScoreEventHandler) m_ScoreEventHandler = handlers[0];
+	//m_EventLevelCleared = std::make_shared<Event>();
+	m_EventLevelCleared.ResetHandlers();
+	m_EventLevelCleared.AddHandler(handlers[1]);
 }
 
 void EnemyManager::Update()
@@ -124,10 +124,19 @@ void EnemyManager::Update()
 	
 	if (m_Enemies.size() > 0)
 	{
-		ShootersShoot();
-		if(!m_BuildingFormation && !m_WaitingForPlayerToRespawn) SendRandomEnemyToAttack();
+		if (!m_WaitingForPlayerToRespawn && !m_BuildingFormation)
+		{
+			SendRandomEnemyToAttack();
+			ShootersShoot();
+		}
 	
 		CalculatePatrolSteps();
+	}
+	
+	if (m_Enemies.size() <= 0 && !m_BuildingFormation)
+	{
+		m_BuildingFormation = true;
+		m_EventLevelCleared.Notify(nullptr, "LevelCleared");
 	}
 	
 }
@@ -193,59 +202,64 @@ void EnemyManager::SendRandomEnemyToAttack()
 			int randomEnemyIndex = rand() % m_Enemies.size();
 			BaseEnemyMovementComponent* enemyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>();
 
-			int birdCompanionIndex = enemyMovement->GetBirdCompanionIndex();
-
-			if (birdCompanionIndex == -1)
+			if (!enemyMovement->GetIsAttacking())
 			{
-				enemyMovement->Switch();
+				int birdCompanionIndex = enemyMovement->GetBirdCompanionIndex();
 
-				int chanceToShootModifier = 3;//TODO: magic number also make it dependent on stage/level
-
-				int chanceToShoot = rand() % chanceToShootModifier + 1;
-				if (chanceToShoot == chanceToShootModifier)
+				if (birdCompanionIndex == -1)
 				{
-					m_EnemyShooters.push_back(m_Enemies[randomEnemyIndex]);
-				}
-			}
-			else
-			{
-				BirdMovementComponent* birdMovementComponent = m_Enemies[randomEnemyIndex]->GetComponent<BirdMovementComponent>();
+					enemyMovement->Switch();
 
-				if (birdMovementComponent)//if it is a bird it is either goes solo tractor-attacking or bombing but with 2 butterflies
-				{
-					int birdAttackType;
-					if (!birdMovementComponent->GetHasFighterCaptured()) birdAttackType = rand() % 2;
-					else birdAttackType = 0;
+					int chanceToShootModifier = 3;//TODO: magic number also make it dependent on stage/level
 
-					if (birdAttackType == 0)
+					int chanceToShoot = rand() % chanceToShootModifier + 1;
+					if (chanceToShoot == chanceToShootModifier)
 					{
-						birdMovementComponent->SetIsBombing(true);
-						birdMovementComponent->Switch();
+						m_EnemyShooters.push_back(m_Enemies[randomEnemyIndex]);
+					}
+				}
+				else
+				{
+					BirdMovementComponent* birdMovementComponent = m_Enemies[randomEnemyIndex]->GetComponent<BirdMovementComponent>();
 
-						for (size_t j = 0; j < m_Enemies.size(); j++)
+					if (birdMovementComponent)//if it is a bird it is either goes solo tractor-attacking or bombing but with 2 butterflies
+					{
+						int birdAttackType;
+						if (!birdMovementComponent->GetHasFighterCaptured()) birdAttackType = rand() % 2;
+						else birdAttackType = 0;
+
+						if (birdAttackType == 0)
 						{
-							BFMovementComponent* enemyCompanionMovement = m_Enemies[j]->GetComponent<BFMovementComponent>();
-							if (enemyCompanionMovement && birdCompanionIndex == enemyCompanionMovement->GetBirdCompanionIndex())
+							birdMovementComponent->SetIsBombing(true);
+							birdMovementComponent->Switch();
+
+							for (size_t j = 0; j < m_Enemies.size(); j++)
 							{
-								enemyCompanionMovement->SetIsWithBird(true);
-								enemyCompanionMovement->Switch();
+								BFMovementComponent* enemyCompanionMovement = m_Enemies[j]->GetComponent<BFMovementComponent>();
+								if (enemyCompanionMovement && birdCompanionIndex == enemyCompanionMovement->GetBirdCompanionIndex())
+								{
+									enemyCompanionMovement->SetIsWithBird(true);
+									enemyCompanionMovement->Switch();
+								}
 							}
 						}
-					}
-					else
-					{
-						birdMovementComponent->SetIsBombing(false);
-						birdMovementComponent->Switch();
-					}
+						else
+						{
+							birdMovementComponent->SetIsBombing(false);
+							birdMovementComponent->Switch();
+						}
 
-				}
-				else//if it is a butterfly -> then it just does its usual attack
-				{
-					BFMovementComponent* butterflyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BFMovementComponent>();
-					butterflyMovement->SetIsWithBird(false);
-					butterflyMovement->Switch();
+					}
+					else//if it is a butterfly -> then it just does its usual attack
+					{
+						BFMovementComponent* butterflyMovement = m_Enemies[randomEnemyIndex]->GetComponent<BFMovementComponent>();
+						butterflyMovement->SetIsWithBird(false);
+						butterflyMovement->Switch();
+					}
 				}
 			}
+			//else ++i;//causes infinite for-looping
+
 		}
 		m_DiveDownTimer = m_DiveDownTime;
 	}
