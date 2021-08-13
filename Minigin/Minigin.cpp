@@ -47,9 +47,9 @@
 
 //ObserverV2
 #include "ScoreEventHandler.h"
+#include "HealthEventHandler.h"
 
 //will be moved to loader
-#include "LivesObserver.h"
 #include "Event.h"
 
 using namespace std;
@@ -127,7 +127,23 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(new RenderComponent());
 	scene.Add(go);
 
-	//score
+
+
+	//player
+	auto playerFighter = std::make_shared<GameObject>("Player1");
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth / 2, m_WindowHeight / 5 * 4, 0), 15.f, 16.f, scene.GetSceneScale(), scene.GetSceneScale()));
+	//playerFighter->AddComponent(new ScoreComponent(0));
+	playerFighter->AddComponent(new PlayerHealthComponent(3));
+	//playerFighter->AddWatcher(new ScoreObserver());
+	playerFighter->AddComponent(new RenderComponent());
+	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
+	playerFighter->AddComponent(new SpriteAnimComponent(2));
+	playerFighter->AddComponent(new FighterShipMovementComponent(500));
+	playerFighter->AddComponent(new ScoreComponent());
+	scene.Add(playerFighter);
+	scene.AddPlayer(playerFighter);
+
+	//HUD
 	auto player1Text = std::make_shared<GameObject>("Player1Text");
 	player1Text->AddComponent(new TransformComponent(glm::vec3(10, 10, 0)));
 	player1Text->AddComponent(new TextComponent("Player 1", font2, SDL_Color{ 255,255,255 }));
@@ -140,20 +156,13 @@ void dae::Minigin::LoadGame() const
 	scoreDisplay->AddComponent(new RenderComponent());
 	scene.Add(scoreDisplay);
 
-	//player
-	auto playerFighter = std::make_shared<GameObject>("Player1");
-	playerFighter->AddComponent(new TransformComponent(glm::vec3(m_WindowWidth / 2, m_WindowHeight / 5 * 4, 0), 15.f, 16.f, scene.GetSceneScale(), scene.GetSceneScale()));
-	//playerFighter->AddComponent(new ScoreComponent(0));
-	playerFighter->AddComponent(new PlayerHealthComponent(3));
-	playerFighter->AddWatcher(new LivesObserver());//TODO: ?????
-	//playerFighter->AddWatcher(new ScoreObserver());
-	playerFighter->AddComponent(new RenderComponent());
-	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene.GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
-	playerFighter->AddComponent(new SpriteAnimComponent(2));
-	playerFighter->AddComponent(new FighterShipMovementComponent(500));
-	playerFighter->AddComponent(new ScoreComponent());
-	scene.Add(playerFighter);
-	scene.AddPlayer(playerFighter);
+	auto healthDisplay = std::make_shared<GameObject>("LivesDisplay");
+	healthDisplay->AddComponent(new TransformComponent(glm::vec3(10, 40, 0)));
+	healthDisplay->AddComponent(new TextComponent(
+		"Lives: " + std::to_string(playerFighter->GetComponent<PlayerHealthComponent>()->GetLives()), font2, SDL_Color{ 255,255,255 }));
+	healthDisplay->AddComponent(new RenderComponent());
+	scene.Add(healthDisplay);
+
 
 	auto textTest = std::make_shared<GameObject>("Text");
 	textTest->AddComponent(new TransformComponent(glm::vec3(200, 200, 0)) );
@@ -299,10 +308,10 @@ void dae::Minigin::LoadGame() const
 
 	CollisionManager::GetInstance().SetPlayersCollisions();
 
+	std::shared_ptr<ScoreEventHandler> scoreEventHandler = std::make_shared<ScoreEventHandler>();
+	
 	GalagaFileReader* gfr = new GalagaFileReader();
 	gfr->ReadLevelInfo("Resources/Level1.bin");
-	
-	std::shared_ptr<ScoreEventHandler> scoreEventHandler = std::make_shared<ScoreEventHandler>();
 
 	EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo(), scoreEventHandler);
 
@@ -310,8 +319,9 @@ void dae::Minigin::LoadGame() const
 
 	std::vector<std::shared_ptr<IEventHandler>> handlers;
 
+	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
 
-	handlers.push_back(scoreEventHandler);
+	handlers.push_back(healthEventHandler);
 
 	CollisionManager::GetInstance().InitializeEvents(handlers);
 

@@ -28,7 +28,7 @@ void ScoreEventHandler::UpdateScore(GameObject* actor, int score) const
 	
 	scoreComponent->IncreaseScore(score);
 
-	//update dispaly
+	//update display
 	std::shared_ptr<GameObject> pointsDisplay = nullptr;
 	if (playerIndex == 0) pointsDisplay = dae::SceneManager::GetInstance().GetCurrentScene()->GetObjectByName("ScoreDisplay");
 	else if (playerIndex == 1) pointsDisplay = dae::SceneManager::GetInstance().GetCurrentScene()->GetObjectByName("ScoreDisplay2");

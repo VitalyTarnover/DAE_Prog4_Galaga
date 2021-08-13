@@ -77,9 +77,6 @@ void CollisionManager::CleanUp()
 
 void CollisionManager::Update()
 {
-
-
-
 	//killing player
 	if (m_FS1 && m_FS1->GetComponent<PlayerHealthComponent>()->IsAlive())
 	{
@@ -89,7 +86,7 @@ void CollisionManager::Update()
 		{
 			if (CheckIfCollide(fs1Rect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 			{
-				m_FS1->GetComponent<PlayerHealthComponent>()->Die();
+				m_pEvents[0]->Notify(m_FS1.get(), "PlayerKilled");
 				EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
 
 				m_pEnemiesForCheck[i]->GetComponent<BaseEnemyMovementComponent>()->Die(m_FS1);
@@ -109,7 +106,7 @@ void CollisionManager::Update()
 					if (CheckIfCollide(fs1Rect, m_pRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 					{	
 						//player->die
-						m_FS1->GetComponent<PlayerHealthComponent>()->Die();
+						m_pEvents[0]->Notify(m_FS1.get(), "PlayerKilled");
 						m_pRocketsForCheck[i]->SetMarkedForDelete(true);
 						m_pRocketsForCheck[i] = nullptr;
 						m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
@@ -131,16 +128,14 @@ void CollisionManager::Update()
 				if (CheckIfCollide(fs1Rect, m_pTractorBeamsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 				{
 					//player->die
-					m_FS1->GetComponent<PlayerHealthComponent>()->Die();
+					m_pEvents[0]->Notify(m_FS1.get(), "PlayerKilled");
 					m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->GetBirdOwner()->
 						GetComponent<BirdMovementComponent>()->FighterCaptured();
 					break;
 				}
 			}
 			else m_pTractorBeamsForCheck.erase(std::remove(m_pTractorBeamsForCheck.begin(), m_pTractorBeamsForCheck.end(), m_pTractorBeamsForCheck[i]), m_pTractorBeamsForCheck.end());
-
 		}
-
 	}
 
 	//killing enemies
@@ -166,7 +161,6 @@ void CollisionManager::Update()
 							if (!m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->GetIsInFormation())
 								EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
 
-							//m_pEvents[0]->Notify(m_FS1.get(), "BeeKilled");//old
 							m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die(m_FS1);
 							m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
 						}
@@ -177,10 +171,7 @@ void CollisionManager::Update()
 						m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 
 						RocketManager::GetInstance().ReduceActiveRocketsNumber();//TODO: can be done with an observer as well
-
 						break;
-
-						
 					}
 				}
 
@@ -193,17 +184,13 @@ void CollisionManager::Update()
 
 void CollisionManager::InitializeEvents(std::vector<std::shared_ptr<IEventHandler>> eventHandlers)
 {
-	std::shared_ptr<Event> eventEnemyKilled = std::make_shared<Event>();
 	std::shared_ptr<Event> eventPlayerKilled = std::make_shared<Event>();
 	
-	m_pEvents.push_back(eventEnemyKilled);//0: EventEnemyKilled 
-	m_pEvents.push_back(eventPlayerKilled);//1: EventPlayerKilled
+	m_pEvents.push_back(eventPlayerKilled);//0: EventPlayerKilled
 
-	//0 - ScoreEH
-	//1 - HealthEH
-	//2 - AudioEH
-	m_pEvents[0]->AddHandler(eventHandlers[0]); //EventEnemyKilled -> ScoreEH
-	//m_pEvents[1]->AddHandler(eventHandlers[1]); //EventPlayerKilled -> HealthEH
+	//0 - HealthEH
+	//1 - AudioEH
+	m_pEvents[0]->AddHandler(eventHandlers[0]); //EventPlayerKilled -> HealthEH
 }
 
 bool CollisionManager::CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2)
