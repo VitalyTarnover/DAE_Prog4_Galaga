@@ -145,10 +145,20 @@ void EnemyManager::Update()
 	
 }
 
-void EnemyManager::ResetEnemies()
+void EnemyManager::CleanUp()
 {
 	m_pEnemies.clear();//TODO: clear all of them!
+
+	m_BeeInfo.clear();
+	m_BFInfo.clear();
+	m_BirdInfo.clear();
+	
+	m_EnemyShooters.clear();
+
+	m_EventLevelCleared.ResetHandlers();
 }
+
+
 
 void EnemyManager::AnEnemyReachedPositionInFormation()
 {

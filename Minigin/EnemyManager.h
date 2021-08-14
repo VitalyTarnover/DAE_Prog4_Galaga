@@ -19,7 +19,7 @@ public:
 		const std::vector<std::vector<int>>& birdInfo,
 		std::vector<std::shared_ptr<IEventHandler>> handlers);
 	void Update();
-	void ResetEnemies();
+	void CleanUp();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
 	void SendRandomEnemyToAttack();
 

@@ -21,7 +21,9 @@ public:
 
 	bool GetIsHurt() const { return m_IsHurt; };
 	void Hurt(std::shared_ptr<GameObject> killerObject);
+	
 private:
+	void Die(std::shared_ptr<GameObject> killerObject) override;
 
 	bool m_IsHurt = false;
 

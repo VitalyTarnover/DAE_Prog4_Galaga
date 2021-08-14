@@ -40,7 +40,7 @@ BaseEnemyState* BFDiveDownState::Update(GameObject* enemy)
 
 void BFDiveDownState::CreatePaths(GameObject* enemy)
 {
-	BezierPath* path = new BezierPath();
+	std::shared_ptr<BezierPath> path = std::make_shared<BezierPath>();
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
@@ -121,8 +121,6 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 		m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation() });
 
 	}
-
-	delete path;
 
 }
 

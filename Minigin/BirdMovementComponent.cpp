@@ -73,13 +73,15 @@ void BirdMovementComponent::HandleCapturedFighter()
 void BirdMovementComponent::Hurt(std::shared_ptr<GameObject> killerObject)
 {
 	if (!m_IsHurt) m_IsHurt = true;
-	else
-	{
-		Die(killerObject);
-		if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBirdKilled");
-		else GetEventEnemyKilledHandler()->Notify(killerObject.get(), "BirdKilled");
-	}
+	else Die(killerObject);
 
+}
+
+void BirdMovementComponent::Die(std::shared_ptr<GameObject> killerObject)
+{
+	BaseEnemyMovementComponent::Die(killerObject);
+	if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBirdKilled");
+	else GetEventEnemyKilledHandler()->Notify(killerObject.get(), "BirdKilled");
 }
 
 

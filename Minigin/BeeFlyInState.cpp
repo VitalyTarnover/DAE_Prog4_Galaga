@@ -42,7 +42,7 @@ BaseEnemyState* BeeFlyInState::Update(GameObject* enemy)
 
 void BeeFlyInState::CreatePaths(GameObject* enemy)
 {
-	BezierPath* path = new BezierPath();
+	std::shared_ptr<BezierPath> path = std::make_shared<BezierPath>();
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
@@ -55,7 +55,7 @@ void BeeFlyInState::CreatePaths(GameObject* enemy)
 	//final position
 	m_Path.push_back(enemy->GetComponent<BeeMovementComponent>()->GetPosInFormation());
 
-	delete path;
+	
 }
 
 void BeeFlyInState::BeeFlyIn(GameObject* enemy)

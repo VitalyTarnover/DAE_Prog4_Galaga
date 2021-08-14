@@ -1,8 +1,6 @@
 #pragma once
 #include <iostream>
 
-
-
 #include "BaseCommand.h"
 
 #include "SceneManager.h"
@@ -11,6 +9,7 @@
 #include "FighterShipMovementComponent.h"
 #include "RocketManager.h"
 
+#include "SceneLoader.h"
 
 
 class LoadSinglePlayerCommand : public Command
@@ -18,7 +17,10 @@ class LoadSinglePlayerCommand : public Command
 public:
 	LoadSinglePlayerCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
 	~LoadSinglePlayerCommand() override = default;
-	void Execute() const override {};
+	void Execute() const override {
+		if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::MainMenu)
+			SceneLoader::GetInstance().LoadSinglePlayer();
+	};
 	void Release() const override {};
 	void Undo() override {};
 };
@@ -51,7 +53,10 @@ class LoadMainMenuCommand : public Command
 public:
 	LoadMainMenuCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
 	~LoadMainMenuCommand() override = default;
-	void Execute() const override {};
+	void Execute() const override {
+		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
+			SceneLoader::GetInstance().LoadMainMenu();
+	};
 	void Release() const override {};
 	void Undo() override {};
 };

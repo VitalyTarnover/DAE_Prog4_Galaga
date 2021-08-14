@@ -83,11 +83,6 @@ const std::string& Scene::GetName() const
 	return m_Name;
 }
 
-void dae::Scene::SetGameLevel(GameLevel levelNumber)
-{
-	m_CurrentGameLevel = levelNumber;
-	//m_pCurrentLevel->GetComponent<LevelComponent>()->SwitchGameLevel(levelNumber);
-}
 
 std::shared_ptr<GameObject> Scene::GetObjectByName(const std::string& name) const
 {

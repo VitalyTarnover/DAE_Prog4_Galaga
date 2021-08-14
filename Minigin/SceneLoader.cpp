@@ -1,0 +1,232 @@
+#include "MiniginPCH.h"
+#include "SceneLoader.h"
+
+#include "GameObject.h"
+#include "Scene.h"
+
+//ObserverV2
+#include "ScoreEventHandler.h"
+#include "HealthEventHandler.h"
+
+//Managers
+#include "CollisionManager.h"
+#include "LevelManager.h"
+#include "EnemyManager.h"
+#include "SceneManager.h"
+#include "SceneLoader.h"
+
+//Components
+#include "FPSTextComponent.h"
+#include "TransformComponent.h"
+#include "Texture2DComponent.h"
+#include "SpriteAnimComponent.h"
+
+#include "FighterShipMovementComponent.h"
+#include "BaseEnemyMovementComponent.h"
+#include "EnemyFlyInMovement.h"
+#include "PlayerHealthComponent.h"
+#include "RenderComponent.h"
+
+#include "TractorBeamDangerComponent.h"
+#include "GalagaBackgroundComponent.h"
+
+#include "ScoreComponent.h"
+
+using namespace dae;
+
+void SceneLoader::LoadMainMenu()
+{
+	m_CurrentGameMode = GameMode::MainMenu;
+
+	CleanUp();
+
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+
+	auto scene = SceneManager::GetInstance().GetCurrentScene();
+
+	int screenWidth = SceneManager::GetInstance().GetScreenWidth();
+	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
+
+	//Logo
+	float logoWidth = 600.f;
+	float logoHeight = 310.f;
+	auto galagaLogo = std::make_shared<GameObject>("Logo");
+	galagaLogo->AddComponent(new TransformComponent(glm::vec3(screenWidth/2 - (logoWidth / 2),0,0), logoWidth, logoHeight,1.f,1.f));
+	galagaLogo->AddComponent(new Texture2DComponent("Galaga_logo.png"));
+	galagaLogo->AddComponent(new RenderComponent());
+	scene->Add(galagaLogo);
+
+	//Texts
+	int verticalOffset = 0;
+	
+	auto text1 = std::make_shared<GameObject>("Controls");
+	text1->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text1->AddComponent(new TextComponent("Controls:", font, SDL_Color{ 255,0,0 }));
+	text1->AddComponent(new RenderComponent());
+	scene->Add(text1);
+
+	verticalOffset += 15;
+
+	auto text2 = std::make_shared<GameObject>("Controls1");
+	text2->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text2->AddComponent(new TextComponent("Player 1: Left/Right arrow - move left/right, A - shoot.", font, SDL_Color{ 255,255,255 }));
+	text2->AddComponent(new RenderComponent());
+	scene->Add(text2);
+	
+	verticalOffset += 15;
+
+	auto text3 = std::make_shared<GameObject>("Controls2");
+	text3->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text3->AddComponent(new TextComponent("Player 2: J/L - move left/right, H - shoot.", font, SDL_Color{ 255,255,255 }));
+	text3->AddComponent(new RenderComponent());
+	scene->Add(text3);
+
+	verticalOffset += 30;
+
+	auto text4 = std::make_shared<GameObject>("GameModes");
+	text4->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text4->AddComponent(new TextComponent("Game modes:", font, SDL_Color{ 255,0,0 }));
+	text4->AddComponent(new RenderComponent());
+	scene->Add(text4);
+
+	verticalOffset += 15;
+
+	auto text5 = std::make_shared<GameObject>("Singleplayer");
+	text5->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text5->AddComponent(new TextComponent("Press 1 to load singleplayer mode", font, SDL_Color{ 255,255,255 }));
+	text5->AddComponent(new RenderComponent());
+	scene->Add(text5);
+
+
+	verticalOffset += 15;
+
+	auto text6 = std::make_shared<GameObject>("Coop");
+	text6->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text6->AddComponent(new TextComponent("Press 2 to load coop mode", font, SDL_Color{ 255,255,255 }));
+	text6->AddComponent(new RenderComponent());
+	scene->Add(text6);
+
+
+	verticalOffset += 15;
+
+	auto text7 = std::make_shared<GameObject>("Versus");
+	text7->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text7->AddComponent(new TextComponent("Press 3 to load versus mode", font, SDL_Color{ 255,255,255 }));
+	text7->AddComponent(new RenderComponent());
+	scene->Add(text7);
+
+	verticalOffset += 15;
+
+	auto text8 = std::make_shared<GameObject>("MainMenu");
+	text8->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text8->AddComponent(new TextComponent("Press P in any game mode to return to the main menu", font, SDL_Color{ 255,255,255 }));
+	text8->AddComponent(new RenderComponent());
+	scene->Add(text8);
+
+}
+
+void SceneLoader::LoadSinglePlayer()
+{
+	m_CurrentGameMode = GameMode::Singleplayer;
+
+	CleanUp();
+
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+
+	auto scene = SceneManager::GetInstance().GetCurrentScene();
+	
+	int screenWidth = SceneManager::GetInstance().GetScreenWidth();
+	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
+	
+	//managers
+	std::vector<std::shared_ptr<IEventHandler>> handlers;
+
+	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
+
+	handlers.push_back(healthEventHandler);
+
+	CollisionManager::GetInstance().InitializeEvents(handlers);
+
+	LevelManager::GetInstance().NextLevel();
+
+
+	//Background
+	auto background = std::make_shared<GameObject>("Background");
+	background->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
+	background->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
+	background->AddComponent(new GalagaBackgroundComponent);
+	background->AddComponent(new RenderComponent());
+	scene->Add(background);
+
+	auto background1 = std::make_shared<GameObject>("Background");
+	background1->AddComponent(new TransformComponent(glm::vec3(0, -screenHeight, 0)));
+	background1->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
+	background1->AddComponent(new GalagaBackgroundComponent);
+	background1->AddComponent(new RenderComponent());
+	scene->Add(background1);
+
+	//fps counter
+	//auto go = std::make_shared<GameObject>("FPSCounter");
+	//go->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
+	//go->AddComponent(new FPSTextComponent(font2));
+	//go->AddComponent(new RenderComponent());
+	//scene->Add(go);
+
+
+	//player
+	auto playerFighter = std::make_shared<GameObject>("Player1");
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2, screenHeight / 5 * 4, 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+	//playerFighter->AddComponent(new ScoreComponent(0));
+	playerFighter->AddComponent(new PlayerHealthComponent(3));
+	//playerFighter->AddWatcher(new ScoreObserver());
+	playerFighter->AddComponent(new RenderComponent());
+	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene->GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
+	playerFighter->AddComponent(new SpriteAnimComponent(2));
+	playerFighter->AddComponent(new FighterShipMovementComponent(500));
+	playerFighter->AddComponent(new ScoreComponent());
+	scene->Add(playerFighter);
+	scene->AddPlayer(playerFighter);
+	CollisionManager::GetInstance().SetPlayersCollisions();//!!!
+
+	//HUD
+	auto player1Text = std::make_shared<GameObject>("Player1Text");
+	player1Text->AddComponent(new TransformComponent(glm::vec3(10, 10, 0)));
+	player1Text->AddComponent(new TextComponent("Player 1", font, SDL_Color{ 255,255,255 }));
+	player1Text->AddComponent(new RenderComponent());
+	scene->Add(player1Text);
+
+	auto scoreDisplay = std::make_shared<GameObject>("ScoreDisplay");
+	scoreDisplay->AddComponent(new TransformComponent(glm::vec3(10, 25, 0)));
+	scoreDisplay->AddComponent(new TextComponent("Score: 0", font, SDL_Color{ 255,255,255 }));
+	scoreDisplay->AddComponent(new RenderComponent());
+	scene->Add(scoreDisplay);
+
+	auto healthDisplay = std::make_shared<GameObject>("LivesDisplay");
+	healthDisplay->AddComponent(new TransformComponent(glm::vec3(10, 40, 0)));
+	healthDisplay->AddComponent(new TextComponent(
+		"Lives: " + std::to_string(playerFighter->GetComponent<PlayerHealthComponent>()->GetLives()), font, SDL_Color{ 255,255,255 }));
+	healthDisplay->AddComponent(new RenderComponent());
+	scene->Add(healthDisplay);
+
+	auto levelDisplay = std::make_shared<GameObject>("LevelDisplay");
+	levelDisplay->AddComponent(new TransformComponent(glm::vec3(0, screenHeight - 20, 0)));
+	levelDisplay->AddComponent(new TextComponent("Level: " + std::to_string(LevelManager::GetInstance().GetCurrentLevel()), font, SDL_Color{ 255,255,255 }));
+	levelDisplay->AddComponent(new RenderComponent());
+	scene->Add(levelDisplay);
+}
+
+void SceneLoader::LoadCoop()
+{
+}
+
+void SceneLoader::LoadVersus()
+{
+}
+
+void SceneLoader::CleanUp() const
+{
+	EnemyManager::GetInstance().CleanUp();
+	CollisionManager::GetInstance().CleanUp();
+	SceneManager::GetInstance().GetCurrentScene()->ClearScene();
+	LevelManager::GetInstance().ResetLevel();
+}

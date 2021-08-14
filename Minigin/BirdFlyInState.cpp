@@ -49,7 +49,7 @@ void BirdFlyInState::SetSpriteState(GameObject* enemy)
 void BirdFlyInState::CreatePaths(GameObject* enemy)
 {
 
-	BezierPath* path = new BezierPath();
+	std::shared_ptr<BezierPath> path = std::make_shared<BezierPath>();
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
@@ -62,7 +62,7 @@ void BirdFlyInState::CreatePaths(GameObject* enemy)
 	//final position
 	m_Path.push_back(enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation());
 
-	delete path;
+	
 }
 
 void BirdFlyInState::BirdFlyIn(GameObject* enemy)

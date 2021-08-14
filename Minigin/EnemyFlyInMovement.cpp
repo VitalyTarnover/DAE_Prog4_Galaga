@@ -30,7 +30,7 @@ void EnemyFlyInMovement::Update()
 
 void EnemyFlyInMovement::CreatePaths()
 {
-	BezierPath* path = new BezierPath();
+	std::shared_ptr<BezierPath> path = std::make_shared<BezierPath>();
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
@@ -202,7 +202,7 @@ void EnemyFlyInMovement::CreatePaths()
 	//back to position in formation
 	m_Path.push_back(glm::vec2{ m_PosInFormation });
 
-	delete path;
+	
 }
 
 void EnemyFlyInMovement::FlyIn()

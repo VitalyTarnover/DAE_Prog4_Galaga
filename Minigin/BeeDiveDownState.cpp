@@ -42,7 +42,7 @@ BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
 void BeeDiveDownState::CreatePaths(GameObject* enemy)
 {
 
-	BezierPath* path = new BezierPath();
+	std::shared_ptr<BezierPath> path = std::make_shared<BezierPath>();
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
@@ -79,9 +79,6 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 			15);
 		path->Sample(&m_Path, 1);
 	}
-
-	delete path;
-
 }
 
 bool BeeDiveDownState::BeeDiveDown(GameObject* enemy)

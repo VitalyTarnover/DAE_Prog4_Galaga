@@ -36,12 +36,15 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 	{
 		BirdMovementComponent* movementComponent = enemy->GetComponent<BirdMovementComponent>();
 
-		movementComponent->SetIsAttacking(false);
-
-		if (!movementComponent->GetIsPanicing())return new InFormationState();
+		if (!movementComponent->GetIsPanicing())
+		{
+			movementComponent->SetIsAttacking(false);
+			return new BirdInFormationState();
+		}
 		else
 		{
 			float diveDownSpeed = 300;
+			movementComponent->SetIsAttacking(true);
 			return new BirdDiveDownState(diveDownSpeed);
 		}
 	}
@@ -142,7 +145,7 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 
 void BirdDiveDownState::CreatePaths(GameObject* enemy)
 {
-	BezierPath* path = new BezierPath();
+	std::shared_ptr<BezierPath> path = std::make_shared<BezierPath>();
 	
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
@@ -196,7 +199,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 	//back to position in formation
 	m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation() });
 
-	delete path;
+	
 
 }
 

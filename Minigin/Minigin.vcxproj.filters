@@ -43,6 +43,9 @@
     <Filter Include="GalagaObserverV2">
       <UniqueIdentifier>{2b5185b9-29c0-45a2-ac81-69b57fa2e7d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SceneLoader">
+      <UniqueIdentifier>{2feeed3f-4854-46ba-8c22-c4c05a97feae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MiniginPCH.h">
@@ -162,6 +165,9 @@
     <ClInclude Include="LevelClearedEventHandler.h">
       <Filter>GalagaObserverV2</Filter>
     </ClInclude>
+    <ClInclude Include="SceneLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -274,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="LevelClearedEventHandler.cpp">
       <Filter>GalagaObserverV2</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLoader.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

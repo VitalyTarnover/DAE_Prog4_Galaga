@@ -37,7 +37,7 @@ BaseEnemyState* BFFlyInState::Update(GameObject* enemy)
 
 void BFFlyInState::CreatePaths(GameObject* enemy)
 {
-	BezierPath* path = new BezierPath();
+	std::shared_ptr<BezierPath> path = std::make_shared<BezierPath>();
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
@@ -47,7 +47,7 @@ void BFFlyInState::CreatePaths(GameObject* enemy)
 	path->AddCurve({ glm::vec2{-screenWidth / 4, screenHeight}, glm::vec2{screenWidth , -screenHeight / 4 }, glm::vec2{-screenWidth / 4 * 3,screenHeight / 4 }, enemy->GetComponent<BFMovementComponent>()->GetPosInFormation() }, 15);
 	path->Sample(&m_Path, 0);
 
-	delete path;
+	
 }
 
 void BFFlyInState::BFFlyIn(GameObject* enemy)

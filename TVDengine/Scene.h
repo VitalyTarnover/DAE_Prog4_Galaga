@@ -3,21 +3,6 @@
 #include "GameObject.h"
 
 
-enum class GameLevel//Different games can have different amount of levels
-{
-	Level1,
-	Level2,
-	Level3
-};
-
-enum class GameMode
-{
-	MainMenu,
-	SinglePlayer,
-	Coop,
-	Versus
-};
-
 
 namespace dae
 {
@@ -39,10 +24,6 @@ namespace dae
 
 		
 		float GetSceneScale() const { return m_SceneScale; }
-
-		void SetGameLevel(GameLevel levelNumber);
-
-		GameLevel GetGameLevel() const { return m_CurrentGameLevel; }
 
 		std::shared_ptr<GameObject> GetObjectByName(const std::string& name) const;
 		void AddPlayer(const std::shared_ptr<GameObject>& player);
@@ -66,10 +47,6 @@ namespace dae
 
 		void ClearScene();
 
-
-		GameMode GetCurrentGameMode() const { return m_CurrentGameMode; }
-		void SetCurrentGameMode(GameMode gameMode) { m_CurrentGameMode = gameMode; }
-
 	private:
 		explicit Scene(const std::string& name);
 
@@ -83,8 +60,5 @@ namespace dae
 		std::shared_ptr<GameObject> m_pCurrentLevel;
 
 		static unsigned int m_IdCounter;
-
-		GameLevel m_CurrentGameLevel = GameLevel::Level1;
-		GameMode m_CurrentGameMode = GameMode::SinglePlayer;
 	};
 }
