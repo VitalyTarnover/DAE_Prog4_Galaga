@@ -18,5 +18,7 @@ private:
 	float m_Speed;
 
 	bool m_MovesUp;
+
+	glm::vec2 m_Direction;
 };
 
