@@ -14,6 +14,7 @@
 #include "EnemyManager.h"
 #include "SceneManager.h"
 #include "SceneLoader.h"
+#include "RocketManager.h"
 
 //Components
 #include "FPSTextComponent.h"
@@ -213,6 +214,8 @@ void SceneLoader::LoadSinglePlayer()
 	levelDisplay->AddComponent(new TextComponent("Level: " + std::to_string(LevelManager::GetInstance().GetCurrentLevel()), font, SDL_Color{ 255,255,255 }));
 	levelDisplay->AddComponent(new RenderComponent());
 	scene->Add(levelDisplay);
+
+
 }
 
 void SceneLoader::LoadCoop()
@@ -223,10 +226,69 @@ void SceneLoader::LoadVersus()
 {
 }
 
+void SceneLoader::ShowResultsScreen()
+{
+	int shots = RocketManager::GetInstance().GetNumberOfShotsFired();
+	int hits = RocketManager::GetInstance().GetNumberOfHits();
+	int ratio = 0;//TODO: mby use round here
+	
+	if (shots != 0)
+	{
+		ratio = int((float(hits) / shots) * 100);
+	}
+
+	int screenWidth = SceneManager::GetInstance().GetScreenWidth();
+	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
+	
+	auto scene = SceneManager::GetInstance().GetCurrentScene();
+
+	int fontSize = 36;
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize);
+	
+	
+	int verticalOffset = 0;
+
+	std::string resultsText = "-RESULTS-";
+	auto results = std::make_shared<GameObject>("results");
+	results->AddComponent(new TransformComponent(glm::vec3(screenWidth/2 - (resultsText.size()/2 * fontSize / 2), screenHeight/2 + verticalOffset, 0)));
+	results->AddComponent(new TextComponent(resultsText, font, SDL_Color{ 255,0,0 }));
+	results->AddComponent(new RenderComponent());
+	scene->Add(results);
+
+	verticalOffset += fontSize;
+
+	std::string shotsFiredText = "SHOTS FIRED:    ";
+	auto shotsFired = std::make_shared<GameObject>("shotsFired");
+	shotsFired->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 - (shotsFiredText.size() / 2 * fontSize / 2), screenHeight / 2 + verticalOffset, 0)));
+	shotsFired->AddComponent(new TextComponent(shotsFiredText +"     "+ std::to_string(shots), font, SDL_Color{255,255,0}));
+	shotsFired->AddComponent(new RenderComponent());
+	scene->Add(shotsFired);
+
+	verticalOffset += fontSize;
+
+	std::string hitsNumberText = "NUMBER OF HITS:  ";
+	auto hitsNumber = std::make_shared<GameObject>("hitsNumber");
+	hitsNumber->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 - (hitsNumberText.size() / 2 * fontSize / 2), screenHeight / 2 + verticalOffset, 0)));
+	hitsNumber->AddComponent(new TextComponent(hitsNumberText + std::to_string(hits), font, SDL_Color{ 255,255,0 }));
+	hitsNumber->AddComponent(new RenderComponent());
+	scene->Add(hitsNumber);
+
+	verticalOffset += fontSize;
+
+	std::string hitMissRatioText = "HIT-MISS RATIO: %";
+	auto hitMissRatio = std::make_shared<GameObject>("hitMissRatio");
+	hitMissRatio->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 - (hitMissRatioText.size() / 2 * fontSize / 2), screenHeight / 2 + verticalOffset, 0)));
+	hitMissRatio->AddComponent(new TextComponent(hitMissRatioText + std::to_string(ratio), font, SDL_Color{ 255,255,255 }));
+	hitMissRatio->AddComponent(new RenderComponent());
+	scene->Add(hitMissRatio);
+
+}
+
 void SceneLoader::CleanUp() const
 {
 	EnemyManager::GetInstance().CleanUp();
 	CollisionManager::GetInstance().CleanUp();
 	SceneManager::GetInstance().GetCurrentScene()->ClearScene();
-	LevelManager::GetInstance().ResetLevel();
+	LevelManager::GetInstance().ResetLevelManager();
+	RocketManager::GetInstance().ResetStatistics();
 }

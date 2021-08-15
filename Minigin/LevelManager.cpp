@@ -4,14 +4,18 @@
 #include "GalagaFileReader.h"
 #include "ScoreEventHandler.h"
 #include "LevelClearedEventHandler.h"
+#include "SceneLoader.h"
+
+void LevelManager::Update()
+{
+	if (m_EndGame)EndGameSequence();
+}
 
 void LevelManager::NextLevel()
 {
-	if (m_CurrentLevel < 3)
+	if (m_CurrentLevel < 3 )
 	{
 		++m_CurrentLevel;
-		//TODO: manager resets
-
 
 		std::shared_ptr<ScoreEventHandler> scoreEventHandler = std::make_shared<ScoreEventHandler>();
 		std::shared_ptr<LevelClearedEventHandler> levelClearedEventHandler = std::make_shared<LevelClearedEventHandler>();
@@ -27,4 +31,49 @@ void LevelManager::NextLevel()
 
 		delete gfr;
 	}
+	else
+	{
+		if (!m_EndGame)
+		{
+			m_EndGame = true;
+			SceneLoader::GetInstance().ShowResultsScreen();
+		}
+	}
 }
+
+void LevelManager::ResetLevelManager()
+{
+	m_ResultsTimer = 0.f;
+	m_ResultsTime = 4.f;
+
+	m_CurrentLevel = 0;
+
+	m_Player1Lost = false;
+	m_Player2Lost = false;
+
+	m_EndGame = false;
+}
+
+void LevelManager::CheckEndGameConditions(GameObject* player)
+{
+	if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Coop || player->GetName() == "Player2")
+		m_Player2Lost = true;
+
+	if (player->GetName() == "Player1") m_Player1Lost = true;
+
+
+	if (m_Player1Lost && m_Player2Lost && m_EndGame == false)
+	{
+		m_EndGame = true;
+		SceneLoader::GetInstance().ShowResultsScreen();
+	}
+
+}
+
+void LevelManager::EndGameSequence()
+{
+	if (m_ResultsTimer < m_ResultsTime)	m_ResultsTimer += SystemTime::GetInstance().GetDeltaTime();
+	else SceneLoader::GetInstance().LoadMainMenu();
+}
+
+

@@ -32,11 +32,10 @@ public:
 
 private:
 	void ShootersShoot();
-	bool m_WaitingForPlayerToRespawn = false;
 	float m_SpawnTimer = 0;
 	float m_SpawnTime = 0.5f;
 
-	bool m_BuildingFormation;//if not then it is battle stage
+	
 
 	//std::vector<glm::vec2> m_EnemiesPosInFormation;
 	
@@ -66,7 +65,8 @@ private:
 	int m_PanicEnemiesNumber = 8;
 	bool m_MovingLeft = true;
 	bool m_PanicMode = false;
-
+	bool m_WaitingForPlayerToRespawn = false;
+	bool m_BuildingFormation;//if not then it is battle stage
 	//sending to dive down
 	float m_DiveDownTimer = 0;
 	float m_DiveDownTime = 3.0f;

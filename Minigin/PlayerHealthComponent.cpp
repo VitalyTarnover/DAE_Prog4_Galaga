@@ -8,11 +8,13 @@
 #include "FighterShipMovementComponent.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "LevelManager.h"
 
 
 PlayerHealthComponent::PlayerHealthComponent(int lives)
     :m_Lives{ lives }
     ,m_Dead {false}
+    ,m_Lost{false}
     ,m_RespawnTime{7.0f}
 {
     m_RespawnTimer = m_RespawnTime;
@@ -20,15 +22,19 @@ PlayerHealthComponent::PlayerHealthComponent(int lives)
 
 void PlayerHealthComponent::Update()
 {
-    if (m_Dead)
+    if (!m_Lost)
     {
-        m_RespawnTimer -= SystemTime::GetInstance().GetDeltaTime();
-        if (m_RespawnTimer <= 0)
+        if (m_Dead)
         {
-            Respawn();
-            m_RespawnTimer = m_RespawnTime;
+            m_RespawnTimer -= SystemTime::GetInstance().GetDeltaTime();
+            if (m_RespawnTimer <= 0)
+            {
+                Respawn();
+                m_RespawnTimer = m_RespawnTime;
+            }
         }
     }
+    
 }
 
 int PlayerHealthComponent::GetLives() const
@@ -55,6 +61,13 @@ void PlayerHealthComponent::Die()
     --m_Lives;
     //dead
     m_Dead = true;
+
+    if (m_Lives <= 0)
+    {
+        LevelManager::GetInstance().CheckEndGameConditions(m_pGameObject);
+        m_Lost = true;
+    }
+
 }
 
 void PlayerHealthComponent::Respawn()
@@ -73,10 +86,7 @@ void PlayerHealthComponent::Respawn()
         //not dead
         m_Dead = false;
     }
-    else
-    {
-        //TODO: inform something that game is over
-    }
+   
 }
 
 bool PlayerHealthComponent::IsAlive() const

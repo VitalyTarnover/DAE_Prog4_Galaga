@@ -42,6 +42,7 @@ void RocketManager::SpawnPlayerRocket() //mby pass index for P1/P2
 			CollisionManager::GetInstance().AddGameObjectForCheck(rocket);
 
 			++m_ActiveRocketsNumber;
+			++m_NumberOfShotsFired;
 		}
 		
 	}
@@ -69,4 +70,15 @@ void RocketManager::SpawnEnemyRocket(const glm::vec3& enemyPos)
 		++m_ActiveEnemyRocketsNumber;
 	}
 
+}
+
+void RocketManager::ResetStatistics()
+{
+	m_NumberOfShotsFired = 0;
+	m_NumberOfHits = 0;
+}
+
+void RocketManager::ShotHit()
+{
+	++m_NumberOfHits;
 }

@@ -163,6 +163,7 @@ void CollisionManager::Update()
 
 							m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die(m_FS1);
 							m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
+							RocketManager::GetInstance().ShotHit();
 						}
 
 						m_pRocketsForCheck[i]->SetMarkedForDelete(true);

@@ -18,6 +18,7 @@ private:
 
 	int m_Lives;
 	bool m_Dead;
+	bool m_Lost;
 
 };
 

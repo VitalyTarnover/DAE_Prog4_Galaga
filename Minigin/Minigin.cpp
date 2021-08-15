@@ -88,7 +88,6 @@ void dae::Minigin::LoadGame() const
 	SceneManager::GetInstance().CreateScene("Game");
 	
 	SceneLoader::GetInstance().LoadMainMenu();
-	
 }
 
 void dae::Minigin::Cleanup()
@@ -170,7 +169,11 @@ void dae::Minigin::BindCommands()
 
 void dae::Minigin::UpdateManagers()
 {
-	CollisionManager::GetInstance().Update();
-	EnemyManager::GetInstance().Update();
-	ExplosionManager::GetInstance().Update();
+	if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
+	{
+		CollisionManager::GetInstance().Update();
+		EnemyManager::GetInstance().Update();
+		ExplosionManager::GetInstance().Update();
+		LevelManager::GetInstance().Update();
+	}
 }

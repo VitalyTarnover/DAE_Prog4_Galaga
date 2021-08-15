@@ -16,7 +16,7 @@ public:
 	glm::vec2 GetPosInFormation();
 	virtual void Update();
 	void Switch();
-	void SetPanic() { m_Panic = true; };
+	void SetPanic(bool panic) { m_Panic = panic; };
 	bool GetIsPanicing() const { return m_Panic; };
 	void ShootARocket();
 	virtual void Die(std::shared_ptr<GameObject> killerObject);

@@ -17,6 +17,7 @@ public:
 	void LoadCoop();
 	void LoadVersus();
 
+	void ShowResultsScreen();
 
 	GameMode GetCurrentGameMode() const { return m_CurrentGameMode; };
 private:

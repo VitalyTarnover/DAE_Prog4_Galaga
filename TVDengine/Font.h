@@ -18,6 +18,8 @@ namespace dae
 		Font(Font &&) = delete;
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
+
+		unsigned int GetFontSize() const { return m_Size; };
 	private:
 		_TTF_Font* m_Font;
 		unsigned int m_Size;

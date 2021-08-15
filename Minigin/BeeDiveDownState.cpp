@@ -102,7 +102,7 @@ bool BeeDiveDownState::BeeDiveDown(GameObject* enemy)
 			{
 				glm::vec2 distance = m_Path[m_CurrentWaypoint] - currentPosition;
 
-				glm::vec2 direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));//normalized distance, because of sqrt might be a good idea to cache it
+				glm::vec2 direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));//TODO: normalized distance, because of sqrt might be a good idea to cache it
 
 				glm::vec2 translation = direction * SystemTime::GetInstance().GetDeltaTime() * m_Speed;
 
