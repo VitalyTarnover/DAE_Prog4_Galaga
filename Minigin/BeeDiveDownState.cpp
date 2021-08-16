@@ -94,17 +94,22 @@ bool BeeDiveDownState::BeeDiveDown(GameObject* enemy)
 
 			//check if we have reached next waypoint 
 			float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
+			
+			if (m_SqrMagnitude > sqrMagnitude) m_SqrMagnitude = sqrMagnitude;
+			else
+			{
+				glm::vec2 distance = m_Path[m_CurrentWaypoint] - currentPosition;
+				m_Direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));
+			}
 
-			if (sqrMagnitude < 6) //TODO: 4 can be something else, mby even declared 
-				++m_CurrentWaypoint;
+			int aproxReachDistance = 8;
+			if (sqrMagnitude < aproxReachDistance) ++m_CurrentWaypoint;
+
 
 			if (m_CurrentWaypoint < m_Path.size())// double check, must be removed
 			{
-				glm::vec2 distance = m_Path[m_CurrentWaypoint] - currentPosition;
-
-				glm::vec2 direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));//TODO: normalized distance, because of sqrt might be a good idea to cache it
-
-				glm::vec2 translation = direction * SystemTime::GetInstance().GetDeltaTime() * m_Speed;
+				
+				glm::vec2 translation = m_Direction * SystemTime::GetInstance().GetDeltaTime() * m_Speed;
 
 				trc->SetPosition(glm::vec3{ currentPosition.x + translation.x, currentPosition.y + translation.y, 0 });
 			}

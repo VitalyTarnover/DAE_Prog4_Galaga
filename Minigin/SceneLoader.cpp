@@ -166,7 +166,7 @@ void SceneLoader::LoadSinglePlayer()
 	background1->AddComponent(new RenderComponent());
 	scene->Add(background1);
 
-	//fps counter
+	//fps counter //TODO: delete
 	//auto go = std::make_shared<GameObject>("FPSCounter");
 	//go->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
 	//go->AddComponent(new FPSTextComponent(font2));

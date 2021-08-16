@@ -18,7 +18,7 @@ public:
 private:
 	int m_ActiveRocketsNumber = 0;
 	int m_ActiveEnemyRocketsNumber = 0;
-	int m_AllowedRocketsNumber = 20;
+	int m_AllowedRocketsNumber = 2;
 	int m_AllowedEnemyRocketsNumber = 1;
 
 	int m_NumberOfShotsFired = 0;

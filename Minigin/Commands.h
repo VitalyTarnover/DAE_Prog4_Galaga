@@ -22,7 +22,6 @@ public:
 			SceneLoader::GetInstance().LoadSinglePlayer();
 	};
 	void Release() const override {};
-	void Undo() override {};
 };
 
 
@@ -33,7 +32,6 @@ public:
 	~LoadCoopCommand() override = default;
 	void Execute() const override {};
 	void Release() const override {};
-	void Undo() override {};
 };
 
 
@@ -44,7 +42,6 @@ public:
 	~LoadVersusCommand() override = default;
 	void Execute() const override {};
 	void Release() const override {};
-	void Undo() override {};
 };
 
 
@@ -58,7 +55,6 @@ public:
 			SceneLoader::GetInstance().LoadMainMenu();
 	};
 	void Release() const override {};
-	void Undo() override {};
 };
 
 
@@ -71,7 +67,6 @@ public:
 
 	void Execute() const override { dae::InputManager::GetInstance().SetIsExiting(true); }
 	void Release() const override {};
-	void Undo() override {};
 };
 
 class ShootRocket : public Command
@@ -84,7 +79,6 @@ public:
 		RocketManager::GetInstance().SpawnPlayerRocket(); 
 	};
 	void Release() const override {};
-	void Undo() override {};
 };
 
 
@@ -95,16 +89,22 @@ public:
 
 	void Execute() const override
 	{
-		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
-		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(true);
+		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
+		{
+			auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+			pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(true);
+		}
+		
 	}
 
 	void Release() const override
 	{
-		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
-		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StopMoving(true);
+		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
+		{
+			auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+			pPlayerActor->GetComponent<FighterShipMovementComponent>()->StopMoving(true);
+		}
 	};
-	void Undo() override {};
 };
 
 class MoveRight final : public Command
@@ -123,7 +123,6 @@ public:
 		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
 		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StopMoving(false);
 	};
-	void Undo() override {};
 };
 
 

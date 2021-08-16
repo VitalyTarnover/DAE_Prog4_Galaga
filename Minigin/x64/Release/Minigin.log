@@ -1,20 +1,9 @@
-﻿  MiniginPCH.cpp
-  BaseEnemyMovementComponent.cpp
-  BezierCurve.cpp
-  BezierPath.cpp
-  CollisionManager.cpp
-  EnemyFlyInMovement.cpp
-  FighterShipMovementComponent.cpp
-  LivesObserver.cpp
-  Main.cpp
-  Minigin.cpp
-  RocketManager.cpp
-  RocketMovementComponent.cpp
-  ScoreObserver.cpp
+﻿  BeeDiveDownState.cpp
      Creating library D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Release\Galaga.lib and object D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Release\Galaga.exp
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 1336 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 2677 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    9 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Minigin.vcxproj -> D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Release\Galaga.exe
   D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\3rdParty\SDL2\lib\x64\SDL2.dll

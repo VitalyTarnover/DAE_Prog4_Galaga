@@ -13,5 +13,7 @@ private:
 	std::vector<glm::vec2> m_Path;
 	float m_Speed;
 	int m_CurrentWaypoint;
+	glm::vec2 m_Direction;
+	float m_SqrMagnitude = FLT_MAX;
 };
 
