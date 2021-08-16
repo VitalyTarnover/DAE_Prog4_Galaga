@@ -1,22 +1,17 @@
 #pragma once
-#include "BaseEnemyState.h"
+#include "BaseDynamicState.h"
 
-class BirdFlyInState : public BaseEnemyState
+class BirdFlyInState final : public BaseDynamicState
 {
 public:
 	BirdFlyInState(float speed, int stepSize = 5);
-	virtual BaseEnemyState* Update(GameObject* enemy) override;
+	BaseEnemyState* Update(GameObject* enemy) override;
 private:
-	std::vector<glm::vec2> m_Path;
-	int m_CurrentWaypoint;
-	float m_Speed;
-
-	bool m_SpriteOffset = false;
+	void CreatePaths(GameObject* enemy) override;
+	void Move(GameObject* enemy) override;
 
 	void SetSpriteState(GameObject* enemy);
-	void CreatePaths(GameObject* enemy);
-	void BirdFlyIn(GameObject* enemy);
 
-	int m_StepSize;//for patrolling before formation
+	bool m_SpriteOffset = false;
 };
 

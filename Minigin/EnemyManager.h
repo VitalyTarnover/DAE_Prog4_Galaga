@@ -23,6 +23,8 @@ public:
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
 	void SendRandomEnemyToAttack();
 
+	void RandomEnemyShot();
+
 	void CalculatePatrolSteps();
 	int GetPatrolStep();
 
@@ -31,11 +33,8 @@ public:
 	void SetWaitingForPlayerToRespawn(bool waiting);
 
 private:
-	void ShootersShoot();
 	float m_SpawnTimer = 0;
-	float m_SpawnTime = 0.5f;
-
-	
+	float m_SpawnTime = 0.35f;
 
 	//std::vector<glm::vec2> m_EnemiesPosInFormation;
 	
@@ -51,10 +50,6 @@ private:
 
 	int m_NumberOfEnemiesNotInPosition;
 	int m_NumberOfEnemiesAlive;
-
-	int m_ShootingTimeMax = 200;//times 100 to get good random float
-	int m_ShootingTimeMin = 75;//times 100 to get good random float
-	float m_ShootingTimer = 1.f;
 
 	//patrolling before formation
 	float m_StepTimer = 0;

@@ -63,6 +63,5 @@ void RocketMovementComponent::OutsideBordersCheck()
 	{
 		m_pGameObject->SetMarkedForDelete(true);
 		if (m_MovesUp) RocketManager::GetInstance().ReduceActiveRocketsNumber();
-		else RocketManager::GetInstance().ReduceActiveEnemyRocketsNumber();
 	}
 }

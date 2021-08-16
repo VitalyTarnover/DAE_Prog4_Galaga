@@ -170,7 +170,7 @@ void CollisionManager::Update()
 						m_pRocketsForCheck[i] = nullptr;
 						m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 
-						RocketManager::GetInstance().ReduceActiveRocketsNumber();//TODO: can be done with an observer as well
+						RocketManager::GetInstance().ReduceActiveRocketsNumber();
 						break;
 					}
 				}

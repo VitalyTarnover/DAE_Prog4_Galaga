@@ -9,9 +9,10 @@
 #include "EnemyManager.h"
 
 BeeDiveDownState::BeeDiveDownState(float speed)
-	:m_Speed{speed}
-	,m_CurrentWaypoint{0}
+	:BaseDynamicState()
 {
+	m_Speed = speed;
+	m_CurrentWaypoint = 0;
 }
 
 BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
@@ -46,7 +47,6 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 
 	int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
-
 
 	//attack for bees
 	//1st part -> 0
@@ -105,7 +105,6 @@ bool BeeDiveDownState::BeeDiveDown(GameObject* enemy)
 			int aproxReachDistance = 8;
 			if (sqrMagnitude < aproxReachDistance) ++m_CurrentWaypoint;
 
-
 			if (m_CurrentWaypoint < m_Path.size())// double check, must be removed
 			{
 				
@@ -124,7 +123,6 @@ bool BeeDiveDownState::BeeDiveDown(GameObject* enemy)
 	}
 	else
 	{
-		//EnemyManager::
 		return true;
 	}
 

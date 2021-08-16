@@ -1,10 +1,4 @@
-﻿  BaseEnemyMovementComponent.cpp
-  CollisionManager.cpp
-  Minigin.cpp
-  RocketManager.cpp
-  RocketMovementComponent.cpp
-  SceneLoader.cpp
-  Generating Code...
+﻿  EnemyManager.cpp
   Minigin.vcxproj -> D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Debug\Galaga.exe
   D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\3rdParty\SDL2\lib\x64\SDL2.dll
   Скопировано файлов: 1.

@@ -1,19 +1,14 @@
 #pragma once
-#include "BaseEnemyState.h"
+#include "BaseDynamicState.h"
 
-class BeeDiveDownState : public BaseEnemyState
+class BeeDiveDownState : public BaseDynamicState
 {
 public:
 	BeeDiveDownState(float speed);
 	BaseEnemyState* Update(GameObject* enemy) override;
 private:
-	void CreatePaths(GameObject* enemy);
+	void CreatePaths(GameObject* enemy) override;
 	bool BeeDiveDown(GameObject* enemy);
 
-	std::vector<glm::vec2> m_Path;
-	float m_Speed;
-	int m_CurrentWaypoint;
-	glm::vec2 m_Direction;
-	float m_SqrMagnitude = FLT_MAX;
 };
 

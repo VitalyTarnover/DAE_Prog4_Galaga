@@ -214,6 +214,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="AnalogTriggerCommand.h" />
     <ClInclude Include="AudioEventHandler.h" />
     <ClInclude Include="BaseEnemyMovementComponent.h" />
+    <ClInclude Include="BaseDynamicState.h" />
     <ClInclude Include="BeeDiveDownState.h" />
     <ClInclude Include="BeeMovementComponent.h" />
     <ClInclude Include="BezierCurve.h" />
@@ -255,6 +256,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="AudioEventHandler.cpp" />
     <ClCompile Include="BaseEnemyMovementComponent.cpp" />
     <ClCompile Include="BaseEnemyState.cpp" />
+    <ClCompile Include="BaseDynamicState.cpp" />
     <ClCompile Include="BeeDiveDownState.cpp" />
     <ClCompile Include="BeeMovementComponent.cpp" />
     <ClCompile Include="BezierCurve.cpp" />

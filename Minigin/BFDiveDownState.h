@@ -1,17 +1,13 @@
 #pragma once
-#include "BaseEnemyState.h"
+#include "BaseDynamicState.h"
 
-class BFDiveDownState : public BaseEnemyState
+class BFDiveDownState : public BaseDynamicState
 {
 public:
 	BFDiveDownState(float speed);
 	BaseEnemyState* Update(GameObject* enemy) override;
 private:
-	void CreatePaths(GameObject* enemy);
+	void CreatePaths(GameObject* enemy) override;
 	bool BFDiveDown(GameObject* enemy);
-
-	std::vector<glm::vec2> m_Path;
-	float m_Speed;
-	int m_CurrentWaypoint;
 };
 

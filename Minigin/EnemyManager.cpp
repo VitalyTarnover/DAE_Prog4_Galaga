@@ -39,9 +39,6 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
 
 	m_PanicMode = false;
-	m_WaitingForPlayerToRespawn = false;
-
-	m_CurrentDifficultyLevel = 1;
 
 	m_DiveDownTimer = m_DiveDownTime;
 
@@ -132,11 +129,7 @@ void EnemyManager::Update()
 	{
 		if (m_pEnemies.size() > 0)
 		{
-			if (!m_BuildingFormation)
-			{
-				SendRandomEnemyToAttack();
-				ShootersShoot();
-			}
+			if (!m_BuildingFormation) SendRandomEnemyToAttack();
 		}
 
 		if (m_pEnemies.size() <= 0 && m_NumberOfEnemiesNotInPosition <= 0)
@@ -147,12 +140,16 @@ void EnemyManager::Update()
 		}
 	}
 	CalculatePatrolSteps();
+	if (!m_WaitingForPlayerToRespawn) RandomEnemyShot();
 	
 }
 
 void EnemyManager::CleanUp()
 {
-	m_pEnemies.clear();//TODO: clear all of them!
+	m_CurrentDifficultyLevel = 1;
+	m_WaitingForPlayerToRespawn = false;
+
+	m_pEnemies.clear();
 
 	m_BeeInfo.clear();
 	m_BFInfo.clear();
@@ -176,25 +173,7 @@ void EnemyManager::SetWaitingForPlayerToRespawn(bool waiting)
 	m_WaitingForPlayerToRespawn = waiting;
 }
 
-void EnemyManager::ShootersShoot()
-{
-	if (m_EnemyShooters.size() > 0 && !m_WaitingForPlayerToRespawn)
-	{
-		if (m_ShootingTimer > 0) m_ShootingTimer -= SystemTime::GetInstance().GetDeltaTime();
-		else
-		{
-			m_EnemyShooters.back()->GetComponent<BaseEnemyMovementComponent>()->ShootARocket();
-			m_EnemyShooters.pop_back();
 
-			m_ShootingTimer = (rand() % m_ShootingTimeMax + m_ShootingTimeMin)/100.f;
-		}
-	}
-}
-
-//void EnemyManager::OnEvent()
-//{
-//	AnEnemyReachedPositionInFormation();
-//}
 
 void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
 {
@@ -246,13 +225,7 @@ void EnemyManager::SendRandomEnemyToAttack()
 							{
 								enemyMovement->Switch();
 
-								int chanceToShootModifier = 4 - m_CurrentDifficultyLevel;//Max amount of levels
-
-								int chanceToShoot = rand() % chanceToShootModifier + 1;
-								if (chanceToShoot == chanceToShootModifier)
-								{
-									m_EnemyShooters.push_back(m_pEnemies[randomEnemyIndex]);
-								}
+								
 							}
 							else
 							{
@@ -313,6 +286,26 @@ void EnemyManager::SendRandomEnemyToAttack()
 		}
 	}
 
+}
+
+void EnemyManager::RandomEnemyShot()
+{
+	if (m_pEnemies.size() > 0)
+	{
+		int randomEnemyIndex = rand() % m_pEnemies.size();
+
+		int chanceRange = 200;
+		int diffcultyLevelWeight = 25;
+
+		int chanceToShootModifier = chanceRange - (m_CurrentDifficultyLevel * diffcultyLevelWeight);
+
+		int chanceToShoot = rand() % chanceToShootModifier + 1;
+		if (chanceToShoot == chanceToShootModifier)
+		{
+			if (m_pEnemies[randomEnemyIndex]->GetComponent<TransformComponent>()->GetCenterPosition().y < dae::SceneManager::GetInstance().GetScreenHeight()/2)
+			m_pEnemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>()->ShootARocket();
+		}
+	}
 }
 
 

@@ -124,6 +124,14 @@ void SceneLoader::LoadMainMenu()
 	text8->AddComponent(new RenderComponent());
 	scene->Add(text8);
 
+	verticalOffset += 30;
+
+	auto text9 = std::make_shared<GameObject>("Escape");
+	text9->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text9->AddComponent(new TextComponent("Press Esc in main menu to close the game", font, SDL_Color{ 255,255,255 }));
+	text9->AddComponent(new RenderComponent());
+	scene->Add(text9);
+
 }
 
 void SceneLoader::LoadSinglePlayer()

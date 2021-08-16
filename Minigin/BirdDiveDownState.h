@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseEnemyState.h"
+#include "BaseDynamicState.h"
 
 enum class TractorBeamStage
 {
@@ -9,21 +9,18 @@ enum class TractorBeamStage
 	Stage3
 };
 
-class BirdDiveDownState : public BaseEnemyState
+class BirdDiveDownState : public BaseDynamicState
 {
 public:
 	BirdDiveDownState(float speed);
 	BaseEnemyState* Update(GameObject* enemy) override;
 private:
 	void SetSpriteState(GameObject* enemy);
-	
-	void TractorBeamAttack(GameObject* enemy);
-	void CreatePaths(GameObject* enemy);
-	bool BirdDiveDown(GameObject* enemy);
 
-	std::vector<glm::vec2> m_Path;
-	float m_Speed;
-	int m_CurrentWaypoint;
+	void TractorBeamAttack(GameObject* enemy);
+	void CreatePaths(GameObject* enemy) override;
+
+	bool BirdDiveDown(GameObject* enemy);
 
 	bool m_BombingAttack;
 	bool m_TractorBeamActivated = false;
@@ -34,5 +31,7 @@ private:
 	float m_TractorBeamTime = 6.0f;
 
 	TractorBeamStage m_TractorBeamStage = TractorBeamStage::Stage0;
+
+
 };
 

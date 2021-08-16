@@ -168,6 +168,9 @@
     <ClInclude Include="SceneLoader.h">
       <Filter>SceneLoader</Filter>
     </ClInclude>
+    <ClInclude Include="BaseDynamicState.h">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -236,9 +239,6 @@
     <ClCompile Include="BirdMovementComponent.cpp">
       <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEnemyState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -283,6 +283,12 @@
     </ClCompile>
     <ClCompile Include="SceneLoader.cpp">
       <Filter>SceneLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseDynamicState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemyState.cpp">
+      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

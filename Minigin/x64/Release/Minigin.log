@@ -1,9 +1,11 @@
-﻿  BeeDiveDownState.cpp
+﻿  BaseFlyInState.cpp
+  BeeMovementComponent.cpp
+  BeeFlyInState.cpp
      Creating library D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Release\Galaga.lib and object D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Release\Galaga.exp
   Generating code
-  1 of 2677 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    9 functions had inline decision re-evaluated but remain unchanged
+  161 of 2683 functions ( 6.0%) were compiled, the rest were copied from previous compilation.
+    8 functions were new in current compilation
+    91 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Minigin.vcxproj -> D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Release\Galaga.exe
   D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\3rdParty\SDL2\lib\x64\SDL2.dll
