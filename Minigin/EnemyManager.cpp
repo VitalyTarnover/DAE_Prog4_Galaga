@@ -23,19 +23,19 @@ EnemyManager::~EnemyManager()
 	m_pEnemies.clear();
 }
 
-void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
-	const std::vector<std::vector<int>>& bfInfo, 
+void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
+	const std::vector<std::vector<int>>& bfInfo,
 	const std::vector<std::vector<int>>& birdInfo,
 	std::vector<std::shared_ptr<IEventHandler>> handlers)
 {
 	//set state building formation
 	m_BuildingFormation = true;
-	
+
 	m_BeeInfo = beeInfo;
 	m_BFInfo = bfInfo;
 	m_BirdInfo = birdInfo;
 
-	m_NumberOfEnemiesNotInPosition = int(m_BeeInfo.size() + m_BFInfo.size() + m_BirdInfo.size() );
+	m_NumberOfEnemiesNotInPosition = int(m_BeeInfo.size() + m_BFInfo.size() + m_BirdInfo.size());
 	m_NumberOfEnemiesAlive = m_NumberOfEnemiesNotInPosition;
 
 	m_PanicMode = false;
@@ -46,6 +46,13 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 	//m_EventLevelCleared = std::make_shared<Event>();
 	m_EventLevelCleared.ResetHandlers();
 	m_EventLevelCleared.AddHandler(handlers[1]);
+
+	m_RespawnWaitingTimer = 0.f;
+	m_SpawnTimer = 0.f;
+	m_RespawnWaitingTimer = 0.f;
+	m_DiveDownTimer = 0.f;
+	m_StepTimer = 0.f;
+
 }
 
 void EnemyManager::Update()
@@ -139,8 +146,11 @@ void EnemyManager::Update()
 			m_EventLevelCleared.Notify(nullptr, "LevelCleared");
 		}
 	}
+
 	CalculatePatrolSteps();
+
 	if (!m_WaitingForPlayerToRespawn) RandomEnemyShot();
+	else RespawnWaitingHandler();
 	
 }
 
@@ -286,6 +296,16 @@ void EnemyManager::SendRandomEnemyToAttack()
 		}
 	}
 
+}
+
+void EnemyManager::RespawnWaitingHandler()
+{
+		if (m_RespawnWaitingTimer < m_RespawnWaitingTime) m_RespawnWaitingTimer += SystemTime::GetInstance().GetDeltaTime();
+		else
+		{
+			m_WaitingForPlayerToRespawn = false;
+			m_RespawnWaitingTimer = 0;
+		}
 }
 
 void EnemyManager::RandomEnemyShot()

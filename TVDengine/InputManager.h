@@ -16,10 +16,13 @@ namespace dae
 {
 	enum class KeyboardButton
 	{
-		Left = SDLK_LEFT,
-		Right = SDLK_RIGHT,
-		A = SDLK_a,
-		P = SDLK_p,
+		A = SDLK_a,//P1 Left
+		D = SDLK_d,//P1 Right
+		F = SDLK_f,//P1 Shoot
+		J = SDLK_j,//P2 Left
+		L = SDLK_l,//P2 Right
+		H = SDLK_h,//P2 Shoot
+		P = SDLK_p,//pause/main menu
 		Enter = SDLK_RETURN,
 		One = SDLK_1,
 		Two = SDLK_2,

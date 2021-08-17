@@ -156,15 +156,21 @@ void dae::Minigin::BindCommands()
 	auto& inputManager = InputManager::GetInstance();
 
 	//keyboard
-	inputManager.AssignKey<ShootRocket>(KeyboardButton::A, 0);
-	inputManager.AssignKey<MoveLeft>(KeyboardButton::Left, 0);
-	inputManager.AssignKey<MoveRight>(KeyboardButton::Right, 0);
-	inputManager.AssignKey<ExitCommand>(KeyboardButton::ESC, 0);
+	inputManager.AssignKey<ShootRocket>(KeyboardButton::F, 0);
+	inputManager.AssignKey<MoveLeft>(KeyboardButton::A, 0);
+	inputManager.AssignKey<MoveRight>(KeyboardButton::D, 0);
+
+	inputManager.AssignKey<ShootRocket>(KeyboardButton::H, 1);
+	inputManager.AssignKey<MoveLeft>(KeyboardButton::J, 1);
+	inputManager.AssignKey<MoveRight>(KeyboardButton::L, 1);
 
 	inputManager.AssignKey<LoadSinglePlayerCommand>(KeyboardButton::One, 0);
 	inputManager.AssignKey<LoadCoopCommand>(KeyboardButton::Two, 0);
 	inputManager.AssignKey<LoadVersusCommand>(KeyboardButton::Three, 0);
+	
 	inputManager.AssignKey<LoadMainMenuCommand>(KeyboardButton::P, 0);
+	
+	inputManager.AssignKey<ExitCommand>(KeyboardButton::ESC, 0);
 }
 
 void dae::Minigin::UpdateManagers()

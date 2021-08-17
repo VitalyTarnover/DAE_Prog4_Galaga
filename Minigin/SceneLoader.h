@@ -9,6 +9,7 @@ enum class GameMode
 	Versus
 };
 
+
 class SceneLoader final : public dae::Singleton<SceneLoader>
 {
 public:
@@ -17,6 +18,7 @@ public:
 	void LoadCoop();
 	void LoadVersus();
 
+	void LoadGameBackground();
 	void ShowResultsScreen();
 
 	GameMode GetCurrentGameMode() const { return m_CurrentGameMode; };

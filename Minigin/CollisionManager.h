@@ -28,8 +28,8 @@ private:
 
 	std::vector<std::shared_ptr<Event>> m_pEvents;
 	
-
-	std::shared_ptr<GameObject> m_FS1;//Fighter ship, basically player TODO: mby make it a vector
-	std::shared_ptr<GameObject> m_FS2;//for player 2
+	std::vector<std::shared_ptr<GameObject>> m_pPlayers;
+	//std::shared_ptr<GameObject> m_FS1;//Fighter ship, basically player TODO: mby make it a vector
+	//std::shared_ptr<GameObject> m_FS2;//for player 2
 };
 

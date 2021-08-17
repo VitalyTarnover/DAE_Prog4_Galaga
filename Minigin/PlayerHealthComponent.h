@@ -12,6 +12,7 @@ public:
 	void Die();
 	void Respawn();
 	bool IsAlive() const;
+
 private:
 	float m_RespawnTimer;
 	float m_RespawnTime;

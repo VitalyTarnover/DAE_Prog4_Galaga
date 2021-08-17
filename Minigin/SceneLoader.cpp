@@ -158,21 +158,7 @@ void SceneLoader::LoadSinglePlayer()
 
 	LevelManager::GetInstance().NextLevel();
 
-
-	//Background
-	auto background = std::make_shared<GameObject>("Background");
-	background->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
-	background->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
-	background->AddComponent(new GalagaBackgroundComponent);
-	background->AddComponent(new RenderComponent());
-	scene->Add(background);
-
-	auto background1 = std::make_shared<GameObject>("Background");
-	background1->AddComponent(new TransformComponent(glm::vec3(0, -screenHeight, 0)));
-	background1->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
-	background1->AddComponent(new GalagaBackgroundComponent);
-	background1->AddComponent(new RenderComponent());
-	scene->Add(background1);
+	LoadGameBackground();
 
 	//fps counter //TODO: delete
 	//auto go = std::make_shared<GameObject>("FPSCounter");
@@ -228,10 +214,133 @@ void SceneLoader::LoadSinglePlayer()
 
 void SceneLoader::LoadCoop()
 {
+	m_CurrentGameMode = GameMode::Coop;
+
+	CleanUp();
+
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+
+	auto scene = SceneManager::GetInstance().GetCurrentScene();
+
+	int screenWidth = SceneManager::GetInstance().GetScreenWidth();
+	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
+
+	//managers
+	std::vector<std::shared_ptr<IEventHandler>> handlers;
+
+	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
+
+	handlers.push_back(healthEventHandler);
+
+	CollisionManager::GetInstance().InitializeEvents(handlers);
+
+	LevelManager::GetInstance().NextLevel();
+
+	LoadGameBackground();
+
+
+	//player1
+	auto playerFighter = std::make_shared<GameObject>("Player1");
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 - 20, screenHeight / 5 * 4, 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+	//playerFighter->AddComponent(new ScoreComponent(0));
+	playerFighter->AddComponent(new PlayerHealthComponent(3));
+	//playerFighter->AddWatcher(new ScoreObserver());
+	playerFighter->AddComponent(new RenderComponent());
+	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene->GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
+	playerFighter->AddComponent(new SpriteAnimComponent(2));
+	playerFighter->AddComponent(new FighterShipMovementComponent(500));
+	playerFighter->AddComponent(new ScoreComponent());
+	scene->Add(playerFighter);
+	scene->AddPlayer(playerFighter);
+
+	//HUD
+	auto player1Text = std::make_shared<GameObject>("Player1Text");
+	player1Text->AddComponent(new TransformComponent(glm::vec3(10, 10, 0)));
+	player1Text->AddComponent(new TextComponent("Player 1", font, SDL_Color{ 255,255,255 }));
+	player1Text->AddComponent(new RenderComponent());
+	scene->Add(player1Text);
+
+	auto scoreDisplay = std::make_shared<GameObject>("ScoreDisplay");
+	scoreDisplay->AddComponent(new TransformComponent(glm::vec3(10, 25, 0)));
+	scoreDisplay->AddComponent(new TextComponent("Score: 0", font, SDL_Color{ 255,255,255 }));
+	scoreDisplay->AddComponent(new RenderComponent());
+	scene->Add(scoreDisplay);
+
+	auto healthDisplay = std::make_shared<GameObject>("LivesDisplay");
+	healthDisplay->AddComponent(new TransformComponent(glm::vec3(10, 40, 0)));
+	healthDisplay->AddComponent(new TextComponent(
+		"Lives: " + std::to_string(playerFighter->GetComponent<PlayerHealthComponent>()->GetLives()), font, SDL_Color{ 255,255,255 }));
+	healthDisplay->AddComponent(new RenderComponent());
+	scene->Add(healthDisplay);
+
+	auto levelDisplay = std::make_shared<GameObject>("LevelDisplay");
+	levelDisplay->AddComponent(new TransformComponent(glm::vec3(0, screenHeight - 20, 0)));
+	levelDisplay->AddComponent(new TextComponent("Level: " + std::to_string(LevelManager::GetInstance().GetCurrentLevel()), font, SDL_Color{ 255,255,255 }));
+	levelDisplay->AddComponent(new RenderComponent());
+	scene->Add(levelDisplay);
+
+
+	//player2
+	auto playerFighter2 = std::make_shared<GameObject>("Player2");
+	playerFighter2->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 + 20, screenHeight / 5 * 4, 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+	playerFighter2->AddComponent(new PlayerHealthComponent(3));
+	playerFighter2->AddComponent(new RenderComponent());
+	playerFighter2->AddComponent(new Texture2DComponent("FighterShip2.png", scene->GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
+	playerFighter2->AddComponent(new FighterShipMovementComponent(500));
+	playerFighter2->AddComponent(new ScoreComponent());
+	scene->Add(playerFighter2);
+	scene->AddPlayer(playerFighter2);
+
+	//HUD2
+	int horizontalOffset = 110;
+	auto player2Text = std::make_shared<GameObject>("Player2Text");
+	player2Text->AddComponent(new TransformComponent(glm::vec3(screenWidth - horizontalOffset, 10, 0)));
+	player2Text->AddComponent(new TextComponent("Player 2", font, SDL_Color{ 190,190,255 }));
+	player2Text->AddComponent(new RenderComponent());
+	scene->Add(player2Text);
+
+	auto scoreDisplay2 = std::make_shared<GameObject>("ScoreDisplay2");
+	scoreDisplay2->AddComponent(new TransformComponent(glm::vec3(screenWidth - horizontalOffset, 25, 0)));
+	scoreDisplay2->AddComponent(new TextComponent("Score: 0", font, SDL_Color{ 190,190,255 }));
+	scoreDisplay2->AddComponent(new RenderComponent());
+	scene->Add(scoreDisplay2);
+
+	auto healthDisplay2 = std::make_shared<GameObject>("LivesDisplay2");
+	healthDisplay2->AddComponent(new TransformComponent(glm::vec3(screenWidth - horizontalOffset, 40, 0)));
+	healthDisplay2->AddComponent(new TextComponent(
+		"Lives: " + std::to_string(playerFighter->GetComponent<PlayerHealthComponent>()->GetLives()), font, SDL_Color{ 190,190,255 }));
+	healthDisplay2->AddComponent(new RenderComponent());
+	scene->Add(healthDisplay2);
+
+	CollisionManager::GetInstance().SetPlayersCollisions();//!!!
 }
 
 void SceneLoader::LoadVersus()
 {
+
+}
+
+void SceneLoader::LoadGameBackground()
+{
+	auto scene = SceneManager::GetInstance().GetCurrentScene();
+
+	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
+
+	//Background
+	auto background = std::make_shared<GameObject>("Background");
+	background->AddComponent(new TransformComponent(glm::vec3(0, 0, 0)));
+	background->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
+	background->AddComponent(new GalagaBackgroundComponent);
+	background->AddComponent(new RenderComponent());
+	scene->Add(background);
+
+	auto background1 = std::make_shared<GameObject>("Background");
+	background1->AddComponent(new TransformComponent(glm::vec3(0, -screenHeight, 0)));
+	background1->AddComponent(new Texture2DComponent("StarsBackground.jpg"));
+	background1->AddComponent(new GalagaBackgroundComponent);
+	background1->AddComponent(new RenderComponent());
+	scene->Add(background1);
+
 }
 
 void SceneLoader::ShowResultsScreen()

@@ -7,7 +7,7 @@ class RocketManager final : public dae::Singleton<RocketManager>
 public:
 
 	void ReduceActiveRocketsNumber();
-	void SpawnPlayerRocket();
+	void SpawnPlayerRocket(int playerIndex);
 	void SpawnEnemyRocket(const glm::vec3& enemyPos);
 
 	void ShotHit();

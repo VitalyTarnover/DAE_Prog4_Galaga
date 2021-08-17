@@ -7,6 +7,8 @@
 #include "BeeMovementComponent.h"
 #include "InFormationState.h"
 #include "EnemyManager.h"
+#include "SceneLoader.h"
+#include "PlayerHealthComponent.h"
 
 BeeDiveDownState::BeeDiveDownState(float speed)
 	:BaseDynamicState()
@@ -63,7 +65,19 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 		path->Sample(&m_Path, 0);
 	}
 
-	glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+	glm::vec2 playerPos{};
+	std::shared_ptr<dae::Scene> scene = dae::SceneManager::GetInstance().GetCurrentScene();
+
+	if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Singleplayer)
+	{
+		int playerIndex = rand() % 2;
+		if (scene->GetPlayer(playerIndex)->GetComponent<PlayerHealthComponent>()->IsAlive())
+		{
+			playerPos = scene->GetPlayer(playerIndex)->GetComponent<TransformComponent>()->GetCenterPosition();
+		}
+		else playerPos = scene->GetPlayer(!playerIndex)->GetComponent<TransformComponent>()->GetCenterPosition();
+	}
+	else playerPos = scene->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
 
 	//attack point
 	m_Path.push_back(playerPos);

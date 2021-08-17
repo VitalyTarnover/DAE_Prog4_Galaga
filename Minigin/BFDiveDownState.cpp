@@ -7,6 +7,8 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "BFMovementComponent.h"
+#include "SceneLoader.h"
+#include "PlayerHealthComponent.h"
 
 BFDiveDownState::BFDiveDownState(float speed)
 	:BaseDynamicState()
@@ -62,10 +64,22 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 			path->Sample(&m_Path, 0);
 		}
 
+		glm::vec2 playerPos{};
+		std::shared_ptr<dae::Scene> scene = dae::SceneManager::GetInstance().GetCurrentScene();
+
+		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Singleplayer)
+		{
+			int playerIndex = rand() % 2;
+			if (scene->GetPlayer(playerIndex)->GetComponent<PlayerHealthComponent>()->IsAlive())
+			{
+				playerPos = scene->GetPlayer(playerIndex)->GetComponent<TransformComponent>()->GetCenterPosition();
+			}
+			else playerPos = scene->GetPlayer(!playerIndex)->GetComponent<TransformComponent>()->GetCenterPosition();
+		}
+		else playerPos = scene->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
+
 		//wiggly decending to player
-
-		glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
-
+		
 		glm::vec2 tempTrajectoryPoint = m_Path[m_Path.size() - 1];
 
 		glm::vec2 distance = playerPos - glm::vec2{ tempTrajectoryPoint.x,tempTrajectoryPoint.y };

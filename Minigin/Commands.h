@@ -30,7 +30,10 @@ class LoadCoopCommand : public Command
 public:
 	LoadCoopCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
 	~LoadCoopCommand() override = default;
-	void Execute() const override {};
+	void Execute() const override {
+		if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::MainMenu)
+			SceneLoader::GetInstance().LoadCoop();
+	};
 	void Release() const override {};
 };
 
@@ -40,7 +43,10 @@ class LoadVersusCommand : public Command
 public:
 	LoadVersusCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
 	~LoadVersusCommand() override = default;
-	void Execute() const override {};
+	void Execute() const override {
+		if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::MainMenu)
+			SceneLoader::GetInstance().LoadVersus();
+	};
 	void Release() const override {};
 };
 
@@ -76,7 +82,7 @@ public:
 	~ShootRocket() override = default;
 	void Execute() const override { 
 		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
-		RocketManager::GetInstance().SpawnPlayerRocket(); 
+		RocketManager::GetInstance().SpawnPlayerRocket(m_ControllerIndex);
 	};
 	void Release() const override {};
 };
@@ -89,14 +95,31 @@ public:
 
 	void Execute() const override
 	{
-		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
-		{
-			auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
-			pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(true);
+		GameMode currentGameMode = SceneLoader::GetInstance().GetCurrentGameMode();
+
+		std::shared_ptr<GameObject> pPlayerActor = nullptr;
+
+
+			switch (currentGameMode)
+			{
+			case GameMode::MainMenu:
+				break;
+			case GameMode::Singleplayer:
+				pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(0);
+				pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(true);
+				break;
+			case GameMode::Coop:
+				pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+				pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(true);
+				break;
+			case GameMode::Versus:
+				break;
+			default:
+				break;
+			}
+			
 		}
 		
-	}
-
 	void Release() const override
 	{
 		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
@@ -114,14 +137,20 @@ public:
 
 	void Execute() const override
 	{
-		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
-		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(false);
+		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
+		{
+			auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+			pPlayerActor->GetComponent<FighterShipMovementComponent>()->StartMoving(false);
+		}
 	}
 
 	void Release() const override
 	{
-		auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
-		pPlayerActor->GetComponent<FighterShipMovementComponent>()->StopMoving(false);
+		if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
+		{
+			auto pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(m_ControllerIndex);
+			pPlayerActor->GetComponent<FighterShipMovementComponent>()->StopMoving(false);
+		}
 	};
 };
 

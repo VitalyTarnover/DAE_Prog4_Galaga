@@ -21,23 +21,27 @@ public:
 	void Update();
 	void CleanUp();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
-	void SendRandomEnemyToAttack();
 
 	void RandomEnemyShot();
-
 	void CalculatePatrolSteps();
 	int GetPatrolStep();
-
 	void AnEnemyReachedPositionInFormation();
-
 	void SetWaitingForPlayerToRespawn(bool waiting);
 
 private:
-	float m_SpawnTimer = 0;
+	void SendRandomEnemyToAttack();
+	void RespawnWaitingHandler();
+
+	float m_SpawnTimer = 0.f;
 	float m_SpawnTime = 0.35f;
 
-	//std::vector<glm::vec2> m_EnemiesPosInFormation;
+	float m_RespawnWaitingTimer = 0.f;
+	float m_RespawnWaitingTime = 7.f;
 	
+	//sending to dive down
+	float m_DiveDownTimer = 0.f;
+	float m_DiveDownTime = 3.0f;
+
 	std::vector<std::vector<int>> m_BeeInfo;
 	std::vector<std::vector<int>> m_BFInfo;
 	std::vector<std::vector<int>> m_BirdInfo;
@@ -52,19 +56,20 @@ private:
 	int m_NumberOfEnemiesAlive;
 
 	//patrolling before formation
-	float m_StepTimer = 0;
+	float m_StepTimer = 0.f;
 	float m_StepTime = 0.3f;
 	int m_StepsNumber = 5;
 	int m_CurrentStepNumber = 0;
+
 	int m_CurrentDifficultyLevel = 1;
+
 	int m_PanicEnemiesNumber = 8;
+
 	bool m_MovingLeft = true;
 	bool m_PanicMode = false;
 	bool m_WaitingForPlayerToRespawn = false;
 	bool m_BuildingFormation;//if not then it is battle stage
-	//sending to dive down
-	float m_DiveDownTimer = 0;
-	float m_DiveDownTime = 3.0f;
+	
 
 	//for observer pattern
 	Event m_EventLevelCleared;
