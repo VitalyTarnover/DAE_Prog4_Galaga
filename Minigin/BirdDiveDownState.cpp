@@ -159,7 +159,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 	glm::vec2 playerPos{};
 	std::shared_ptr<dae::Scene> scene = dae::SceneManager::GetInstance().GetCurrentScene();
 
-	if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Singleplayer)
+	if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Coop)
 	{
 		int playerIndex = rand() % 2;
 		if (scene->GetPlayer(playerIndex)->GetComponent<PlayerHealthComponent>()->IsAlive())
@@ -170,7 +170,9 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 	}
 	else playerPos = scene->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
 
-	if (enemy->GetComponent<BirdMovementComponent>()->GetIsBombing())
+	BirdMovementComponent* enemyBMC = enemy->GetComponent<BirdMovementComponent>();
+
+	if (enemyBMC->GetIsBombing() || !enemyBMC->GetIsControlledByPlayer())
 	{
 		m_BombingAttack = true;
 
@@ -212,9 +214,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 	m_Path.push_back(glm::vec2{ m_Path[m_Path.size() - 1].x, -100 });
 
 	//back to position in formation
-	m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation() });
-
-	
+	m_Path.push_back(glm::vec2{ enemyBMC->GetPosInFormation() });
 
 }
 

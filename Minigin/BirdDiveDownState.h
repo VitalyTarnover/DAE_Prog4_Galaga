@@ -9,7 +9,7 @@ enum class TractorBeamStage
 	Stage3
 };
 
-class BirdDiveDownState : public BaseDynamicState
+class BirdDiveDownState : public BaseDynamicState //TODO: make finals where needed!
 {
 public:
 	BirdDiveDownState(float speed);

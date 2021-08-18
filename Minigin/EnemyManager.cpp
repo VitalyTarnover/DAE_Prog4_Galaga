@@ -17,6 +17,7 @@
 #include "BirdMovementComponent.h"
 #include "RenderComponent.h"
 #include "CollisionManager.h"
+#include "SceneLoader.h"
 
 EnemyManager::~EnemyManager()
 {
@@ -107,6 +108,11 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
 				enemyShip->AddComponent(new SpriteAnimComponent(4));
 				//enemyShip->AddComponent(new EnemyFlyInMovement(m_pEnemiesPosInFormation.back()));
+				if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus)
+				{
+					enemyShip->AddComponent(new BirdMovementComponent(275.f,
+						m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9),true));
+				}
 				enemyShip->AddComponent(new BirdMovementComponent(275.f, 
 					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9 )));
 				scene->Add(enemyShip);

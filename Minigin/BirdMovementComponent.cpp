@@ -12,8 +12,9 @@
 #include "RenderComponent.h"
 
 
-BirdMovementComponent::BirdMovementComponent(float speed, int birdCompanionIndex, glm::vec2 posInFormation)
+BirdMovementComponent::BirdMovementComponent(float speed, int birdCompanionIndex, glm::vec2 posInFormation, bool playerControlled)
 	:BaseEnemyMovementComponent(speed, birdCompanionIndex, posInFormation)
+	,m_IsPlayerControlled{ playerControlled }
 {
 	m_CurrentState = new BirdFlyInState(m_Speed);
 }

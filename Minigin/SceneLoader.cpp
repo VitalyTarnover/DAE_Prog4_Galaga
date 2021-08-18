@@ -318,6 +318,32 @@ void SceneLoader::LoadCoop()
 void SceneLoader::LoadVersus()
 {
 
+	LoadSinglePlayer();
+
+	m_CurrentGameMode = GameMode::Versus;
+	//
+	//CleanUp();
+	//
+	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	//
+	//auto scene = SceneManager::GetInstance().GetCurrentScene();
+	//
+	//int screenWidth = SceneManager::GetInstance().GetScreenWidth();
+	//int screenHeight = SceneManager::GetInstance().GetScreenHeight();
+	//
+	////managers
+	//std::vector<std::shared_ptr<IEventHandler>> handlers;
+	//
+	//std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
+	//
+	//handlers.push_back(healthEventHandler);
+	//
+	//CollisionManager::GetInstance().InitializeEvents(handlers);
+	//
+	//LevelManager::GetInstance().NextLevel();
+	//
+	//LoadGameBackground();
+
 }
 
 void SceneLoader::LoadGameBackground()
