@@ -251,6 +251,7 @@ void SceneLoader::LoadCoop()
 	playerFighter->AddComponent(new ScoreComponent());
 	scene->Add(playerFighter);
 	scene->AddPlayer(playerFighter);
+	CollisionManager::GetInstance().AddPlayerCollision(playerFighter);
 
 	//HUD
 	auto player1Text = std::make_shared<GameObject>("Player1Text");

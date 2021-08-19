@@ -8,12 +8,7 @@ AudioServiceProvider::AudioServiceProvider()
 
 AudioServiceProvider::~AudioServiceProvider()
 {
-	m_Playing.store(false);
-	m_QueueActive.notify_one();
-
-	for (auto const& x : m_MusicLibrary) Mix_FreeMusic(x.second);
-	for (auto const& x : m_SoundLibrary) Mix_FreeChunk(x.second);
-
+	CleanUp();
 }
 
 void AudioServiceProvider::QueueSound(const std::string& key, float volume)
@@ -62,6 +57,27 @@ void AudioServiceProvider::Pause()
 		Start();
 	else
 		Stop();
+}
+
+void AudioServiceProvider::CleanUp()
+{
+	m_Playing.store(false);
+	m_QueueActive.notify_one();
+
+
+	for (auto it = m_MusicLibrary.begin(); it != m_MusicLibrary.end(); it++)
+	{
+		Mix_FreeMusic(it->second);
+	}
+
+
+	for (auto it = m_SoundLibrary.begin(); it != m_SoundLibrary.end(); it++)
+	{
+		Mix_FreeChunk(it->second);
+	}
+
+	//for (auto const& x : m_MusicLibrary) Mix_FreeMusic(x.second);
+	//for (auto const& x : m_SoundLibrary) Mix_FreeChunk(x.second);
 }
 
 void AudioServiceProvider::Play(const std::string& key, float volume)

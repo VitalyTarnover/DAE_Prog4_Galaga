@@ -15,6 +15,8 @@ public:
 
 	void Update() override {};
 
+	void CleanUp() override {};
+
 	void AddSoundToLibrary(const std::string&, const std::string&, bool) override {};
 };
 

@@ -26,12 +26,10 @@ public:
 
 	virtual void Pause() = 0;
 
+	virtual void CleanUp() = 0;
+
 protected:
 
 	virtual void Play(const std::string&, float volume = 1.0f) = 0;
-
-	//virtual void StopAllSoundEffects() = 0;
-	//virtual void StopSoundStream(SoundNames ) = 0;
-	//virtual void StopAllSoundStreams() = 0;
 };
 

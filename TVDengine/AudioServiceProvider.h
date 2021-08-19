@@ -25,6 +25,8 @@ public:
 
 	void Pause() override;
 
+	void CleanUp() override;
+
 private:
 	void Play(const std::string& key, float volume = 1.0f) override;
 

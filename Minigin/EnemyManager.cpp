@@ -265,7 +265,6 @@ void EnemyManager::SendRandomEnemyToAttack()
 							if (birdCompanionIndex == -1)
 							{
 								enemyMovement->Switch();
-
 								
 							}
 							else

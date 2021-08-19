@@ -1,16 +1,74 @@
 ﻿  MiniginPCH.cpp
+  AudioEventHandler.cpp
   BaseEnemyMovementComponent.cpp
+  BaseEnemyState.cpp
+  BaseDynamicState.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BaseDynamicState.cpp(31,24): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BaseDynamicState.cpp(31,24): warning C4018: '<': signed/unsigned mismatch
+  BeeDiveDownState.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BeeDiveDownState.cpp(105,25): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BeeDiveDownState.cpp(105,25): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BeeDiveDownState.cpp(122,26): warning C4018: '<': signed/unsigned mismatch
+  BeeMovementComponent.cpp
   BezierCurve.cpp
   BezierPath.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BezierPath.cpp(33,31): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BezierPath.cpp(33,31): warning C4018: '<': signed/unsigned mismatch
+  BFDiveDownState.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BFDiveDownState.cpp(88,24): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BFDiveDownState.cpp(88,24): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BFDiveDownState.cpp(144,24): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BFDiveDownState.cpp(163,25): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BFDiveDownState.cpp(165,26): warning C4389: '!=': signed/unsigned mismatch
+  BFFlyInState.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BFFlyInState.cpp(59,25): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BFFlyInState.cpp(59,25): warning C4018: '<': signed/unsigned mismatch
+  BFMovementComponent.cpp
+  BirdDiveDownState.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BirdDiveDownState.cpp(225,24): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BirdDiveDownState.cpp(225,24): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BirdDiveDownState.cpp(227,45): warning C4389: '==': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BirdDiveDownState.cpp(257,26): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BirdDiveDownState.cpp(259,27): warning C4389: '!=': signed/unsigned mismatch
+  BirdFlyInState.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BirdFlyInState.cpp(74,25): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BirdFlyInState.cpp(74,25): warning C4018: '<': signed/unsigned mismatch
+  BirdInFormationState.cpp
+  BirdMovementComponent.cpp
   CollisionManager.cpp
   EnemyFlyInMovement.cpp
-D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyFlyInMovement.cpp(37,24): error C2220: the following warning is treated as an error
-D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyFlyInMovement.cpp(37,24): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyFlyInMovement.cpp(210,24): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyFlyInMovement.cpp(210,24): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyFlyInMovement.cpp(222,25): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyFlyInMovement.cpp(224,26): warning C4389: '!=': signed/unsigned mismatch
+  EnemyManager.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyManager.cpp(241,27): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\EnemyManager.cpp(241,27): warning C4018: '<=': signed/unsigned mismatch
+  ExplosionManager.cpp
   FighterShipMovementComponent.cpp
+  Generating Code...
+  Compiling...
+  BeeFlyInState.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BeeFlyInState.cpp(61,25): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\BeeFlyInState.cpp(61,25): warning C4018: '<': signed/unsigned mismatch
+  GalagaBackgroundComponent.cpp
+  GalagaFileReader.cpp
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\GalagaFileReader.cpp(44,23): error C2220: the following warning is treated as an error
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\GalagaFileReader.cpp(44,23): warning C4018: '<': signed/unsigned mismatch
+D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\Minigin\GalagaFileReader.cpp(56,38): warning C4389: '==': signed/unsigned mismatch
+  HealthEventHandler.cpp
+  InFormationState.cpp
+  LevelClearedEventHandler.cpp
+  LevelManager.cpp
   LivesObserver.cpp
   Main.cpp
   Minigin.cpp
+  PlayerHealthComponent.cpp
   RocketManager.cpp
   RocketMovementComponent.cpp
-  ScoreObserver.cpp
+  SceneLoader.cpp
+  ScoreComponent.cpp
+  ScoreEventHandler.cpp
+  TractorBeamComponent.cpp
+  TractorBeamDangerComponent.cpp
   Generating Code...

@@ -49,6 +49,7 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 		{
 			float diveDownSpeed = 300;
 			movementComponent->SetIsAttacking(true);
+			movementComponent->SetIsBombing(rand()%2);
 			return new BirdDiveDownState(diveDownSpeed);
 		}
 	}
@@ -172,7 +173,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 
 	BirdMovementComponent* enemyBMC = enemy->GetComponent<BirdMovementComponent>();
 
-	if (enemyBMC->GetIsBombing() || !enemyBMC->GetIsControlledByPlayer())
+	if (enemyBMC->GetIsBombing() && !enemyBMC->GetIsControlledByPlayer())
 	{
 		m_BombingAttack = true;
 
