@@ -22,6 +22,8 @@ BirdMovementComponent::BirdMovementComponent(float speed, int birdCompanionIndex
 BirdMovementComponent::~BirdMovementComponent()
 {
 	if(m_pCapturedFighter) m_pCapturedFighter->SetMarkedForDelete(true);//TODO: check if needed
+
+	
 }
 
 void BirdMovementComponent::Update()
@@ -74,7 +76,11 @@ void BirdMovementComponent::HandleCapturedFighter()
 void BirdMovementComponent::Hurt(std::shared_ptr<GameObject> killerObject)
 {
 	if (!m_IsHurt) m_IsHurt = true;
-	else Die(killerObject);
+	else
+	{
+		Die(killerObject);
+		if (m_IsPlayerControlled) dae::SceneManager::GetInstance().GetCurrentScene()->DeletePlayer(1);
+	}
 
 }
 

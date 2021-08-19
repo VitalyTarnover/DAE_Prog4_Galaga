@@ -18,14 +18,13 @@ void CollisionManager::AddGameObjectForCheck(const std::shared_ptr<GameObject>& 
 	std::string objectName = newGameObject->GetName();
 	if (objectName == "Bee" || objectName == "BF" || objectName == "Bird") m_pEnemiesForCheck.push_back(newGameObject);
 	else if (objectName == "Rocket") m_pRocketsForCheck.push_back(newGameObject);
+	else if (objectName == "EnemyRocket") m_pEnemyRocketsForCheck.push_back(newGameObject);
 	else if (objectName == "TractorBeam") m_pTractorBeamsForCheck.push_back(newGameObject);
 }
 
-void CollisionManager::SetPlayersCollisions()
+void CollisionManager::AddPlayerCollision(std::shared_ptr<GameObject> newPlayer)
 {
-	m_pPlayers.push_back(dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0));
-	m_pPlayers.push_back(dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(1));
-
+	m_pPlayers.push_back(newPlayer);
 }
 
 void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject)//TODO: is it needed?
@@ -68,7 +67,7 @@ void CollisionManager::CleanUp()
 	m_pRocketsForCheck.clear();
 
 	for (auto player : m_pPlayers) player = nullptr;
-
+	m_pPlayers.clear();
 
 	for (size_t i = 0; i < m_pEvents.size(); i++)
 	{
@@ -101,27 +100,26 @@ void CollisionManager::Update()
 				}
 			}
 
-			for (size_t i = 0; i < m_pRocketsForCheck.size(); ++i)
+			for (size_t i = 0; i < m_pEnemyRocketsForCheck.size(); ++i)
 			{
-				if (!m_pRocketsForCheck[i]->GetMarkedForDelete())
+				if (!m_pEnemyRocketsForCheck[i]->GetMarkedForDelete())
 				{
-					if (!m_pRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())//so it goes down and is danger to player
+					if (!m_pEnemyRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())//so it goes down and is danger to player
 					{
-						if (CheckIfCollide(fs1Rect, m_pRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+						if (CheckIfCollide(fs1Rect, m_pEnemyRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 						{
 							//player->die
 							m_pEvents[0]->Notify(player.get(), "PlayerKilled");
-							m_pRocketsForCheck[i]->SetMarkedForDelete(true);
-							m_pRocketsForCheck[i] = nullptr;
-							m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
+							m_pEnemyRocketsForCheck[i]->SetMarkedForDelete(true);
+							m_pEnemyRocketsForCheck[i] = nullptr;
+							m_pEnemyRocketsForCheck.erase(std::remove(m_pEnemyRocketsForCheck.begin(), m_pEnemyRocketsForCheck.end(), m_pEnemyRocketsForCheck[i]), m_pEnemyRocketsForCheck.end());
 
-							RocketManager::GetInstance().ReduceActiveRocketsNumber();
 							break;
 						}
 
 					}
 				}
-				else m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
+				else m_pEnemyRocketsForCheck.erase(std::remove(m_pEnemyRocketsForCheck.begin(), m_pEnemyRocketsForCheck.end(), m_pEnemyRocketsForCheck[i]), m_pEnemyRocketsForCheck.end());
 			}
 
 			for (size_t i = 0; i < m_pTractorBeamsForCheck.size(); ++i)
@@ -133,8 +131,11 @@ void CollisionManager::Update()
 					{
 						//player->die
 						m_pEvents[0]->Notify(player.get(), "PlayerKilled");
-						m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->GetBirdOwner()->
-							GetComponent<BirdMovementComponent>()->FighterCaptured();
+						//m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->GetBirdOwner()->
+						//	GetComponent<BirdMovementComponent>()->FighterCaptured();
+
+						m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->FighterCaptured();
+
 						break;
 					}
 				}
@@ -177,7 +178,6 @@ void CollisionManager::Update()
 						m_pRocketsForCheck[i] = nullptr;
 						m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 
-						RocketManager::GetInstance().ReduceActiveRocketsNumber();
 						break;
 					}
 				}

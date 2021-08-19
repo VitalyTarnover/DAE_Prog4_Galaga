@@ -5,8 +5,8 @@
 class RocketMovementComponent final : public BaseComponent
 {
 public:
-	RocketMovementComponent(bool movesUp = true, float speed = 250); //movesUp also means it was shot by a player
-
+	RocketMovementComponent(bool movesUp = true, float speed = 250, bool enemyPlayerShot = false); //movesUp also means it was shot by a player
+	~RocketMovementComponent();
 	void Update() override;
 
 	bool GetMovesUp() { return m_MovesUp; }
@@ -21,6 +21,8 @@ private:
 	float m_Speed;
 
 	bool m_MovesUp;
+
+	bool m_EnemyPlayerShot;
 
 	glm::vec2 m_Direction;
 

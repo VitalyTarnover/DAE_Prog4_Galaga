@@ -41,6 +41,7 @@ namespace dae
 		std::shared_ptr<GameObject> GetCurrentLevel() const { return m_pCurrentLevel; };
 
 		void DeleteGameObject(std::shared_ptr<GameObject> objectToDelete);
+		void DeletePlayer(int playerIndex);
 		
 		void DeleteMarkedForDelteGameObjects();
 		

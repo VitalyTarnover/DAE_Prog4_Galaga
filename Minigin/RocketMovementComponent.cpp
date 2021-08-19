@@ -8,11 +8,24 @@
 #include "Scene.h"
 #include "SceneLoader.h"
 
-RocketMovementComponent::RocketMovementComponent(bool movesUp, float speed) //movesUp also means it was shot by a player
+RocketMovementComponent::RocketMovementComponent(bool movesUp, float speed, bool enemyPlayerShot) //movesUp also means it was shot by a player
 	:m_MovesUp{ movesUp }
 	,m_Speed {speed}
 	,m_Direction{0,0}
+	,m_EnemyPlayerShot{enemyPlayerShot}
 {
+}
+
+RocketMovementComponent::~RocketMovementComponent()
+{
+	if (m_MovesUp) RocketManager::GetInstance().ReduceActiveRocketsNumber();
+	else
+	{
+		if (m_EnemyPlayerShot)
+		{
+			RocketManager::GetInstance().ReduceActiveEnemyRocketsNumber();
+		}
+	}
 }
 
 void RocketMovementComponent::Update()
@@ -59,9 +72,8 @@ void RocketMovementComponent::OutsideBordersCheck()
 
 	glm::vec3 currentPosition = trc->GetTransform().GetPosition();
 
-	if (currentPosition.y < 0 || currentPosition.y > dae::SceneManager::GetInstance().GetScreenWidth())
+	if (currentPosition.y < 0 || currentPosition.y > dae::SceneManager::GetInstance().GetScreenHeight())
 	{
 		m_pGameObject->SetMarkedForDelete(true);
-		if (m_MovesUp) RocketManager::GetInstance().ReduceActiveRocketsNumber();
 	}
 }

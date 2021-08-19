@@ -181,7 +181,7 @@ void SceneLoader::LoadSinglePlayer()
 	playerFighter->AddComponent(new ScoreComponent());
 	scene->Add(playerFighter);
 	scene->AddPlayer(playerFighter);
-	CollisionManager::GetInstance().SetPlayersCollisions();//!!!
+	CollisionManager::GetInstance().AddPlayerCollision(playerFighter);//!!!
 
 	//HUD
 	auto player1Text = std::make_shared<GameObject>("Player1Text");
@@ -208,7 +208,6 @@ void SceneLoader::LoadSinglePlayer()
 	levelDisplay->AddComponent(new TextComponent("Level: " + std::to_string(LevelManager::GetInstance().GetCurrentLevel()), font, SDL_Color{ 255,255,255 }));
 	levelDisplay->AddComponent(new RenderComponent());
 	scene->Add(levelDisplay);
-
 
 }
 
@@ -312,7 +311,7 @@ void SceneLoader::LoadCoop()
 	healthDisplay2->AddComponent(new RenderComponent());
 	scene->Add(healthDisplay2);
 
-	CollisionManager::GetInstance().SetPlayersCollisions();//!!!
+	CollisionManager::GetInstance().AddPlayerCollision(playerFighter2);//!!!
 }
 
 void SceneLoader::LoadVersus()
@@ -434,4 +433,5 @@ void SceneLoader::CleanUp() const
 	SceneManager::GetInstance().GetCurrentScene()->ClearScene();
 	LevelManager::GetInstance().ResetLevelManager();
 	RocketManager::GetInstance().ResetStatistics();
+	SceneManager::GetInstance().GetCurrentScene()->ClearScene();//???
 }

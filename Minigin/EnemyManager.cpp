@@ -102,26 +102,43 @@ void EnemyManager::Update()
 			}
 			else if (m_BirdInfo.size() > 0)
 			{
-				auto enemyShip = std::make_shared<GameObject>("Bird");
-				enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
-				enemyShip->AddComponent(new RenderComponent());
-				enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
-				enemyShip->AddComponent(new SpriteAnimComponent(4));
-				//enemyShip->AddComponent(new EnemyFlyInMovement(m_pEnemiesPosInFormation.back()));
-				if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus)
+				if (m_BirdInfo.size() == 2 && SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus )
 				{
-					enemyShip->AddComponent(new BirdMovementComponent(275.f,
-						m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9),true));
-				}
-				enemyShip->AddComponent(new BirdMovementComponent(275.f, 
-					m_BirdInfo.back()[2], glm::vec2( (screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9 )));
-				scene->Add(enemyShip);
-				enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
-				m_pEnemies.push_back(enemyShip);
-				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
-				m_BirdInfo.pop_back();
-			}
+					if (scene->GetPlayer(1) == nullptr)
+					{
+						auto enemyShip = std::make_shared<GameObject>("Bird");
+						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+						enemyShip->AddComponent(new RenderComponent());
+						enemyShip->AddComponent(new SpriteAnimComponent(4));
+						enemyShip->AddComponent(new Texture2DComponent("Bird2.png", scene->GetSceneScale()));
+						enemyShip->AddComponent(new BirdMovementComponent(275.f,
+							m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9), true));
+						scene->Add(enemyShip);
+						scene->AddPlayer(enemyShip);
+						enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
 
+						CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
+					}
+					else --m_NumberOfEnemiesNotInPosition;
+				}
+				else
+				{
+					auto enemyShip = std::make_shared<GameObject>("Bird");
+					enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+					enemyShip->AddComponent(new RenderComponent());
+					enemyShip->AddComponent(new SpriteAnimComponent(4));
+					enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
+					enemyShip->AddComponent(new BirdMovementComponent(275.f,
+						m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9)));
+					scene->Add(enemyShip);
+					m_pEnemies.push_back(enemyShip);
+					enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+
+					CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
+				}
+				m_BirdInfo.pop_back();
+
+			}
 			//m_pEnemiesPosInFormation.pop_back();
 			m_SpawnTimer = 0;
 		}
@@ -134,6 +151,14 @@ void EnemyManager::Update()
 			{
 				m_pEnemies[i]->GetComponent<BaseEnemyMovementComponent>()->Switch();//works
 			}
+
+			if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus)
+			{
+				auto player2 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(1);
+				if (player2)player2->GetComponent<BirdMovementComponent>()->Switch();
+			}
+
+
 			m_BuildingFormation = false;
 		}
 

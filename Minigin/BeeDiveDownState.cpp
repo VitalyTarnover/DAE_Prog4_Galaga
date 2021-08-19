@@ -68,7 +68,7 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 	glm::vec2 playerPos{};
 	std::shared_ptr<dae::Scene> scene = dae::SceneManager::GetInstance().GetCurrentScene();
 
-	if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Singleplayer)
+	if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Coop)
 	{
 		int playerIndex = rand() % 2;
 		if (scene->GetPlayer(playerIndex)->GetComponent<PlayerHealthComponent>()->IsAlive())

@@ -36,6 +36,14 @@ void Scene::DeleteGameObject(std::shared_ptr<GameObject> objectToDelete)
 	}
 }
 
+void dae::Scene::DeletePlayer(int playerIndex)
+{
+	if (m_pPlayers.size() < playerIndex && m_pPlayers.size() > 0)
+	{
+		m_pPlayers.erase(std::remove(m_pPlayers.begin(), m_pPlayers.end(), m_pPlayers[playerIndex]), m_pPlayers.end());
+	}
+}
+
 void dae::Scene::DeleteMarkedForDelteGameObjects()
 {
 	for (size_t i = 0; i < m_Objects.size(); i++)
@@ -47,6 +55,15 @@ void dae::Scene::DeleteMarkedForDelteGameObjects()
 			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), m_Objects[i]), m_Objects.end());
 		}
 	}
+
+	for (size_t i = 0; i < m_pPlayers.size(); i++)
+	{
+		if (m_pPlayers[i]->GetMarkedForDelete())
+		{
+			m_pPlayers.erase(std::remove(m_pPlayers.begin(), m_pPlayers.end(), m_pPlayers[i]), m_pPlayers.end());
+		}
+	}
+		
 }
 
 void dae::Scene::ClearScene()
