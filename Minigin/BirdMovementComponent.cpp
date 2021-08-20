@@ -22,8 +22,6 @@ BirdMovementComponent::BirdMovementComponent(float speed, int birdCompanionIndex
 BirdMovementComponent::~BirdMovementComponent()
 {
 	if(m_pCapturedFighter) m_pCapturedFighter->SetMarkedForDelete(true);//TODO: check if needed
-
-	
 }
 
 void BirdMovementComponent::Update()

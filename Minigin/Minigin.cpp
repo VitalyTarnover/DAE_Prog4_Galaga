@@ -23,7 +23,8 @@
 #include "AnalogStickCommand.h"
 #include "AnalogTriggerCommand.h"
 
-
+//ObserverV2
+#include "AudioEventHandler.h"
 
 
 //Audio
@@ -77,16 +78,22 @@ void dae::Minigin::Initialize()
 
 
 	AudioLocator::SetAudioService(new AudioServiceProvider());
-	AudioLocator::GetAudioService().AddSoundToLibrary("someSound", "Resources/QbertDiscSFX.wav", false);
+	AudioLocator::GetAudioService().AddSoundToLibrary("enemyDeath", "Resources/SFX/enemyDeathSFX.wav", true);
+	AudioLocator::GetAudioService().AddSoundToLibrary("enemyShot", "Resources/SFX/enemyShotSFX.wav", true);
+	AudioLocator::GetAudioService().AddSoundToLibrary("playerShot", "Resources/SFX/playerShotSFX.wav", true);
+	AudioLocator::GetAudioService().AddSoundToLibrary("gameEnd", "Resources/SFX/gameEndSFX.wav", true);
+	AudioLocator::GetAudioService().AddSoundToLibrary("playerDeath", "Resources/SFX/playerDeathSFX.wav", true);
 	
 }
 
 void dae::Minigin::LoadGame() const
 {
 	srand(int(time(NULL)));
-
+	
 	SceneManager::GetInstance().CreateScene("Game");
 	
+	SceneLoader::GetInstance().InitializeEventHandlers();
+
 	SceneLoader::GetInstance().LoadMainMenu();
 }
 
@@ -120,7 +127,7 @@ void dae::Minigin::Run()
 
 	std::thread audioThread(&AudioService::Update, &AudioLocator::GetAudioService());
 
-	//AudioLocator::GetAudioService().QueueSound("someSound", 30.f);
+	//AudioLocator::GetAudioService().QueueSound("gameEnd", 30.f);
 
 	while (doContinue)
 	{

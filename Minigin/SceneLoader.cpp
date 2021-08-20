@@ -7,6 +7,8 @@
 //ObserverV2
 #include "ScoreEventHandler.h"
 #include "HealthEventHandler.h"
+#include "AudioEventHandler.h"
+#include "LevelClearedEventHandler.h"
 
 //Managers
 #include "CollisionManager.h"
@@ -58,6 +60,7 @@ void SceneLoader::LoadMainMenu()
 	scene->Add(galagaLogo);
 
 	//Texts
+	//TODO: change text to correct stuff!
 	int verticalOffset = 0;
 	
 	auto text1 = std::make_shared<GameObject>("Controls");
@@ -148,18 +151,16 @@ void SceneLoader::LoadSinglePlayer()
 	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
 	
 	//managers
-	std::vector<std::shared_ptr<IEventHandler>> handlers;
 
-	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
+	CollisionManager::GetInstance().InitializeEvents(m_EventHandlers);
 
-	handlers.push_back(healthEventHandler);
-
-	CollisionManager::GetInstance().InitializeEvents(handlers);
+	RocketManager::GetInstance().SetAudioEventHandler(m_EventHandlers[1]);
 
 	LevelManager::GetInstance().NextLevel();
 
 	LoadGameBackground();
 
+	//TODO: delete it after tests
 	//fps counter //TODO: delete
 	//auto go = std::make_shared<GameObject>("FPSCounter");
 	//go->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
@@ -225,15 +226,12 @@ void SceneLoader::LoadCoop()
 	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
 
 	//managers
-	std::vector<std::shared_ptr<IEventHandler>> handlers;
 
-	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
-
-	handlers.push_back(healthEventHandler);
-
-	CollisionManager::GetInstance().InitializeEvents(handlers);
+	CollisionManager::GetInstance().InitializeEvents(m_EventHandlers);
 
 	LevelManager::GetInstance().NextLevel();
+
+	RocketManager::GetInstance().SetAudioEventHandler(m_EventHandlers[1]);
 
 	LoadGameBackground();
 
@@ -317,33 +315,9 @@ void SceneLoader::LoadCoop()
 
 void SceneLoader::LoadVersus()
 {
-
 	LoadSinglePlayer();
 
 	m_CurrentGameMode = GameMode::Versus;
-	//
-	//CleanUp();
-	//
-	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	//
-	//auto scene = SceneManager::GetInstance().GetCurrentScene();
-	//
-	//int screenWidth = SceneManager::GetInstance().GetScreenWidth();
-	//int screenHeight = SceneManager::GetInstance().GetScreenHeight();
-	//
-	////managers
-	//std::vector<std::shared_ptr<IEventHandler>> handlers;
-	//
-	//std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
-	//
-	//handlers.push_back(healthEventHandler);
-	//
-	//CollisionManager::GetInstance().InitializeEvents(handlers);
-	//
-	//LevelManager::GetInstance().NextLevel();
-	//
-	//LoadGameBackground();
-
 }
 
 void SceneLoader::LoadGameBackground()
@@ -427,12 +401,26 @@ void SceneLoader::ShowResultsScreen()
 
 }
 
+void SceneLoader::InitializeEventHandlers()
+{
+	//health,audio,levelCleared,score
+	std::shared_ptr<HealthEventHandler> healthEventHandler = std::make_shared<HealthEventHandler>();
+	std::shared_ptr<AudioEventHandler> audioClearedEventHandler = std::make_shared<AudioEventHandler>();
+	std::shared_ptr<LevelClearedEventHandler> levelClearedEventHandler = std::make_shared<LevelClearedEventHandler>();
+	std::shared_ptr<ScoreEventHandler> scoreEventHandler = std::make_shared<ScoreEventHandler>();
+
+	m_EventHandlers.push_back(healthEventHandler);
+	m_EventHandlers.push_back(audioClearedEventHandler);
+	m_EventHandlers.push_back(levelClearedEventHandler);
+	m_EventHandlers.push_back(scoreEventHandler);
+}
+
 void SceneLoader::CleanUp() const
 {
 	EnemyManager::GetInstance().CleanUp();
 	CollisionManager::GetInstance().CleanUp();
 	SceneManager::GetInstance().GetCurrentScene()->ClearScene();
 	LevelManager::GetInstance().ResetLevelManager();
-	RocketManager::GetInstance().ResetStatistics();
-	SceneManager::GetInstance().GetCurrentScene()->ClearScene();//???
+	RocketManager::GetInstance().Reset();
+	SceneManager::GetInstance().GetCurrentScene()->ClearScene();
 }

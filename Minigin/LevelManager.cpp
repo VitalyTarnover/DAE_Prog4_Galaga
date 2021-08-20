@@ -16,18 +16,11 @@ void LevelManager::NextLevel()
 	if (m_CurrentLevel < 3 )
 	{
 		++m_CurrentLevel;
-
-		std::shared_ptr<ScoreEventHandler> scoreEventHandler = std::make_shared<ScoreEventHandler>();
-		std::shared_ptr<LevelClearedEventHandler> levelClearedEventHandler = std::make_shared<LevelClearedEventHandler>();
-
-		std::vector<std::shared_ptr<IEventHandler>> handlers{};
-		handlers.push_back(scoreEventHandler);
-		handlers.push_back(levelClearedEventHandler);
-
+		
 		GalagaFileReader* gfr = new GalagaFileReader();
 		gfr->ReadLevelInfo("Resources/Level" + std::to_string(m_CurrentLevel) + ".bin");
 
-		EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo(), handlers);
+		EnemyManager::GetInstance().SpawnEnemies(gfr->GetBeeInfo(), gfr->GetBFInfo(), gfr->GetBirdInfo(), SceneLoader::GetInstance().GetEventhandlers());
 
 		delete gfr;
 	}

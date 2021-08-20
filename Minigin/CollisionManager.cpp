@@ -89,7 +89,7 @@ void CollisionManager::Update()
 			{
 				if (CheckIfCollide(fs1Rect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 				{
-					m_pEvents[0]->Notify(player.get(), "PlayerKilled");
+					m_pEvents[0]->Notify(player.get(), "playerDeath");
 					EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
 
 					m_pEnemiesForCheck[i]->GetComponent<BaseEnemyMovementComponent>()->Die(player);
@@ -109,7 +109,7 @@ void CollisionManager::Update()
 						if (CheckIfCollide(fs1Rect, m_pEnemyRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 						{
 							//player->die
-							m_pEvents[0]->Notify(player.get(), "PlayerKilled");
+							m_pEvents[0]->Notify(player.get(), "playerDeath");
 							m_pEnemyRocketsForCheck[i]->SetMarkedForDelete(true);
 							m_pEnemyRocketsForCheck[i] = nullptr;
 							m_pEnemyRocketsForCheck.erase(std::remove(m_pEnemyRocketsForCheck.begin(), m_pEnemyRocketsForCheck.end(), m_pEnemyRocketsForCheck[i]), m_pEnemyRocketsForCheck.end());
@@ -129,11 +129,7 @@ void CollisionManager::Update()
 
 					if (CheckIfCollide(fs1Rect, m_pTractorBeamsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 					{
-						//player->die
-						m_pEvents[0]->Notify(player.get(), "PlayerKilled");
-						//m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->GetBirdOwner()->
-						//	GetComponent<BirdMovementComponent>()->FighterCaptured();
-
+						m_pEvents[0]->Notify(player.get(), "playerDeath");
 						m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->FighterCaptured();
 
 						break;
@@ -198,6 +194,7 @@ void CollisionManager::InitializeEvents(std::vector<std::shared_ptr<IEventHandle
 	//0 - HealthEH
 	//1 - AudioEH
 	m_pEvents[0]->AddHandler(eventHandlers[0]); //EventPlayerKilled -> HealthEH
+	m_pEvents[0]->AddHandler(eventHandlers[1]); //EventPlayerKilled -> AudioEH
 }
 
 bool CollisionManager::CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2)

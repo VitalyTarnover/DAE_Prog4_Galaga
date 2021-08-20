@@ -18,8 +18,12 @@ public:
 	void CleanUp();
 
 	void Update();
+
 	void InitializeEvents(std::vector<std::shared_ptr<IEventHandler>>eventHandlers);
+	
+	//void SetAudioEventHandler(std::shared_ptr<IEventHandler> audioEventHandler) { m_ShotFiredEvent.AddHandler(audioEventHandler); };
 private:
+	
 	bool CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2);
 
 	std::vector<std::shared_ptr<GameObject>> m_pEnemiesForCheck;

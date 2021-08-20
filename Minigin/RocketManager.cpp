@@ -9,6 +9,7 @@
 #include "CollisionManager.h"
 #include "RenderComponent.h"
 #include "PlayerHealthComponent.h"
+#include "Event.h"
 
 void RocketManager::ReduceActiveRocketsNumber()
 {
@@ -44,6 +45,8 @@ if (m_ActiveRocketsNumber < m_AllowedRocketsNumber)//TODO: Set for 2 players
 
 			++m_ActiveRocketsNumber;
 			++m_NumberOfShotsFired;
+
+			m_ShotFiredEvent.Notify(nullptr, "playerShot");
 		}
 	}
 }
@@ -62,6 +65,7 @@ void RocketManager::SpawnEnemyRocket(const glm::vec3& enemyPos)
 		rocket->AddComponent(new RocketMovementComponent(false, 250));
 		scene->Add(rocket);
 		CollisionManager::GetInstance().AddGameObjectForCheck(rocket);
+		m_ShotFiredEvent.Notify(nullptr, "enemyShot");
 }
 
 void RocketManager::SpawnEnemyRocket()//spawns a rocket from player controlled bird
@@ -87,18 +91,27 @@ void RocketManager::SpawnEnemyRocket()//spawns a rocket from player controlled b
 			scene->Add(rocket);
 			CollisionManager::GetInstance().AddGameObjectForCheck(rocket);
 			++m_ActiveEnemyRocketsNumber;
+
+			m_ShotFiredEvent.Notify(nullptr, "enemyShot");
 		}
 	}
 	
 	
 }
 
-void RocketManager::ResetStatistics()
+void RocketManager::Reset()
 {
 	m_NumberOfShotsFired = 0;
 	m_NumberOfHits = 0;
 	m_ActiveRocketsNumber = 0;
 	m_ActiveEnemyRocketsNumber = 0;
+
+	m_ShotFiredEvent.ResetHandlers();
+}
+
+void RocketManager::SetAudioEventHandler(std::shared_ptr<IEventHandler> audioEventHandler)
+{
+	m_ShotFiredEvent.AddHandler(audioEventHandler);
 }
 
 void RocketManager::ShotHit()

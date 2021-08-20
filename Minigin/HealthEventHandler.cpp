@@ -9,7 +9,7 @@
 
 void HealthEventHandler::OnEvent(GameObject* actor, const std::string& argument)
 {
-	if (argument == "PlayerKilled") UpdateLives(actor);
+	if (argument == "playerDeath") UpdateLives(actor);
 }
 
 void HealthEventHandler::UpdateLives(GameObject* actor) const

@@ -22,6 +22,7 @@
 EnemyManager::~EnemyManager()
 {
 	m_pEnemies.clear();
+	m_pEnemyShooters.clear();
 }
 
 void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
@@ -43,10 +44,10 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 
 	m_DiveDownTimer = m_DiveDownTime;
 
-	if (!m_ScoreEventHandler) m_ScoreEventHandler = handlers[0];
-	//m_EventLevelCleared = std::make_shared<Event>();
+	if (!m_AudioEventHandler) m_AudioEventHandler = handlers[1];//audio
+	if (!m_ScoreEventHandler) m_ScoreEventHandler = handlers[3];//score
 	m_EventLevelCleared.ResetHandlers();
-	m_EventLevelCleared.AddHandler(handlers[1]);
+	m_EventLevelCleared.AddHandler(handlers[2]);//level cleared
 
 	m_RespawnWaitingTimer = 0.f;
 	m_SpawnTimer = 0.f;
@@ -79,6 +80,7 @@ void EnemyManager::Update()
 				enemyShip->AddComponent(new BeeMovementComponent
 				(275.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (5 + m_BeeInfo.back()[2]) )));
 				enemyShip->GetComponent<BeeMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+				enemyShip->GetComponent<BeeMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
 				scene->Add(enemyShip);
 				m_pEnemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
@@ -96,6 +98,7 @@ void EnemyManager::Update()
 					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (3 + m_BFInfo.back()[2]))));
 				scene->Add(enemyShip);
 				enemyShip->GetComponent<BFMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+				enemyShip->GetComponent<BFMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
 				m_pEnemies.push_back(enemyShip);
 				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				m_BFInfo.pop_back();
@@ -116,6 +119,7 @@ void EnemyManager::Update()
 						scene->Add(enemyShip);
 						scene->AddPlayer(enemyShip);
 						enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+						enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
 
 						CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 					}
@@ -133,6 +137,8 @@ void EnemyManager::Update()
 					scene->Add(enemyShip);
 					m_pEnemies.push_back(enemyShip);
 					enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+					enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
+
 
 					CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
 				}
@@ -196,7 +202,7 @@ void EnemyManager::CleanUp()
 	m_BFInfo.clear();
 	m_BirdInfo.clear();
 	
-	m_EnemyShooters.clear();
+	m_pEnemyShooters.clear();
 
 	m_EventLevelCleared.ResetHandlers();
 }
@@ -371,7 +377,6 @@ void EnemyManager::CalculatePatrolSteps()
 	if (m_StepTimer > 0) m_StepTimer -= SystemTime::GetInstance().GetDeltaTime();
 	else
 	{
-		//float sceneScale = dae::SceneManager::GetInstance().GetCurrentScene()->GetSceneScale();
 
 		if (m_MovingLeft)
 		{

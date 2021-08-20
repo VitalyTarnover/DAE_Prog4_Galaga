@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include "glm/vec3.hpp"
+#include "Event.h"
 
 class RocketManager final : public dae::Singleton<RocketManager>
 {
@@ -15,10 +16,14 @@ public:
 	void ShotHit();
 	int GetNumberOfShotsFired() const { return m_NumberOfShotsFired; };
 	int GetNumberOfHits() const { return m_NumberOfHits; };
-	void ResetStatistics();
+	void Reset();
+
+	void SetAudioEventHandler(std::shared_ptr<IEventHandler> audioEventHandler);
 private:
+	Event m_ShotFiredEvent;
+
 	int m_ActiveRocketsNumber = 0;
-	int m_AllowedRocketsNumber = 20;
+	int m_AllowedRocketsNumber = 2;
 
 	int m_ActiveEnemyRocketsNumber = 0;
 	int m_AllowedEnemyRocketsNumber = 2;

@@ -34,7 +34,7 @@ namespace dae
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
 		std::shared_ptr<Scene> m_pCurrentScene;
 
-		int m_ScreenWidth;
-		int m_ScreenHeight;
+		int m_ScreenWidth = 1280;
+		int m_ScreenHeight = 720;
 	};
 }

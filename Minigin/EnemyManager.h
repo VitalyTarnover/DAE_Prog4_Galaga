@@ -48,9 +48,10 @@ private:
 
 
 	std::vector<std::shared_ptr<GameObject>> m_pEnemies;
-	std::vector<std::shared_ptr<GameObject>> m_EnemyShooters;
+	std::vector<std::shared_ptr<GameObject>> m_pEnemyShooters;
 
 	std::shared_ptr<IEventHandler> m_ScoreEventHandler;
+	std::shared_ptr<IEventHandler> m_AudioEventHandler;
 
 	int m_NumberOfEnemiesNotInPosition;
 	int m_NumberOfEnemiesAlive;

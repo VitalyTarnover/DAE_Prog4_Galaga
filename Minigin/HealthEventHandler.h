@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.h"
 
-class HealthEventHandler : public IEventHandler
+class HealthEventHandler final : public IEventHandler
 {
 public:
 	void OnEvent(GameObject* actor, const std::string& argument) override;
