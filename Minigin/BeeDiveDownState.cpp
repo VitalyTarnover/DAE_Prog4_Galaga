@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "BezierPath.h"
 #include "TransformComponent.h"
-#include "BeeMovementComponent.h"
+#include "BeeBehaviorComponent.h"
 #include "InFormationState.h"
 #include "EnemyManager.h"
 #include "SceneLoader.h"
@@ -26,7 +26,7 @@ BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
 
 	if (BeeDiveDown(enemy))
 	{
-		BeeMovementComponent* movementComponent = enemy->GetComponent<BeeMovementComponent>();
+		BeeBehaviorComponent* movementComponent = enemy->GetComponent<BeeBehaviorComponent>();
 		
 		movementComponent->SetIsAttacking(false);
 
@@ -34,6 +34,7 @@ BaseEnemyState* BeeDiveDownState::Update(GameObject* enemy)
 		else
 		{
 			float diveDownSpeed = 300;
+			movementComponent->SetIsAttacking(true);
 			return new BeeDiveDownState(diveDownSpeed);
 		}
 	}
@@ -52,10 +53,8 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 
 	//attack for bees
 	//1st part -> 0
-	//TODO: mby make it of speccific attacking color
 	const auto& trc = enemy->GetComponent<TransformComponent>();
 
-	//no need to mirror
 	{
 		path->AddCurve({ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) },
@@ -89,7 +88,7 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 		path->AddCurve({ playerPos,
 			glm::vec2{playerPos.x, playerPos.y + (screenHeight / 3) },
 			glm::vec2{playerPos.x - (screenWidth / 4),  playerPos.y + (screenHeight / 4)},
-			enemy->GetComponent<BeeMovementComponent>()->GetPosInFormation() },
+			enemy->GetComponent<BeeBehaviorComponent>()->GetPosInFormation() },
 			15);
 		path->Sample(&m_Path, 1);
 	}
@@ -101,27 +100,14 @@ bool BeeDiveDownState::BeeDiveDown(GameObject* enemy)
 
 	if (m_CurrentWaypoint != -1)// -1 is stand by state, should as well be switch for patroling before formation is built
 	{
-
-		if (m_CurrentWaypoint < m_Path.size())
+		if ( m_CurrentWaypoint < int(m_Path.size()) )
 		{
 			glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
 
-			//check if we have reached next waypoint 
-			float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
-			
-			if (m_SqrMagnitude > sqrMagnitude) m_SqrMagnitude = sqrMagnitude;
-			else
-			{
-				glm::vec2 distance = m_Path[m_CurrentWaypoint] - currentPosition;
-				m_Direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));
-			}
+			CheckWaypointDistance(currentPosition);
 
-			int aproxReachDistance = 8;
-			if (sqrMagnitude < aproxReachDistance) ++m_CurrentWaypoint;
-
-			if (m_CurrentWaypoint < m_Path.size())// double check, must be removed
+			if (m_CurrentWaypoint < int(m_Path.size()))
 			{
-				
 				glm::vec2 translation = m_Direction * SystemTime::GetInstance().GetDeltaTime() * m_Speed;
 
 				trc->SetPosition(glm::vec3{ currentPosition.x + translation.x, currentPosition.y + translation.y, 0 });

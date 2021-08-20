@@ -37,8 +37,6 @@ void LevelManager::NextLevel()
 void LevelManager::ResetLevelManager()
 {
 	m_ResultsTimer = 0.f;
-	m_ResultsTime = 4.f;
-
 	m_CurrentLevel = 0;
 
 	m_Player1Lost = false;

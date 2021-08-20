@@ -15,7 +15,7 @@ private:
 	void EndGameSequence();
 
 	float m_ResultsTimer = 0.f;
-	float m_ResultsTime = 4.f;
+	float m_ResultsTime = 3.5f;
 
 	int m_CurrentLevel = 0;
 	

@@ -8,7 +8,7 @@
 
 #include "FighterShipMovementComponent.h"
 #include "RocketManager.h"
-#include "BirdMovementComponent.h"
+#include "BirdBehaviorComponent.h"
 
 #include "SceneLoader.h"
 
@@ -145,7 +145,7 @@ public:
 			else
 			{
 				pPlayerActor = dae::SceneManager::GetInstance().GetCurrentScene().get()->GetPlayer(1);
-				if (pPlayerActor)pPlayerActor->GetComponent<BirdMovementComponent>()->Switch();
+				if (pPlayerActor)pPlayerActor->GetComponent<BirdBehaviorComponent>()->Switch();
 			}
 			break;
 		default:

@@ -72,7 +72,8 @@ void RocketMovementComponent::OutsideBordersCheck()
 
 	glm::vec3 currentPosition = trc->GetTransform().GetPosition();
 
-	if (currentPosition.y < 0 || currentPosition.y > dae::SceneManager::GetInstance().GetScreenHeight())
+	if (currentPosition.y < 0 || currentPosition.y > dae::SceneManager::GetInstance().GetScreenHeight() ||
+		currentPosition.x < 0 || currentPosition.x > dae::SceneManager::GetInstance().GetScreenWidth() )
 	{
 		m_pGameObject->SetMarkedForDelete(true);
 	}

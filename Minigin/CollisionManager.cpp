@@ -5,12 +5,12 @@
 #include "RocketMovementComponent.h"
 #include "RocketManager.h"
 #include "EnemyManager.h"
-#include "BaseEnemyMovementComponent.h"
+#include "BaseEnemyBehaviorComponent.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "PlayerHealthComponent.h"
 #include "TractorBeamDangerComponent.h"
-#include "BirdMovementComponent.h"
+#include "BirdBehaviorComponent.h"
 #include "ScoreEventHandler.h"
 
 void CollisionManager::AddGameObjectForCheck(const std::shared_ptr<GameObject>& newGameObject)
@@ -92,7 +92,7 @@ void CollisionManager::Update()
 					m_pEvents[0]->Notify(player.get(), "playerDeath");
 					EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
 
-					m_pEnemiesForCheck[i]->GetComponent<BaseEnemyMovementComponent>()->Die(player);
+					m_pEnemiesForCheck[i]->GetComponent<BaseEnemyBehaviorComponent>()->Die(player);
 
 					m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[i]), m_pEnemiesForCheck.end());
 
@@ -155,17 +155,18 @@ void CollisionManager::Update()
 				{
 					if (CheckIfCollide(rocketRect, m_pEnemiesForCheck[j]->GetComponent<TransformComponent>()->GetRect()))
 					{
-						BirdMovementComponent* enemyBird = m_pEnemiesForCheck[j]->GetComponent<BirdMovementComponent>();
+						BirdBehaviorComponent* enemyBird = m_pEnemiesForCheck[j]->GetComponent<BirdBehaviorComponent>();
 						
 						if (enemyBird) enemyBird->Hurt(rmc->GetOwner());
 
 						if (!enemyBird || (enemyBird && m_pEnemiesForCheck[j]->GetMarkedForDelete()))
 						{
 							EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[j]);
-							if (!m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->GetIsInFormation())
+							if (!m_pEnemiesForCheck[j]->GetComponent<BaseEnemyBehaviorComponent>()->GetIsInFormation())
 								EnemyManager::GetInstance().AnEnemyReachedPositionInFormation();
 
-							m_pEnemiesForCheck[j]->GetComponent<BaseEnemyMovementComponent>()->Die(rmc->GetOwner());
+							if(!enemyBird)m_pEnemiesForCheck[j]->GetComponent<BaseEnemyBehaviorComponent>()->Die(rmc->GetOwner());
+							
 							m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[j]), m_pEnemiesForCheck.end());
 							RocketManager::GetInstance().ShotHit();
 						}

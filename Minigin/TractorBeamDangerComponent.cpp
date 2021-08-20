@@ -1,9 +1,9 @@
 #include "MiniginPCH.h"
 #include "TractorBeamDangerComponent.h"
-#include "BirdMovementComponent.h"
+#include "BirdBehaviorComponent.h"
 #include "GameObject.h"
 
 void TractorBeamDangerComponent::FighterCaptured() const
 {
-	m_BirdOwner->GetComponent<BirdMovementComponent>()->FighterCaptured();
+	m_BirdOwner->GetComponent<BirdBehaviorComponent>()->FighterCaptured();
 }

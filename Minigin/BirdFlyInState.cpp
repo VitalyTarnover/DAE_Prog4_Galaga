@@ -7,7 +7,7 @@
 #include "TransformComponent.h"
 #include "SpriteAnimComponent.h"
 #include "EnemyManager.h"
-#include "BirdMovementComponent.h"
+#include "BirdBehaviorComponent.h"
 
 BirdFlyInState::BirdFlyInState(float speed, int stepSize)
 	:BaseDynamicState()
@@ -27,7 +27,7 @@ BaseEnemyState* BirdFlyInState::Update(GameObject* enemy)
 
 	if (m_Switch && m_CurrentWaypoint == -1)
 	{
-		enemy->GetComponent<BirdMovementComponent>()->SetIsAttacking(false);
+		enemy->GetComponent<BirdBehaviorComponent>()->SetIsAttacking(false);
 		return new BirdInFormationState();
 	}
 
@@ -36,7 +36,7 @@ BaseEnemyState* BirdFlyInState::Update(GameObject* enemy)
 
 void BirdFlyInState::SetSpriteState(GameObject* enemy)
 {
-	bool spriteOffset = enemy->GetComponent<BirdMovementComponent>()->GetIsHurt();
+	bool spriteOffset = enemy->GetComponent<BirdBehaviorComponent>()->GetIsHurt();
 
 	if (spriteOffset != m_SpriteOffset)
 	{
@@ -59,7 +59,7 @@ void BirdFlyInState::CreatePaths(GameObject* enemy)
 	path->Sample(&m_Path, 0);
 
 	//final position
-	m_Path.push_back(enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation());
+	m_Path.push_back(enemy->GetComponent<BaseEnemyBehaviorComponent>()->GetPosInFormation());
 
 	
 }
@@ -71,7 +71,7 @@ void BirdFlyInState::Move(GameObject* enemy)
 	if (m_CurrentWaypoint != -1)// -1 is stand by state, should as well be switch for patroling before formation is built
 	{
 
-		if (m_CurrentWaypoint < m_Path.size())
+		if (m_CurrentWaypoint < int(m_Path.size()))
 		{
 			FollowPath(enemy, trc);
 		}
@@ -82,7 +82,7 @@ void BirdFlyInState::Move(GameObject* enemy)
 
 		trc->SetPosition(glm::vec3{ m_Path[m_Path.size() - 1].x - (currentStep * m_StepSize),m_Path[m_Path.size() - 1].y, 0 });//set position to final point
 
-		bool spriteOffset = enemy->GetComponent<BirdMovementComponent>()->GetIsHurt();
+		bool spriteOffset = enemy->GetComponent<BirdBehaviorComponent>()->GetIsHurt();
 		enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2) + (spriteOffset * 2));
 	}
 

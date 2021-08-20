@@ -4,13 +4,10 @@
 #include "glm/vec2.hpp"
 #include "Event.h"
 
-
-//states: building formation, battle
-
 class GameObject;
 class ScoreEventHandler;
 
-class EnemyManager final : public dae::Singleton<EnemyManager>//, public IEventHandler
+class EnemyManager final : public dae::Singleton<EnemyManager>
 {
 public:
 	~EnemyManager();
@@ -28,9 +25,11 @@ public:
 	void AnEnemyReachedPositionInFormation();
 	void SetWaitingForPlayerToRespawn(bool waiting);
 
+
 private:
 	void SendRandomEnemyToAttack();
 	void RespawnWaitingHandler();
+	void EnemiesHandler();
 
 	float m_SpawnTimer = 0.f;
 	float m_SpawnTime = 0.35f;
@@ -53,8 +52,8 @@ private:
 	std::shared_ptr<IEventHandler> m_ScoreEventHandler;
 	std::shared_ptr<IEventHandler> m_AudioEventHandler;
 
-	int m_NumberOfEnemiesNotInPosition;
-	int m_NumberOfEnemiesAlive;
+	int m_NumberOfEnemiesNotInPosition = 0;
+	int m_NumberOfEnemiesAlive = 0;
 
 	//patrolling before formation
 	float m_StepTimer = 0.f;
@@ -69,12 +68,10 @@ private:
 	bool m_MovingLeft = true;
 	bool m_PanicMode = false;
 	bool m_WaitingForPlayerToRespawn = false;
-	bool m_BuildingFormation;//if not then it is battle stage
+	bool m_BuildingFormation = true;//if not then it is battle stage
 	
 
 	//for observer pattern
 	Event m_EventLevelCleared;
-
-
 };
 

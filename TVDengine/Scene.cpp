@@ -38,7 +38,8 @@ void Scene::DeleteGameObject(std::shared_ptr<GameObject> objectToDelete)
 
 void dae::Scene::DeletePlayer(int playerIndex)
 {
-	if (m_pPlayers.size() < playerIndex && m_pPlayers.size() > 0)
+	int playersSize = int(m_pPlayers.size());
+	if (playersSize < playerIndex && playersSize > 0)
 	{
 		m_pPlayers.erase(std::remove(m_pPlayers.begin(), m_pPlayers.end(), m_pPlayers[playerIndex]), m_pPlayers.end());
 	}

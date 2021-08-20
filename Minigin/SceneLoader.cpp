@@ -25,8 +25,7 @@
 #include "SpriteAnimComponent.h"
 
 #include "FighterShipMovementComponent.h"
-#include "BaseEnemyMovementComponent.h"
-#include "EnemyFlyInMovement.h"
+#include "BaseEnemyBehaviorComponent.h"
 #include "PlayerHealthComponent.h"
 #include "RenderComponent.h"
 
@@ -362,6 +361,7 @@ void SceneLoader::ShowResultsScreen()
 	int fontSize = 36;
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize);
 	
+	m_EventGameEnd.Notify(nullptr, "gameEnd");//EndGame sound
 	
 	int verticalOffset = 0;
 
@@ -413,6 +413,8 @@ void SceneLoader::InitializeEventHandlers()
 	m_EventHandlers.push_back(audioClearedEventHandler);
 	m_EventHandlers.push_back(levelClearedEventHandler);
 	m_EventHandlers.push_back(scoreEventHandler);
+
+	m_EventGameEnd.AddHandler(audioClearedEventHandler);
 }
 
 void SceneLoader::CleanUp() const

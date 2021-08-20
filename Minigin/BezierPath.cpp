@@ -1,13 +1,6 @@
 #include "MiniginPCH.h"
 #include "BezierPath.h"
 
-BezierPath::BezierPath()
-{
-}
-
-BezierPath::~BezierPath()
-{
-}
 
 void BezierPath::AddCurve(BezierCurve newCurve, int samples)
 {
@@ -30,7 +23,7 @@ void BezierPath::Sample(std::vector<glm::vec2>* sampledPath, int index)
 			}
 		}
 	}
-	else if (index >= 0 && index < m_Curves.size())//specific one
+	else if (index >= 0 && index < int(m_Curves.size()))//specific one
 	{
 		for (float t = 0; t <= 1.f; t += (1.f / m_Samples[index]))
 		{

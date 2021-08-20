@@ -6,7 +6,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "TransformComponent.h"
-#include "BirdMovementComponent.h"
+#include "BirdBehaviorComponent.h"
 #include "TractorBeamDangerComponent.h"
 #include "CollisionManager.h"
 
@@ -38,7 +38,7 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 
 	if (BirdDiveDown(enemy))
 	{
-		BirdMovementComponent* movementComponent = enemy->GetComponent<BirdMovementComponent>();
+		BirdBehaviorComponent* movementComponent = enemy->GetComponent<BirdBehaviorComponent>();
 
 		if (!movementComponent->GetIsPanicing())
 		{
@@ -59,7 +59,7 @@ BaseEnemyState* BirdDiveDownState::Update(GameObject* enemy)
 
 void BirdDiveDownState::SetSpriteState(GameObject* enemy)
 {
-	bool spriteOffset = enemy->GetComponent<BirdMovementComponent>()->GetIsHurt();
+	bool spriteOffset = enemy->GetComponent<BirdBehaviorComponent>()->GetIsHurt();
 
 	if (spriteOffset != m_SpriteOffset)
 	{
@@ -171,7 +171,7 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 	}
 	else playerPos = scene->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
 
-	BirdMovementComponent* enemyBMC = enemy->GetComponent<BirdMovementComponent>();
+	BirdBehaviorComponent* enemyBMC = enemy->GetComponent<BirdBehaviorComponent>();
 
 	if (enemyBMC->GetIsBombing() && !enemyBMC->GetIsControlledByPlayer())
 	{
@@ -223,9 +223,9 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 {
 	//here is the place for alternative behavior
-	if (m_CurrentWaypoint < m_Path.size())
+	if (m_CurrentWaypoint < int(m_Path.size()))
 	{
-		if (!m_BombingAttack && m_CurrentWaypoint == m_Path.size() - 4 && m_TractorBeamTimer < m_TractorBeamTime)//moment where to stop for tractor beam
+		if (!m_BombingAttack && m_CurrentWaypoint == int(m_Path.size()) - 4 && m_TractorBeamTimer < m_TractorBeamTime)//moment where to stop for tractor beam
 		{
 			if (!m_TractorBeamActivated)
 			{
@@ -242,22 +242,11 @@ bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 
 			glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
 
-			//check if we have reached next waypoint 
-			float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
+			CheckWaypointDistance(currentPosition);
 
-			if (m_SqrMagnitude > sqrMagnitude) m_SqrMagnitude = sqrMagnitude;
-			else
+			if (m_CurrentWaypoint < int(m_Path.size()) )
 			{
-				glm::vec2 distance = m_Path[m_CurrentWaypoint] - currentPosition;
-				m_Direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));
-			}
-
-			int aproxReachDistance = 8;
-			if (sqrMagnitude < aproxReachDistance) ++m_CurrentWaypoint;
-
-			if (m_CurrentWaypoint < m_Path.size())//TODO: double check, must be removed
-			{
-				if (m_CurrentWaypoint != m_Path.size() - 2)
+				if (m_CurrentWaypoint != int(m_Path.size()) - 2)
 				{
 					glm::vec2 translation = m_Direction * SystemTime::GetInstance().GetDeltaTime() * m_Speed;
 

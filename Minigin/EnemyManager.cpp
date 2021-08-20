@@ -11,10 +11,9 @@
 #include "Texture2DComponent.h"
 #include "SpriteAnimComponent.h"
 
-//#include "BaseEnemyMovementComponent.h"
-#include "BeeMovementComponent.h"
-#include "BFMovementComponent.h"
-#include "BirdMovementComponent.h"
+#include "BeeBehaviorComponent.h"
+#include "BFBehaviorComponent.h"
+#include "BirdBehaviorComponent.h"
 #include "RenderComponent.h"
 #include "CollisionManager.h"
 #include "SceneLoader.h"
@@ -51,7 +50,6 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 
 	m_RespawnWaitingTimer = 0.f;
 	m_SpawnTimer = 0.f;
-	m_RespawnWaitingTimer = 0.f;
 	m_DiveDownTimer = 0.f;
 	m_StepTimer = 0.f;
 
@@ -59,130 +57,8 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 
 void EnemyManager::Update()
 {
-	//building formation
-	if (m_BuildingFormation)
-	{
-		int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
-		int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
 
-		if (m_SpawnTimer >= m_SpawnTime)
-		{
-			auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
-			
-			if (m_BeeInfo.size() > 0)
-			{
-				auto enemyShip = std::make_shared<GameObject>("Bee");
-				enemyShip->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2, -100, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
-				enemyShip->AddComponent(new RenderComponent());
-				enemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
-				enemyShip->AddComponent(new SpriteAnimComponent(2));
-				//enemyShip->AddComponent(new EnemyFlyInMovement(m_pEnemiesPosInFormation.back()));
-				enemyShip->AddComponent(new BeeMovementComponent
-				(275.f,glm::vec2( (screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (5 + m_BeeInfo.back()[2]) )));
-				enemyShip->GetComponent<BeeMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
-				enemyShip->GetComponent<BeeMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
-				scene->Add(enemyShip);
-				m_pEnemies.push_back(enemyShip);
-				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
-				m_BeeInfo.pop_back();
-			}
-			else if (m_BFInfo.size() > 0)
-			{
-				auto enemyShip = std::make_shared<GameObject>("BF");
-				enemyShip->AddComponent(new TransformComponent(glm::vec3(-100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
-				enemyShip->AddComponent(new RenderComponent());
-				enemyShip->AddComponent(new Texture2DComponent("Butterfly.png", scene->GetSceneScale()));
-				enemyShip->AddComponent(new SpriteAnimComponent(2));
-				//enemyShip->AddComponent(new EnemyFlyInMovement(m_pEnemiesPosInFormation.back()));
-				enemyShip->AddComponent(new BFMovementComponent(275.f, 
-					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (3 + m_BFInfo.back()[2]))));
-				scene->Add(enemyShip);
-				enemyShip->GetComponent<BFMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
-				enemyShip->GetComponent<BFMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
-				m_pEnemies.push_back(enemyShip);
-				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
-				m_BFInfo.pop_back();
-			}
-			else if (m_BirdInfo.size() > 0)
-			{
-				if (m_BirdInfo.size() == 2 && SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus )
-				{
-					if (scene->GetPlayer(1) == nullptr)
-					{
-						auto enemyShip = std::make_shared<GameObject>("Bird");
-						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
-						enemyShip->AddComponent(new RenderComponent());
-						enemyShip->AddComponent(new SpriteAnimComponent(4));
-						enemyShip->AddComponent(new Texture2DComponent("Bird2.png", scene->GetSceneScale()));
-						enemyShip->AddComponent(new BirdMovementComponent(275.f,
-							m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9), true));
-						scene->Add(enemyShip);
-						scene->AddPlayer(enemyShip);
-						enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
-						enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
-
-						CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
-					}
-					else --m_NumberOfEnemiesNotInPosition;
-				}
-				else
-				{
-					auto enemyShip = std::make_shared<GameObject>("Bird");
-					enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
-					enemyShip->AddComponent(new RenderComponent());
-					enemyShip->AddComponent(new SpriteAnimComponent(4));
-					enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
-					enemyShip->AddComponent(new BirdMovementComponent(275.f,
-						m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9)));
-					scene->Add(enemyShip);
-					m_pEnemies.push_back(enemyShip);
-					enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
-					enemyShip->GetComponent<BirdMovementComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
-
-
-					CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
-				}
-				m_BirdInfo.pop_back();
-
-			}
-			//m_pEnemiesPosInFormation.pop_back();
-			m_SpawnTimer = 0;
-		}
-		else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
-
-
-		if (m_NumberOfEnemiesNotInPosition == 0 && m_CurrentStepNumber == 0)//here is that check you are looking for
-		{
-			for (size_t i = 0; i < m_pEnemies.size(); i++)
-			{
-				m_pEnemies[i]->GetComponent<BaseEnemyMovementComponent>()->Switch();//works
-			}
-
-			if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus)
-			{
-				auto player2 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(1);
-				if (player2)player2->GetComponent<BirdMovementComponent>()->Switch();
-			}
-
-
-			m_BuildingFormation = false;
-		}
-
-	}
-	else
-	{
-		if (m_pEnemies.size() > 0)
-		{
-			if (!m_BuildingFormation) SendRandomEnemyToAttack();
-		}
-
-		if (m_pEnemies.size() <= 0 && m_NumberOfEnemiesNotInPosition <= 0)
-		{
-			m_BuildingFormation = true;
-			++m_CurrentDifficultyLevel;
-			m_EventLevelCleared.Notify(nullptr, "LevelCleared");
-		}
-	}
+	EnemiesHandler();
 
 	CalculatePatrolSteps();
 
@@ -212,7 +88,6 @@ void EnemyManager::CleanUp()
 void EnemyManager::AnEnemyReachedPositionInFormation()
 {
 	--m_NumberOfEnemiesNotInPosition;
-
 }
 
 void EnemyManager::SetWaitingForPlayerToRespawn(bool waiting)
@@ -232,7 +107,6 @@ void EnemyManager::DeleteEnemy(const std::shared_ptr<GameObject>& gameObject)
 			return;
 		}
 	}
-
 }
 
 void EnemyManager::SendRandomEnemyToAttack()
@@ -244,17 +118,16 @@ void EnemyManager::SendRandomEnemyToAttack()
 			if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
 			else
 			{
-				if (m_pEnemies.size() <= m_PanicEnemiesNumber)
+				if (int(m_pEnemies.size()) <= m_PanicEnemiesNumber)
 				{
 					m_PanicMode = true;
 
 					for (auto enemy : m_pEnemies)
 					{
-						BaseEnemyMovementComponent* movementComponent = enemy->GetComponent<BaseEnemyMovementComponent>();
+						BaseEnemyBehaviorComponent* movementComponent = enemy->GetComponent<BaseEnemyBehaviorComponent>();
 						movementComponent->SetPanic(true);
 						movementComponent->Switch();
 					}
-
 				}
 				else
 				{
@@ -262,7 +135,7 @@ void EnemyManager::SendRandomEnemyToAttack()
 					for (size_t i = extraEnemiesChance; i > 0; --i)
 					{
 						int randomEnemyIndex = rand() % m_pEnemies.size();
-						BaseEnemyMovementComponent* enemyMovement = m_pEnemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>();
+						BaseEnemyBehaviorComponent* enemyMovement = m_pEnemies[randomEnemyIndex]->GetComponent<BaseEnemyBehaviorComponent>();
 
 						if (!enemyMovement->GetIsAttacking())
 						{
@@ -271,11 +144,10 @@ void EnemyManager::SendRandomEnemyToAttack()
 							if (birdCompanionIndex == -1)
 							{
 								enemyMovement->Switch();
-								
 							}
 							else
 							{
-								BirdMovementComponent* birdMovementComponent = m_pEnemies[randomEnemyIndex]->GetComponent<BirdMovementComponent>();
+								BirdBehaviorComponent* birdMovementComponent = m_pEnemies[randomEnemyIndex]->GetComponent<BirdBehaviorComponent>();
 
 								if (birdMovementComponent)//if it is a bird it is either goes solo tractor-attacking or bombing but with 2 butterflies
 								{
@@ -290,7 +162,7 @@ void EnemyManager::SendRandomEnemyToAttack()
 
 										for (size_t j = 0; j < m_pEnemies.size(); j++)
 										{
-											BFMovementComponent* enemyCompanionMovement = m_pEnemies[j]->GetComponent<BFMovementComponent>();
+											BFBehaviorComponent* enemyCompanionMovement = m_pEnemies[j]->GetComponent<BFBehaviorComponent>();
 											if (enemyCompanionMovement && birdCompanionIndex == enemyCompanionMovement->GetBirdCompanionIndex())
 											{
 												enemyCompanionMovement->SetIsWithBird(true);
@@ -307,7 +179,7 @@ void EnemyManager::SendRandomEnemyToAttack()
 								}
 								else//if it is a butterfly -> then it just does its usual attack
 								{
-									BFMovementComponent* butterflyMovement = m_pEnemies[randomEnemyIndex]->GetComponent<BFMovementComponent>();
+									BFBehaviorComponent* butterflyMovement = m_pEnemies[randomEnemyIndex]->GetComponent<BFBehaviorComponent>();
 									butterflyMovement->SetIsWithBird(false);
 									butterflyMovement->Switch();
 								}
@@ -316,17 +188,15 @@ void EnemyManager::SendRandomEnemyToAttack()
 					}
 					m_DiveDownTimer = m_DiveDownTime;
 				}
-
 			}
 		}
-
 	}
 	else if (m_WaitingForPlayerToRespawn)
 	{
 		m_PanicMode = false;
 		for (auto enemy : m_pEnemies)
 		{
-			BaseEnemyMovementComponent* movementComponent = enemy->GetComponent<BaseEnemyMovementComponent>();
+			BaseEnemyBehaviorComponent* movementComponent = enemy->GetComponent<BaseEnemyBehaviorComponent>();
 			movementComponent->SetPanic(false);
 			movementComponent->Switch();
 		}
@@ -336,12 +206,133 @@ void EnemyManager::SendRandomEnemyToAttack()
 
 void EnemyManager::RespawnWaitingHandler()
 {
-		if (m_RespawnWaitingTimer < m_RespawnWaitingTime) m_RespawnWaitingTimer += SystemTime::GetInstance().GetDeltaTime();
-		else
+	if (m_RespawnWaitingTimer < m_RespawnWaitingTime) m_RespawnWaitingTimer += SystemTime::GetInstance().GetDeltaTime();
+	else
+	{
+		m_WaitingForPlayerToRespawn = false;
+		m_RespawnWaitingTimer = 0;
+	}
+}
+
+void EnemyManager::EnemiesHandler()
+{
+	if (m_BuildingFormation)
+	{
+		int screenWidth = dae::SceneManager::GetInstance().GetScreenWidth();
+		int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
+
+		if (m_SpawnTimer >= m_SpawnTime)
 		{
-			m_WaitingForPlayerToRespawn = false;
-			m_RespawnWaitingTimer = 0;
+			auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
+
+			if (m_BeeInfo.size() > 0)
+			{
+				auto enemyShip = std::make_shared<GameObject>("Bee");
+				enemyShip->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2, -100, 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				enemyShip->AddComponent(new RenderComponent());
+				enemyShip->AddComponent(new Texture2DComponent("Bee.png", scene->GetSceneScale()));
+				enemyShip->AddComponent(new SpriteAnimComponent(2));
+				enemyShip->AddComponent(new BeeBehaviorComponent
+				(275.f, glm::vec2((screenWidth / m_BeeInfo.back()[1]) * m_BeeInfo.back()[0], screenHeight / 14 * (5 + m_BeeInfo.back()[2]))));
+				enemyShip->GetComponent<BeeBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+				enemyShip->GetComponent<BeeBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
+				scene->Add(enemyShip);
+				m_pEnemies.push_back(enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
+				m_BeeInfo.pop_back();
+			}
+			else if (m_BFInfo.size() > 0)
+			{
+				auto enemyShip = std::make_shared<GameObject>("BF");
+				enemyShip->AddComponent(new TransformComponent(glm::vec3(-100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 13.f, 10.f, scene->GetSceneScale(), scene->GetSceneScale()));
+				enemyShip->AddComponent(new RenderComponent());
+				enemyShip->AddComponent(new Texture2DComponent("Butterfly.png", scene->GetSceneScale()));
+				enemyShip->AddComponent(new SpriteAnimComponent(2));
+				enemyShip->AddComponent(new BFBehaviorComponent(275.f,
+					m_BFInfo.back()[3], glm::vec2((screenWidth / m_BFInfo.back()[1]) * m_BFInfo.back()[0], screenHeight / 14 * (3 + m_BFInfo.back()[2]))));
+				scene->Add(enemyShip);
+				enemyShip->GetComponent<BFBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+				enemyShip->GetComponent<BFBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
+				m_pEnemies.push_back(enemyShip);
+				CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
+				m_BFInfo.pop_back();
+			}
+			else if (m_BirdInfo.size() > 0)
+			{
+				if (m_BirdInfo.size() == 2 && SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus)
+				{
+					if (scene->GetPlayer(1) == nullptr)
+					{
+						auto enemyShip = std::make_shared<GameObject>("Bird");
+						enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+						enemyShip->AddComponent(new RenderComponent());
+						enemyShip->AddComponent(new SpriteAnimComponent(4));
+						enemyShip->AddComponent(new Texture2DComponent("Bird2.png", scene->GetSceneScale()));
+						enemyShip->AddComponent(new BirdBehaviorComponent(275.f,
+							m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9), true));
+						scene->Add(enemyShip);
+						scene->AddPlayer(enemyShip);
+						enemyShip->GetComponent<BirdBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+						enemyShip->GetComponent<BirdBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
+
+						CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
+					}
+					else --m_NumberOfEnemiesNotInPosition;
+				}
+				else
+				{
+					auto enemyShip = std::make_shared<GameObject>("Bird");
+					enemyShip->AddComponent(new TransformComponent(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() + 100, dae::SceneManager::GetInstance().GetScreenHeight(), 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+					enemyShip->AddComponent(new RenderComponent());
+					enemyShip->AddComponent(new SpriteAnimComponent(4));
+					enemyShip->AddComponent(new Texture2DComponent("Bird.png", scene->GetSceneScale()));
+					enemyShip->AddComponent(new BirdBehaviorComponent(275.f,
+						m_BirdInfo.back()[2], glm::vec2((screenWidth / m_BirdInfo.back()[1]) * m_BirdInfo.back()[0], screenHeight / 9)));
+					scene->Add(enemyShip);
+					m_pEnemies.push_back(enemyShip);
+					enemyShip->GetComponent<BirdBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_ScoreEventHandler);
+					enemyShip->GetComponent<BirdBehaviorComponent>()->GetEventEnemyKilledHandler()->AddHandler(m_AudioEventHandler);
+
+
+					CollisionManager::GetInstance().AddGameObjectForCheck(enemyShip);
+				}
+				m_BirdInfo.pop_back();
+
+			}
+			m_SpawnTimer = 0;
 		}
+		else m_SpawnTimer += SystemTime::GetInstance().GetDeltaTime();
+
+
+		if (m_NumberOfEnemiesNotInPosition == 0 && m_CurrentStepNumber == 0)//here is that check you are looking for
+		{
+			for (size_t i = 0; i < m_pEnemies.size(); i++)
+			{
+				m_pEnemies[i]->GetComponent<BaseEnemyBehaviorComponent>()->Switch();//works
+			}
+
+			if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Versus)
+			{
+				auto player2 = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(1);
+				if (player2)player2->GetComponent<BirdBehaviorComponent>()->Switch();
+			}
+			m_BuildingFormation = false;
+		}
+	}
+	else
+	{
+		if (m_pEnemies.size() > 0)
+		{
+			if (!m_BuildingFormation) SendRandomEnemyToAttack();
+		}
+
+		if (m_pEnemies.size() <= 0 && m_NumberOfEnemiesNotInPosition <= 0)
+		{
+			m_BuildingFormation = true;
+			++m_CurrentDifficultyLevel;
+			m_EventLevelCleared.Notify(nullptr, "LevelCleared");
+		}
+	}
 }
 
 void EnemyManager::RandomEnemyShot()
@@ -351,15 +342,16 @@ void EnemyManager::RandomEnemyShot()
 		int randomEnemyIndex = rand() % m_pEnemies.size();
 
 		int chanceRange = 200;
-		int diffcultyLevelWeight = 25;
+		int diffcultyLevelWeight = 60;
 
 		int chanceToShootModifier = chanceRange - (m_CurrentDifficultyLevel * diffcultyLevelWeight);
 
 		int chanceToShoot = rand() % chanceToShootModifier + 1;
 		if (chanceToShoot == chanceToShootModifier)
 		{
-			if (m_pEnemies[randomEnemyIndex]->GetComponent<TransformComponent>()->GetCenterPosition().y < dae::SceneManager::GetInstance().GetScreenHeight()/2)
-			m_pEnemies[randomEnemyIndex]->GetComponent<BaseEnemyMovementComponent>()->ShootARocket();
+			float enemyYPos = m_pEnemies[randomEnemyIndex]->GetComponent<TransformComponent>()->GetCenterPosition().y;
+			if (enemyYPos < dae::SceneManager::GetInstance().GetScreenHeight()/3 && enemyYPos > 0)
+			m_pEnemies[randomEnemyIndex]->GetComponent<BaseEnemyBehaviorComponent>()->ShootARocket();
 		}
 	}
 }

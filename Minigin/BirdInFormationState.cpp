@@ -2,7 +2,7 @@
 #include "BirdInFormationState.h"
 #include "GameObject.h"
 #include "BirdDiveDownState.h"
-#include "BirdMovementComponent.h"
+#include "BirdBehaviorComponent.h"
 #include "TransformComponent.h"
 
 #include "GameObject.h"
@@ -26,7 +26,7 @@ BaseEnemyState* BirdInFormationState::Update(GameObject* enemy)
 	
 	if (m_Switch)
 	{
-		enemy->GetComponent<BirdMovementComponent>()->SetIsAttacking(true);
+		enemy->GetComponent<BirdBehaviorComponent>()->SetIsAttacking(true);
 		return new BirdDiveDownState(diveDownSpeed);
 	}
 
@@ -36,6 +36,6 @@ BaseEnemyState* BirdInFormationState::Update(GameObject* enemy)
 void BirdInFormationState::SetSpriteState(GameObject* enemy)
 {
 	int currentStep = EnemyManager::GetInstance().GetPatrolStep();
-	bool spriteOffset = enemy->GetComponent<BirdMovementComponent>()->GetIsHurt();
+	bool spriteOffset = enemy->GetComponent<BirdBehaviorComponent>()->GetIsHurt();
 	enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2) + (spriteOffset * 2));
 }

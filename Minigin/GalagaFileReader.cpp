@@ -41,7 +41,7 @@ void GalagaFileReader::ReadLevelInfo(const std::string& filePath)
 					continue;
 				}
 				
-				for (int i = 0; i < currentLine.size(); i++)
+				for (size_t i = 0; i < currentLine.size(); i++)
 				{
 					if (currentLine[i] != '/' && currentLine[i] != '\r')
 					{

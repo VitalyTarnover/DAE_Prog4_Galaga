@@ -13,29 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Observers">
-      <UniqueIdentifier>{51e983ca-ddf9-4432-a804-5fb5dcdced43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Input">
       <UniqueIdentifier>{be1ad071-ae33-437d-bb02-2d9e3191eb22}</UniqueIdentifier>
     </Filter>
     <Filter Include="GalagaComponents">
       <UniqueIdentifier>{fd240cf8-321e-47d1-8dfd-6ed942daf757}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GalagaComponents\Movement">
-      <UniqueIdentifier>{3891c4f9-b563-4ae9-ab8f-6465d397eefe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{61c94833-6cca-493f-91ba-94ae61848966}</UniqueIdentifier>
     </Filter>
     <Filter Include="Bezier">
       <UniqueIdentifier>{f55dd2bf-6f36-4c24-a0c4-c6fc95ee0378}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GalagaComponents\Movement\Enemy">
-      <UniqueIdentifier>{0ed72d2c-5a02-4212-96aa-dc5fca062669}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GalagaComponents\Movement\Enemy\States">
-      <UniqueIdentifier>{d6a24acc-b5fe-4046-99b4-ebe187427d83}</UniqueIdentifier>
     </Filter>
     <Filter Include="GalagaFileReader">
       <UniqueIdentifier>{146509dc-e941-42e3-8d3d-6ce06de85ff2}</UniqueIdentifier>
@@ -45,6 +33,21 @@
     </Filter>
     <Filter Include="SceneLoader">
       <UniqueIdentifier>{2feeed3f-4854-46ba-8c22-c4c05a97feae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\GameplayObjects">
+      <UniqueIdentifier>{3891c4f9-b563-4ae9-ab8f-6465d397eefe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\GameplayObjects\Enemy">
+      <UniqueIdentifier>{0ed72d2c-5a02-4212-96aa-dc5fca062669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\GameplayObjects\Enemy\States">
+      <UniqueIdentifier>{d6a24acc-b5fe-4046-99b4-ebe187427d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\GameplayObjects\Player">
+      <UniqueIdentifier>{2f29e69f-5190-4827-b61a-5c5d2c79f31d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GalagaComponents\GameplayObjects\Rocket">
+      <UniqueIdentifier>{f4b0052e-df97-41b9-89fc-9a6e143ee231}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,23 +63,14 @@
     <ClInclude Include="AnalogTriggerCommand.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="LivesObserver.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="FighterShipMovementComponent.h">
-      <Filter>GalagaComponents\Movement</Filter>
-    </ClInclude>
-    <ClInclude Include="RocketMovementComponent.h">
-      <Filter>GalagaComponents\Movement</Filter>
     </ClInclude>
     <ClInclude Include="RocketManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="BaseEnemyMovementComponent.h">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    <ClInclude Include="BaseEnemyBehaviorComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BezierCurve.h">
       <Filter>Bezier</Filter>
@@ -84,44 +78,41 @@
     <ClInclude Include="BezierPath.h">
       <Filter>Bezier</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyFlyInMovement.h">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="BaseEnemyState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="BeeFlyInState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="BeeDiveDownState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="BFDiveDownState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="BFFlyInState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="BirdDiveDownState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="BirdFlyInState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="InFormationState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
-    <ClInclude Include="BirdMovementComponent.h">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    <ClInclude Include="BirdBehaviorComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="BFMovementComponent.h">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    <ClInclude Include="BFBehaviorComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="BeeMovementComponent.h">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    <ClInclude Include="BeeBehaviorComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Managers</Filter>
@@ -129,16 +120,7 @@
     <ClInclude Include="ExplosionManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerHealthComponent.h">
-      <Filter>GalagaComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="TractorBeamComponent.h">
-      <Filter>GalagaComponents</Filter>
-    </ClInclude>
     <ClInclude Include="GalagaBackgroundComponent.h">
-      <Filter>GalagaComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="TractorBeamDangerComponent.h">
       <Filter>GalagaComponents</Filter>
     </ClInclude>
     <ClInclude Include="LevelManager.h">
@@ -148,7 +130,7 @@
       <Filter>GalagaFileReader</Filter>
     </ClInclude>
     <ClInclude Include="BirdInFormationState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClInclude>
     <ClInclude Include="AudioEventHandler.h">
       <Filter>GalagaObserverV2</Filter>
@@ -162,14 +144,29 @@
     <ClInclude Include="LevelClearedEventHandler.h">
       <Filter>GalagaObserverV2</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>GalagaComponents</Filter>
-    </ClInclude>
     <ClInclude Include="SceneLoader.h">
       <Filter>SceneLoader</Filter>
     </ClInclude>
     <ClInclude Include="BaseDynamicState.h">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FighterShipMovementComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHealthComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TractorBeamDangerComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="TractorBeamComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="RocketMovementComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>GalagaComponents\GameplayObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,62 +179,47 @@
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LivesObserver.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="FighterShipMovementComponent.cpp">
-      <Filter>GalagaComponents\Movement</Filter>
-    </ClCompile>
-    <ClCompile Include="RocketMovementComponent.cpp">
-      <Filter>GalagaComponents\Movement</Filter>
-    </ClCompile>
     <ClCompile Include="RocketManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEnemyMovementComponent.cpp">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="BezierCurve.cpp">
-      <Filter>Bezier</Filter>
+    <ClCompile Include="BaseEnemyBehaviorComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="BezierPath.cpp">
       <Filter>Bezier</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyFlyInMovement.cpp">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="BeeFlyInState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="BeeDiveDownState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="BFDiveDownState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="BFFlyInState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="BirdDiveDownState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="BirdFlyInState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="InFormationState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
-    <ClCompile Include="BeeMovementComponent.cpp">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    <ClCompile Include="BeeBehaviorComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="BFMovementComponent.cpp">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    <ClCompile Include="BFBehaviorComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="BirdMovementComponent.cpp">
-      <Filter>GalagaComponents\Movement\Enemy</Filter>
+    <ClCompile Include="BirdBehaviorComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Managers</Filter>
@@ -245,16 +227,7 @@
     <ClCompile Include="ExplosionManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHealthComponent.cpp">
-      <Filter>GalagaComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="TractorBeamComponent.cpp">
-      <Filter>GalagaComponents</Filter>
-    </ClCompile>
     <ClCompile Include="GalagaBackgroundComponent.cpp">
-      <Filter>GalagaComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="TractorBeamDangerComponent.cpp">
       <Filter>GalagaComponents</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
@@ -264,7 +237,7 @@
       <Filter>GalagaFileReader</Filter>
     </ClCompile>
     <ClCompile Include="BirdInFormationState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="AudioEventHandler.cpp">
       <Filter>GalagaObserverV2</Filter>
@@ -278,17 +251,35 @@
     <ClCompile Include="LevelClearedEventHandler.cpp">
       <Filter>GalagaObserverV2</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>GalagaComponents</Filter>
-    </ClCompile>
     <ClCompile Include="SceneLoader.cpp">
       <Filter>SceneLoader</Filter>
     </ClCompile>
     <ClCompile Include="BaseDynamicState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
     </ClCompile>
     <ClCompile Include="BaseEnemyState.cpp">
-      <Filter>GalagaComponents\Movement\Enemy\States</Filter>
+      <Filter>GalagaComponents\GameplayObjects\Enemy\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FighterShipMovementComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHealthComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="TractorBeamComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="TractorBeamDangerComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketMovementComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Rocket</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>GalagaComponents\GameplayObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="BezierCurve.cpp">
+      <Filter>Bezier</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

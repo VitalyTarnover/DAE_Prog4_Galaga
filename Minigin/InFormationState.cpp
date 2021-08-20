@@ -5,7 +5,7 @@
 #include "BFDiveDownState.h"
 #include "BirdDiveDownState.h"
 
-#include "BaseEnemyMovementComponent.h"
+#include "BaseEnemyBehaviorComponent.h"
 
 #include "GameObject.h"
 #include "TransformComponent.h"
@@ -30,7 +30,7 @@ BaseEnemyState* InFormationState::Update(GameObject* enemy)
 	{
 		std::string enemyType = enemy->GetName();
 		
-		enemy->GetComponent<BaseEnemyMovementComponent>()->SetIsAttacking(true);
+		enemy->GetComponent<BaseEnemyBehaviorComponent>()->SetIsAttacking(true);
 
 		float diveDownSpeed = 300;
 		if(enemyType == "Bee") return new BeeDiveDownState(diveDownSpeed);
@@ -55,7 +55,7 @@ void InFormationState::Patrol(GameObject* enemy)
 	
 	int currentStep = EnemyManager::GetInstance().GetPatrolStep();
 
-	glm::vec2 posInFormation = enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation();
+	glm::vec2 posInFormation = enemy->GetComponent<BaseEnemyBehaviorComponent>()->GetPosInFormation();
 
 	if (trc->GetCenterPosition().x > dae::SceneManager::GetInstance().GetScreenWidth() / 2)
 		trc->SetCenterPosition(glm::vec3{ posInFormation.x + m_StepSize * currentStep, trc->GetCenterPosition().y, trc->GetCenterPosition().z });

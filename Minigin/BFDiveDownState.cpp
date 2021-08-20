@@ -6,7 +6,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
-#include "BFMovementComponent.h"
+#include "BFBehaviorComponent.h"
 #include "SceneLoader.h"
 #include "PlayerHealthComponent.h"
 
@@ -26,7 +26,7 @@ BaseEnemyState* BFDiveDownState::Update(GameObject* enemy)
 
 	if (BFDiveDown(enemy))
 	{
-		BFMovementComponent* movementComponent = enemy->GetComponent<BFMovementComponent>();
+		BFBehaviorComponent* movementComponent = enemy->GetComponent<BFBehaviorComponent>();
 
 		movementComponent->SetIsAttacking(false);
 
@@ -34,6 +34,7 @@ BaseEnemyState* BFDiveDownState::Update(GameObject* enemy)
 		else
 		{
 			float diveDownSpeed = 300;
+			movementComponent->SetIsAttacking(true);
 			return new BFDiveDownState(diveDownSpeed);
 		}
 	}
@@ -49,7 +50,7 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 	int screenHeight = dae::SceneManager::GetInstance().GetScreenHeight();
 
 
-	if (!enemy->GetComponent<BFMovementComponent>()->GetIsWithBird())
+	if (!enemy->GetComponent<BFBehaviorComponent>()->GetIsWithBird())
 	{
 		//1st part -> 0
 		const auto& trc = enemy->GetComponent<TransformComponent>();
@@ -84,7 +85,7 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 
 		glm::vec2 distance = playerPos - glm::vec2{ tempTrajectoryPoint.x,tempTrajectoryPoint.y };
 
-		int samplesNumber = 20;//for wiggly path
+		size_t samplesNumber = 20;//for wiggly path
 		for (size_t i = 0; i < samplesNumber; i++)
 		{
 			tempTrajectoryPoint.x += distance.x / samplesNumber + (30 * float(sin(i)));//sinus mult can be different
@@ -100,7 +101,7 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 		m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
 
 		//back to position in formation
-		m_Path.push_back(glm::vec2{ enemy->GetComponent<BFMovementComponent>()->GetPosInFormation() });
+		m_Path.push_back(glm::vec2{ enemy->GetComponent<BFBehaviorComponent>()->GetPosInFormation() });
 	}
 	else
 	{
@@ -133,7 +134,7 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 		m_Path.push_back(glm::vec2{ screenWidth / 2, -100 });
 
 		//back to position in formation
-		m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyMovementComponent>()->GetPosInFormation() });
+		m_Path.push_back(glm::vec2{ enemy->GetComponent<BaseEnemyBehaviorComponent>()->GetPosInFormation() });
 
 	}
 
@@ -141,28 +142,17 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 
 bool BFDiveDownState::BFDiveDown(GameObject* enemy)
 {
-	if (m_CurrentWaypoint < m_Path.size())
+	if (m_CurrentWaypoint < int(m_Path.size()) )
 	{
 		const auto& trc = enemy->GetComponent<TransformComponent>();
 
 		glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
 
-		//check if we have reached next waypoint 
-		float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
+		CheckWaypointDistance(currentPosition);
 
-		if (m_SqrMagnitude > sqrMagnitude) m_SqrMagnitude = sqrMagnitude;
-		else
+		if (m_CurrentWaypoint < int(m_Path.size()))
 		{
-			glm::vec2 distance = m_Path[m_CurrentWaypoint] - currentPosition;
-			m_Direction = distance / sqrt((distance.x * distance.x + distance.y * distance.y));
-		}
-
-		int aproxReachDistance = 8;
-		if (sqrMagnitude < aproxReachDistance) ++m_CurrentWaypoint;
-
-		if (m_CurrentWaypoint < m_Path.size())//TODO: double check, must be removed
-		{
-			if (m_CurrentWaypoint != m_Path.size() - 2)
+			if (m_CurrentWaypoint != int(m_Path.size()) - 2)
 			{
 				glm::vec2 translation = m_Direction * SystemTime::GetInstance().GetDeltaTime() * m_Speed;
 

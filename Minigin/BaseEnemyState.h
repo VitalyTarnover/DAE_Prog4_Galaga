@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseEnemyMovementComponent.h"
+#include "BaseEnemyBehaviorComponent.h"
 
 class BaseEnemyState
 {

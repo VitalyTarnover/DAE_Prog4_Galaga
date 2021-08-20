@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.h"
+#include "Event.h"
 
 enum class GameMode
 {
@@ -8,8 +9,6 @@ enum class GameMode
 	Coop,
 	Versus
 };
-
-class IEventHandler;
 
 class SceneLoader final : public dae::Singleton<SceneLoader>
 {
@@ -28,6 +27,7 @@ public:
 
 	GameMode GetCurrentGameMode() const { return m_CurrentGameMode; };
 private:
+	Event m_EventGameEnd;
 	GameMode m_CurrentGameMode = GameMode::MainMenu;
 	
 	std::vector<std::shared_ptr<IEventHandler>> m_EventHandlers;

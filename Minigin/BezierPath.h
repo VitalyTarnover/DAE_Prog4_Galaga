@@ -5,8 +5,8 @@
 class BezierPath final
 {
 public:
-	BezierPath();
-	~BezierPath();
+	BezierPath() {};
+	~BezierPath() {};
 
 	void AddCurve(BezierCurve newCurve, int samples);
 	void Sample(std::vector<glm::vec2>* sampledPath, int index = -1);

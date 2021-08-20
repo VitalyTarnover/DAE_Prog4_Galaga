@@ -4,7 +4,7 @@
 #include "BezierPath.h"
 #include "SceneManager.h"
 
-#include "BeeMovementComponent.h"
+#include "BeeBehaviorComponent.h"
 #include "TransformComponent.h"
 #include "SpriteAnimComponent.h"
 
@@ -27,7 +27,7 @@ BaseEnemyState* BeeFlyInState::Update(GameObject* enemy)
 
 	if (m_Switch)
 	{
-		enemy->GetComponent<BeeMovementComponent>()->SetIsAttacking(false);
+		enemy->GetComponent<BeeBehaviorComponent>()->SetIsAttacking(false);
 		return new InFormationState();
 	}
 
@@ -47,7 +47,7 @@ void BeeFlyInState::CreatePaths(GameObject* enemy)
 	path->Sample(&m_Path, 0);
 
 	//final position
-	m_Path.push_back(enemy->GetComponent<BeeMovementComponent>()->GetPosInFormation());
+	m_Path.push_back(enemy->GetComponent<BeeBehaviorComponent>()->GetPosInFormation());
 
 	
 }
@@ -58,7 +58,7 @@ void BeeFlyInState::Move(GameObject* enemy)
 
 	if (m_CurrentWaypoint != -1)// -1 is stand by state, should as well be switch for patroling before formation is built
 	{
-		if (m_CurrentWaypoint < m_Path.size())
+		if (m_CurrentWaypoint < int(m_Path.size()) )
 		{
 			FollowPath(enemy, trc);
 		}

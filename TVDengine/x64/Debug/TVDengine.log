@@ -1,5 +1,30 @@
-﻿  Renderer.cpp
+﻿  pch.cpp
+  AudioLocator.cpp
+  AudioServiceProvider.cpp
+  BaseAnalogStickCommand.cpp
+  BaseAnalogTriggerCommand.cpp
+  BaseCommand.cpp
+  BaseComponent.cpp
+  Event.cpp
+  Font.cpp
+  FPSTextComponent.cpp
+  GameObject.cpp
+  InputManager.cpp
+  RenderComponent.cpp
+  Renderer.cpp
+  ResourceManager.cpp
   Scene.cpp
   SceneManager.cpp
+  SpriteAnimComponent.cpp
+  Subject.cpp
+  SystemTime.cpp
+  Texture2D.cpp
+  Generating Code...
+  Compiling...
+  Texture2DComponent.cpp
+  TextComponent.cpp
+  Transform.cpp
+  TransformComponent.cpp
+  TVDengine.cpp
   Generating Code...
   TVDengine.vcxproj -> D:\DAE\2020_2021\S4\Prog4\1A-Retake\GameEngine\DAE_Prog4_Galaga\x64\Debug\TVDengine.lib
