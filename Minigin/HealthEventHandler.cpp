@@ -7,7 +7,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void HealthEventHandler::OnEvent(GameObject* actor, const std::string& argument)
+void HealthEventHandler::OnEvent(GameObject* actor, const std::string& argument) const
 {
 	if (argument == "playerDeath") UpdateLives(actor);
 }

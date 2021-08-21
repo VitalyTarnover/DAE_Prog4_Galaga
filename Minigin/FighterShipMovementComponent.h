@@ -14,7 +14,7 @@ public:
 	void SetMovementLocked(bool locked);
 private:
 	bool m_MovementLocked;
-	void Move();
+	void Move() const;
 	float m_Speed;
 
 	bool m_MovingLeft;

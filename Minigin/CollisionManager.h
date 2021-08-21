@@ -24,7 +24,7 @@ public:
 	//void SetAudioEventHandler(std::shared_ptr<IEventHandler> audioEventHandler) { m_EventShotFired.AddHandler(audioEventHandler); };
 private:
 	
-	bool CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2);
+	bool CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2) const;
 
 	std::vector<std::shared_ptr<GameObject>> m_pEnemiesForCheck;
 	std::vector<std::shared_ptr<GameObject>> m_pRocketsForCheck;

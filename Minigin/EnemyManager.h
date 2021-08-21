@@ -19,12 +19,11 @@ public:
 	void CleanUp();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
 
-	void RandomEnemyShot();
+	void RandomEnemyShot() const;
 	void CalculatePatrolSteps();
-	int GetPatrolStep();
+	int GetPatrolStep() const;
 	void AnEnemyReachedPositionInFormation();
 	void SetWaitingForPlayerToRespawn(bool waiting);
-
 
 private:
 	void SendRandomEnemyToAttack();

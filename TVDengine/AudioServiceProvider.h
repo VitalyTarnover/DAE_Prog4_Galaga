@@ -28,11 +28,11 @@ public:
 	void CleanUp() override;
 
 private:
-	void Play(const std::string& key, float volume = 1.0f) override;
+	void Play(const std::string& key, float volume = 1.0f) const override;
 
-	void Start();
+	void Start() const;
 
-	void Stop();
+	void Stop() const;
 
 	std::atomic_bool m_Playing;
 	std::mutex m_Mutex;

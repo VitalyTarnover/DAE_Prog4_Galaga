@@ -18,8 +18,8 @@ public:
 	void LoadCoop();
 	void LoadVersus();
 
-	void LoadGameBackground();
-	void ShowResultsScreen();
+	void LoadGameBackground() const;
+	void ShowResultsScreen() const;
 
 	void InitializeEventHandlers();
 

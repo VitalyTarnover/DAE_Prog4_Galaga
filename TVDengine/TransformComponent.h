@@ -10,14 +10,13 @@ public:
 
 	void SetScale(const glm::vec2& scale);
 
-	const SDL_Rect& GetRect() { return m_SpriteRect; }
+	const SDL_Rect& GetRect() const { return m_SpriteRect; }
 
 	dae::Transform GetTransform() const { return m_Transform; };
 
 	glm::vec3 GetCenterPosition() const;
 
 	void SetCenterPosition(glm::vec3 position);
-
 
 private:
 	dae::Transform m_Transform;

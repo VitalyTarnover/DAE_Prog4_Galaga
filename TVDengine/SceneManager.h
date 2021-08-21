@@ -15,7 +15,7 @@ namespace dae
 		void Render() const;
 
 		std::shared_ptr<Scene> GetSceneByName(const std::string& n) const;
-		std::shared_ptr<Scene> GetCurrentScene();
+		std::shared_ptr<Scene> GetCurrentScene() const { return m_pCurrentScene; };
 		void SetCurrentScene(const std::shared_ptr<Scene>&);
 
 		void SetScreenWidthHeight(int width, int height)

@@ -8,7 +8,7 @@ BFBehaviorComponent::BFBehaviorComponent(float speed, int birdCompanionIndex, gl
 	m_CurrentState = new BFFlyInState(m_Speed);
 }
 
-void BFBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject)
+void BFBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject) const
 {
 	BaseEnemyBehaviorComponent::Die(killerObject);
 	if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBFKilled");

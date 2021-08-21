@@ -36,10 +36,6 @@ std::shared_ptr<dae::Scene> dae::SceneManager::GetSceneByName(const std::string&
 	return nullptr;
 }
 
-std::shared_ptr<dae::Scene> dae::SceneManager::GetCurrentScene()
-{
-	return m_pCurrentScene;
-}
 
 void dae::SceneManager::SetCurrentScene(const std::shared_ptr<Scene>& scene)
 {

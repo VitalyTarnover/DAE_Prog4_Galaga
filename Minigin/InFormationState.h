@@ -7,9 +7,10 @@ public:
 	InFormationState();
 	virtual BaseEnemyState* Update(GameObject* enemy) override;
 protected:
-	virtual void SetSpriteState(GameObject* enemy);
-	virtual void Patrol(GameObject* enemy);
+	virtual void SetSpriteState(GameObject* enemy) const;
+	virtual void Patrol(GameObject* enemy) const;
 	void InitializeStepSize(GameObject* enemy);
+
 	bool m_StepSizeInitialized = false;
 	int m_StepSize = 0;//not initialized value
 };

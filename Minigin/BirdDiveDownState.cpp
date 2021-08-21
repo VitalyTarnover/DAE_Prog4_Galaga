@@ -141,7 +141,7 @@ void BirdDiveDownState::TractorBeamAttack(GameObject* enemy)
 		}
 		else
 		{
-			m_TractorBeamActivated = false;//TODO: check if needed
+			m_TractorBeamActivated = false;
 		}
 
 	}

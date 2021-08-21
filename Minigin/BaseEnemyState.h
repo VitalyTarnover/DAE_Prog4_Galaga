@@ -8,7 +8,7 @@ public:
 	virtual ~BaseEnemyState() {}
 	virtual BaseEnemyState* Update(GameObject*) { return nullptr; }
 	virtual void Switch();
-	virtual void Die(GameObject* enemy);
+	virtual void Die(GameObject* enemy) const;
 protected:
 	bool m_Switch;//switches to next state
 };

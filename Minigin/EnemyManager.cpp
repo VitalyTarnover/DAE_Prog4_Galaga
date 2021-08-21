@@ -335,7 +335,7 @@ void EnemyManager::EnemiesHandler()
 	}
 }
 
-void EnemyManager::RandomEnemyShot()
+void EnemyManager::RandomEnemyShot() const
 {
 	if (m_pEnemies.size() > 0)
 	{
@@ -358,7 +358,7 @@ void EnemyManager::RandomEnemyShot()
 
 
 
-int EnemyManager::GetPatrolStep()
+int EnemyManager::GetPatrolStep() const
 {
 	return m_CurrentStepNumber;
 }
@@ -369,7 +369,6 @@ void EnemyManager::CalculatePatrolSteps()
 	if (m_StepTimer > 0) m_StepTimer -= SystemTime::GetInstance().GetDeltaTime();
 	else
 	{
-
 		if (m_MovingLeft)
 		{
 			++m_CurrentStepNumber;

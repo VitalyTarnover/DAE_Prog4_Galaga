@@ -30,6 +30,6 @@ public:
 
 protected:
 
-	virtual void Play(const std::string&, float volume = 1.0f) = 0;
+	virtual void Play(const std::string&, float volume = 1.0f) const = 0;
 };
 

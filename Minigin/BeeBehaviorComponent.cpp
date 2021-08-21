@@ -2,7 +2,7 @@
 #include "BeeBehaviorComponent.h"
 #include "BeeFlyInState.h"
 
-void BeeBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject)
+void BeeBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject) const
 {
 	BaseEnemyBehaviorComponent::Die(killerObject);
 	if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBeeKilled");

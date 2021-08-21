@@ -33,7 +33,7 @@ BaseEnemyState* BirdInFormationState::Update(GameObject* enemy)
 	return nullptr;
 }
 
-void BirdInFormationState::SetSpriteState(GameObject* enemy)
+void BirdInFormationState::SetSpriteState(GameObject* enemy)const
 {
 	int currentStep = EnemyManager::GetInstance().GetPatrolStep();
 	bool spriteOffset = enemy->GetComponent<BirdBehaviorComponent>()->GetIsHurt();

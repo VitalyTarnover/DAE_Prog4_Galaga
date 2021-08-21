@@ -25,7 +25,7 @@ BaseEnemyBehaviorComponent::~BaseEnemyBehaviorComponent()
 	delete m_CurrentState;
 }
 
-glm::vec2 BaseEnemyBehaviorComponent::GetPosInFormation()
+glm::vec2 BaseEnemyBehaviorComponent::GetPosInFormation() const
 {
 	return m_PosInFormation;
 }
@@ -46,12 +46,12 @@ void BaseEnemyBehaviorComponent::Switch()
 	m_CurrentState->Switch();
 }
 
-void BaseEnemyBehaviorComponent::ShootARocket()
+void BaseEnemyBehaviorComponent::ShootARocket() const
 {
 	RocketManager::GetInstance().SpawnEnemyRocket(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
 }
 
-void BaseEnemyBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject)
+void BaseEnemyBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject) const
 {
 	m_CurrentState->Die(m_pGameObject);
 	//explosion manager makes boom here

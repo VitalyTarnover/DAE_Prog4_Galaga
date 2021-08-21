@@ -21,34 +21,23 @@ namespace dae
 		const std::string& GetName() const;
 		void Update();
 		void Render() const;
-
 		
 		float GetSceneScale() const { return m_SceneScale; }
 
 		std::shared_ptr<GameObject> GetObjectByName(const std::string& name) const;
 		void AddPlayer(const std::shared_ptr<GameObject>& player);
-		std::shared_ptr<GameObject> GetPlayer(int index);
+		std::shared_ptr<GameObject> GetPlayer(int index) const;
 
-		//TODO: Clean up!
-		void AddLevel(const std::shared_ptr<GameObject>& level)
-		{
-			m_pLevels.push_back(level);
-			m_pCurrentLevel = level;
-		}
-		std::shared_ptr<GameObject> GetLevel(int index) const {return m_pLevels[index];}
-		
-		void SetCurrentLevel(const std::shared_ptr<GameObject>& level) { m_pCurrentLevel = level; }
-		std::shared_ptr<GameObject> GetCurrentLevel() const { return m_pCurrentLevel; };
 
 		void DeleteGameObject(std::shared_ptr<GameObject> objectToDelete);
 		void DeletePlayer(int playerIndex);
 		
 		void DeleteMarkedForDelteGameObjects();
 		
-
 		void ClearScene();
 
 	private:
+		//explicit means it cannot be used for implicit conversions and copy-initialization.
 		explicit Scene(const std::string& name);
 
 		std::string m_Name;
@@ -56,9 +45,6 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> m_pPlayers{};
 
 		float m_SceneScale = 2.0f;
-		
-		std::vector<std::shared_ptr<GameObject>> m_pLevels;
-		std::shared_ptr<GameObject> m_pCurrentLevel;
 
 		static unsigned int m_IdCounter;
 	};

@@ -210,8 +210,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_Mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnalogStickCommand.h" />
-    <ClInclude Include="AnalogTriggerCommand.h" />
     <ClInclude Include="AudioEventHandler.h" />
     <ClInclude Include="BaseEnemyBehaviorComponent.h" />
     <ClInclude Include="BaseDynamicState.h" />

@@ -10,7 +10,7 @@ public:
 	virtual void Update() override;
 
 	void SetBirdOwner(GameObject* birdOwner) { m_BirdOwner = birdOwner; };
-	GameObject* GetBirdOwner() { return m_BirdOwner; };
+	GameObject* GetBirdOwner() const { return m_BirdOwner; };
 protected:
 	SpriteAnimComponent* m_TractorBeamAnimation = nullptr;
 	GameObject* m_BirdOwner = nullptr;

@@ -9,7 +9,7 @@ public:
 
 	void QueueSound(const std::string&, float = 1.0f) override {};
 
-	void Play(const std::string&, float = 1.0f) override {};
+	void Play(const std::string&, float = 1.0f) const override {};
 
 	void Pause() override {};
 

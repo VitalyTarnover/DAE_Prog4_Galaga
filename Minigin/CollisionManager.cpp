@@ -198,13 +198,12 @@ void CollisionManager::InitializeEvents(std::vector<std::shared_ptr<IEventHandle
 	m_pEvents[0]->AddHandler(eventHandlers[1]); //EventPlayerKilled -> AudioEH
 }
 
-bool CollisionManager::CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2)
+bool CollisionManager::CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2) const
 {
 	//if left edge of rect1 is to the left of the right edge of rect2  or  left edge of rect2 is to the left of the right edge of rect1 -> they don't collide
 	if ( (rect1.x + rect1.w) < rect2.x || (rect2.x + rect2.w) < rect1.x ) return false;
 	//if bottom edge of rect 1 is higher than upper edge of rect 2  or  bottom edge of rect 2 is higher than upper edge of rect 1 -> they don't collide
 	if ( (rect1.y + rect1.h) < rect2.y || (rect2.y + rect2.h) < rect1.y ) return false;
-
 
 	return true;
 }

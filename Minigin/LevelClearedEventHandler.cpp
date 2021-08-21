@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "TextComponent.h"
 
-void LevelClearedEventHandler::OnEvent(GameObject*, const std::string& argument)
+void LevelClearedEventHandler::OnEvent(GameObject*, const std::string& argument) const
 {
 	if (argument == "LevelCleared")
 	{

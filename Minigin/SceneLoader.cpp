@@ -319,7 +319,7 @@ void SceneLoader::LoadVersus()
 	m_CurrentGameMode = GameMode::Versus;
 }
 
-void SceneLoader::LoadGameBackground()
+void SceneLoader::LoadGameBackground() const
 {
 	auto scene = SceneManager::GetInstance().GetCurrentScene();
 
@@ -342,7 +342,7 @@ void SceneLoader::LoadGameBackground()
 
 }
 
-void SceneLoader::ShowResultsScreen()
+void SceneLoader::ShowResultsScreen() const
 {
 	int shots = RocketManager::GetInstance().GetNumberOfShotsFired();
 	int hits = RocketManager::GetInstance().GetNumberOfHits();

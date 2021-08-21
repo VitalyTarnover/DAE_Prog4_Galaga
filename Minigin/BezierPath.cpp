@@ -2,14 +2,13 @@
 #include "BezierPath.h"
 
 
-void BezierPath::AddCurve(BezierCurve newCurve, int samples)
+void BezierPath::AddCurve(BezierCurve newCurve, int samples) 
 {
 	m_Curves.push_back(newCurve);
 	m_Samples.push_back(samples);
-
 }
 
-void BezierPath::Sample(std::vector<glm::vec2>* sampledPath, int index)
+void BezierPath::Sample(std::vector<glm::vec2>* sampledPath, int index) const
 {
 	//loop through curves vector and sample them by the amount of corresponding value in samples vector
 

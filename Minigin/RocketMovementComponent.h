@@ -9,14 +9,14 @@ public:
 	~RocketMovementComponent();
 	void Update() override;
 
-	bool GetMovesUp() { return m_MovesUp; }
+	bool GetMovesUp() const { return m_MovesUp; }
 
 	std::shared_ptr<GameObject> GetOwner() const { return m_pOwner; };
 	void SetOwner(std::shared_ptr<GameObject> newOwner) { m_pOwner = newOwner; };
 
 private:
-	void Move();
-	void OutsideBordersCheck();
+	void Move() const;
+	void OutsideBordersCheck() const;
 
 	float m_Speed;
 

@@ -52,7 +52,7 @@ if (m_ActiveRocketsNumber < m_AllowedRocketsNumber)//TODO: Set for 2 players
 }
 
 
-void RocketManager::SpawnEnemyRocket(const glm::vec3& enemyPos)
+void RocketManager::SpawnEnemyRocket(const glm::vec3& enemyPos) const
 {
 		auto scene = dae::SceneManager::GetInstance().GetCurrentScene();
 

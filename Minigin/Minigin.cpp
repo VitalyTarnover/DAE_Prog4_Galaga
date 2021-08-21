@@ -20,8 +20,6 @@
 
 //Input
 #include "Commands.h"
-#include "AnalogStickCommand.h"
-#include "AnalogTriggerCommand.h"
 
 //ObserverV2
 #include "AudioEventHandler.h"

@@ -3,7 +3,7 @@
 
 #include "AudioLocator.h"
 
-void AudioEventHandler::OnEvent(GameObject*, const std::string& argument)
+void AudioEventHandler::OnEvent(GameObject*, const std::string& argument) const
 {
 	if (argument == "playerShot" || //rocket
 		argument == "enemyShot" || //rocket

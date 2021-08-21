@@ -11,9 +11,8 @@ public:
 	bool GetIsWithBird() const { return m_IsWithBird; }
 	void SetIsWithBird(bool isWithBird) { m_IsWithBird = isWithBird; }
 private:
-	void Die(std::shared_ptr<GameObject> killerObject) override;
+	void Die(std::shared_ptr<GameObject> killerObject) const override;
 
 	bool m_IsWithBird = false;
-
 };
 

@@ -1,9 +1,5 @@
 #pragma once
 
-
-//class AudioServiceProvider;
-//class AudioService;
-
 struct SDL_Window;
 namespace dae
 {
@@ -27,6 +23,5 @@ namespace dae
 		int m_WindowWidth;
 		int m_WindowHeight;
 
-		//AudioService* m_Audio;
 	};
 }

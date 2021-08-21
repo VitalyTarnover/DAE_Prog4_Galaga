@@ -50,7 +50,7 @@ void RocketMovementComponent::Update()
 	OutsideBordersCheck();
 }
 
-void RocketMovementComponent::Move()
+void RocketMovementComponent::Move() const
 {
 	const auto& trc = m_pGameObject->GetComponent<TransformComponent>();
 
@@ -66,7 +66,7 @@ void RocketMovementComponent::Move()
 
 }
 
-void RocketMovementComponent::OutsideBordersCheck()
+void RocketMovementComponent::OutsideBordersCheck() const
 {
 	const auto& trc = m_pGameObject->GetComponent<TransformComponent>();
 

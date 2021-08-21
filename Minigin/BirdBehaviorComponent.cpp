@@ -82,7 +82,7 @@ void BirdBehaviorComponent::Hurt(std::shared_ptr<GameObject> killerObject)
 
 }
 
-void BirdBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject)
+void BirdBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject) const
 {
 	BaseEnemyBehaviorComponent::Die(killerObject);
 	if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBirdKilled");

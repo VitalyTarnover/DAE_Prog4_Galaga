@@ -57,12 +57,6 @@
     <ClInclude Include="Minigin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AnalogStickCommand.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="AnalogTriggerCommand.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Input</Filter>
     </ClInclude>

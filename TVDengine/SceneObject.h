@@ -18,7 +18,7 @@ namespace dae
 		const std::string& GetName() const { return m_Name; };
 
 		void SetMarkedForDelete(bool marked) { m_MarkedForDelete = marked; }
-		bool GetMarkedForDelete() { return m_MarkedForDelete; }
+		bool GetMarkedForDelete() const { return m_MarkedForDelete; }
 
 	protected:
 		bool m_MarkedForDelete = false;

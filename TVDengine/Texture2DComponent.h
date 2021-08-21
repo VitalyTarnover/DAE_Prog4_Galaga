@@ -8,13 +8,12 @@ public:
 
 	void Update() override;
 
-	//void Render() override;
 	void SetTexture(const std::string& filePath);
 	void SetVisible(bool visible);
 
-	bool GetVisible() { return m_Visible; }
-	float GetScale() { return m_Scale; }
-	std::string GetFilePath() { return m_FilePath; }
+	bool GetVisible() const { return m_Visible; }
+	float GetScale() const { return m_Scale; }
+	std::string GetFilePath() const { return m_FilePath; }
 
 private:
 	bool m_Visible;

@@ -173,8 +173,6 @@
     <ClInclude Include="AudioNullService.h" />
     <ClInclude Include="AudioService.h" />
     <ClInclude Include="AudioServiceProvider.h" />
-    <ClInclude Include="BaseAnalogStickCommand.h" />
-    <ClInclude Include="BaseAnalogTriggerCommand.h" />
     <ClInclude Include="BaseCommand.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Event.h" />
@@ -183,7 +181,6 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Observer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
@@ -193,8 +190,6 @@
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SpriteAnimComponent.h" />
-    <ClInclude Include="Structs.h" />
-    <ClInclude Include="Subject.h" />
     <ClInclude Include="SystemTime.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Texture2DComponent.h" />
@@ -205,8 +200,6 @@
   <ItemGroup>
     <ClCompile Include="AudioLocator.cpp" />
     <ClCompile Include="AudioServiceProvider.cpp" />
-    <ClCompile Include="BaseAnalogStickCommand.cpp" />
-    <ClCompile Include="BaseAnalogTriggerCommand.cpp" />
     <ClCompile Include="BaseCommand.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="Event.cpp" />
@@ -226,7 +219,6 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SpriteAnimComponent.cpp" />
-    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="SystemTime.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Texture2DComponent.cpp" />

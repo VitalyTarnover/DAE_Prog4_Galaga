@@ -7,7 +7,7 @@
 #include "Scene.h"
 
 
-void ScoreEventHandler::OnEvent(GameObject* actor, const std::string& argument)
+void ScoreEventHandler::OnEvent(GameObject* actor, const std::string& argument) const
 {
 	if (argument == "BeeKilled") UpdateScore(actor, 50);
 	else if (argument == "BFKilled") UpdateScore(actor, 80);

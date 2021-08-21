@@ -43,13 +43,13 @@ BaseEnemyState* InFormationState::Update(GameObject* enemy)
 }
 
 
-void InFormationState::SetSpriteState(GameObject* enemy)
+void InFormationState::SetSpriteState(GameObject* enemy)const
 {
 	int currentStep = EnemyManager::GetInstance().GetPatrolStep();
 	enemy->GetComponent<SpriteAnimComponent>()->SetCurrentFrame(int(currentStep % 2));
 }
 
-void InFormationState::Patrol(GameObject* enemy)
+void InFormationState::Patrol(GameObject* enemy)const
 {
 	const auto& trc = enemy->GetComponent<TransformComponent>();
 	
@@ -65,7 +65,7 @@ void InFormationState::Patrol(GameObject* enemy)
 
 void InFormationState::InitializeStepSize(GameObject* enemy)
 {
-	if (!m_StepSizeInitialized)//TODO: test out, mby we will have to use bool
+	if (!m_StepSizeInitialized)
 	{
 		const auto& trc = enemy->GetComponent<TransformComponent>();
 		int stepDivisor = 40;

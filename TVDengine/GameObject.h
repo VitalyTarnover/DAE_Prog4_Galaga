@@ -3,21 +3,6 @@
 #include "BaseComponent.h"
 #include <vector>
 
-//TODO: Clean up!
-enum class OldEvent
-{
-	ActorDied,
-	ScoreSet,
-	BeeKilled = 50,
-	DivingBeeKilled = 100,
-	ButterflyKilled = 80,
-	DivingButterflyKilled = 160,
-	BirdKilleld = 150,
-	DivingBirdKilleld = 400,
-};
-
-class Observer;
-class Subject;
 class Component;
 class Texture2D;
 
@@ -41,10 +26,7 @@ public:
 	void Update() override;
 	void Render() const override;
 
-	//void Notify(OldEvent event);//TODO: Don't forget about this one
-
 	void AddComponent(BaseComponent* pComponent);
-	void AddWatcher(Observer* pObserver);//TODO: ???????
 
 	GameObject(const std::string& name);
 	~GameObject();
@@ -54,9 +36,6 @@ public:
 	GameObject& operator=(GameObject&& other) = delete;
 
 
-
 private:
 	std::vector<BaseComponent*> m_pComponents;
-	std::unique_ptr<Subject> m_pActorChanged;//TODO: ???????
-
 };

@@ -7,6 +7,6 @@ public:
 	BirdInFormationState();
 	BaseEnemyState* Update(GameObject* enemy) override;
 private:
-	void SetSpriteState(GameObject* enemy) override;
+	void SetSpriteState(GameObject* enemy)const override;
 };
 

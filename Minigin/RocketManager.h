@@ -10,7 +10,7 @@ public:
 	void ReduceActiveRocketsNumber();
 	void ReduceActiveEnemyRocketsNumber();
 	void SpawnPlayerRocket(int playerIndex);
-	void SpawnEnemyRocket(const glm::vec3& enemyPos);
+	void SpawnEnemyRocket(const glm::vec3& enemyPos) const;
 	void SpawnEnemyRocket();
 
 	void ShotHit();

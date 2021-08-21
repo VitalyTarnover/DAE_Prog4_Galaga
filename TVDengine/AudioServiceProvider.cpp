@@ -51,7 +51,7 @@ void AudioServiceProvider::Update()
 	}
 }
 
-void AudioServiceProvider::Pause()
+void AudioServiceProvider::Pause() 
 {
 	if (Mix_PausedMusic())
 		Start();
@@ -59,7 +59,7 @@ void AudioServiceProvider::Pause()
 		Stop();
 }
 
-void AudioServiceProvider::CleanUp()
+void AudioServiceProvider::CleanUp() 
 {
 	m_Playing.store(false);
 	m_QueueActive.notify_one();
@@ -80,7 +80,7 @@ void AudioServiceProvider::CleanUp()
 	//for (auto const& x : m_SoundLibrary) Mix_FreeChunk(x.second);
 }
 
-void AudioServiceProvider::Play(const std::string& key, float volume)
+void AudioServiceProvider::Play(const std::string& key, float volume) const
 {
 	if (m_SoundLibrary.find(key) != m_SoundLibrary.end())
 	{
@@ -98,13 +98,13 @@ void AudioServiceProvider::Play(const std::string& key, float volume)
 	}
 }
 
-void AudioServiceProvider::Start()
+void AudioServiceProvider::Start() const
 {
 	Mix_Resume(-1);
 	Mix_ResumeMusic();
 }
 
-void AudioServiceProvider::Stop()
+void AudioServiceProvider::Stop() const
 {
 	Mix_Pause(-1);
 	Mix_PauseMusic();

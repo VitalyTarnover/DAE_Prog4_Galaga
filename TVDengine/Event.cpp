@@ -13,7 +13,7 @@ void Event::RemoveHandler(std::shared_ptr<IEventHandler> handler)
 	//loop that checks if such thingy actually exists there... which prevents crash i guess;
 }
 
-void Event::Notify(GameObject* actor, const std::string& argument)
+void Event::Notify(GameObject* actor, const std::string& argument) const
 {
 	for (size_t i = 0; i < m_pHandlers.size(); i++)
 	{

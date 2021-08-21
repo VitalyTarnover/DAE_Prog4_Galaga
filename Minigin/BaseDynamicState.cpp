@@ -15,7 +15,7 @@ BaseDynamicState::BaseDynamicState()
 {
 }
 
-void BaseDynamicState::FollowPath(GameObject* enemy, TransformComponent* trc)
+void BaseDynamicState::FollowPath(GameObject* enemy, TransformComponent* trc) 
 {
 	glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
 

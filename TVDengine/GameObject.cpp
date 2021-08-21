@@ -3,11 +3,10 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "SystemTime.h"
-#include "Subject.h"
 #include "RenderComponent.h"
 
 GameObject::GameObject(const std::string& name)
-	:SceneObject(name), m_pActorChanged{ new Subject() }
+	:SceneObject(name)
 {}
 
 GameObject::~GameObject()
@@ -42,12 +41,3 @@ void GameObject::AddComponent(BaseComponent* pComponent)
 	m_pComponents.push_back(pComponent);
 }
 
-void GameObject::AddWatcher(Observer* pObserver)
-{
-	m_pActorChanged->AddObserver(pObserver);
-}
-
-//void GameObject::Notify(OldEvent event)
-//{
-//	m_pActorChanged->Notify(this, event);
-//}

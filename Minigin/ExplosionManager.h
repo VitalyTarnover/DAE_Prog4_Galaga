@@ -7,12 +7,8 @@ class GameObject;
 class ExplosionManager : public dae::Singleton<ExplosionManager>
 {
 public:
-
 	void MakeExplosion(glm::vec3 position);
-
 	void Update();
-
-
 private:
 	void ExplosionTimersHandler();
 

@@ -11,8 +11,6 @@ unsigned int Scene::m_IdCounter = 0;
 
 Scene::Scene(const std::string& name)
 	: m_Name(name)
-	, m_pCurrentLevel{}
-	, m_pLevels{}
 	, m_Objects{}
 	, m_pPlayers{}
 {}
@@ -28,10 +26,7 @@ void Scene::DeleteGameObject(std::shared_ptr<GameObject> objectToDelete)
 	{
 		if (m_Objects[i] == objectToDelete)
 		{
-			
-			//m_Objects.erase(m_Objects.begin() + i);
 			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), m_Objects[i]), m_Objects.end());
-
 		}
 	}
 }
@@ -51,8 +46,6 @@ void dae::Scene::DeleteMarkedForDelteGameObjects()
 	{
 		if (m_Objects[i]->GetMarkedForDelete())
 		{
-			//m_Objects[i] = nullptr;//doesn't actually work
-			//m_Objects[i].reset();
 			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), m_Objects[i]), m_Objects.end());
 		}
 	}
@@ -71,21 +64,16 @@ void dae::Scene::ClearScene()
 {
 	m_Objects.clear();
 	m_pPlayers.clear();
-	m_pLevels.clear();
-	m_pCurrentLevel = nullptr;
 }
 
 
 void Scene::Update()
 {
-
 	for (size_t i = 0; i < m_Objects.size(); i++)
 	{
 		if (m_Objects[i]) m_Objects[i]->Update();
 	}
-
 	DeleteMarkedForDelteGameObjects();
-
 }
 
 void Scene::Render() const
@@ -119,14 +107,15 @@ void Scene::AddPlayer(const std::shared_ptr<GameObject>& player)
 	m_pPlayers.push_back(player);
 }
 
-
-std::shared_ptr<GameObject> Scene::GetPlayer(int index)
+std::shared_ptr<GameObject> dae::Scene::GetPlayer(int index) const
 {
-	if (m_pPlayers.size() <= (unsigned)index)
+	if (m_pPlayers.size() < (unsigned)index)
 	{
 		return nullptr;
 	}
-
 	return m_pPlayers[index];
 }
+
+
+
 

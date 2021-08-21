@@ -24,7 +24,7 @@ void FighterShipMovementComponent::StopMoving(bool left)
 	else m_MovingRight = false;
 }
 
-void FighterShipMovementComponent::Move()
+void FighterShipMovementComponent::Move() const
 {
 	if (!m_MovementLocked)
 	{
@@ -45,7 +45,7 @@ void FighterShipMovementComponent::Move()
 }
 
 
-void FighterShipMovementComponent::Update()
+void FighterShipMovementComponent::Update() 
 {
 	Move();
 }

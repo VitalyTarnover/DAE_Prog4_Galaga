@@ -4,8 +4,6 @@
 #include <Windows.h>
 #include <Xinput.h>
 #include "BaseCommand.h"
-#include "BaseAnalogStickCommand.h"
-#include "BaseAnalogTriggerCommand.h"
 #include <vector>
 #include <map>
 #include "Singleton.h"
@@ -71,14 +69,12 @@ namespace dae
 		
 		bool InputHandler();
 		
-		//keyboard template
 		template <typename T>
 		void AssignKey(KeyboardButton button, int playerIndex = 0)
 		{
 			m_KeyboardButtonCommands.insert(std::make_pair(button,std::make_unique<T>(playerIndex)));
 		}
 
-		//button template
 		template <typename T>
 		void AssignKey(ControllerButton button, int controllerIndex, int playerIndex)
 		{
