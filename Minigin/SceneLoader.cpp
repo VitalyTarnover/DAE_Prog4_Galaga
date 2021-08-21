@@ -19,7 +19,7 @@
 #include "RocketManager.h"
 
 //Components
-#include "FPSTextComponent.h"
+#include "TextComponent.h"
 #include "TransformComponent.h"
 #include "Texture2DComponent.h"
 #include "SpriteAnimComponent.h"
@@ -149,6 +149,8 @@ void SceneLoader::LoadSinglePlayer()
 	int screenWidth = SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
 	
+	float sceneScale = scene->GetSceneScale();
+
 	//managers
 
 	CollisionManager::GetInstance().InitializeEvents(m_EventHandlers);
@@ -159,23 +161,14 @@ void SceneLoader::LoadSinglePlayer()
 
 	LoadGameBackground();
 
-	//TODO: delete it after tests
-	//fps counter //TODO: delete
-	//auto go = std::make_shared<GameObject>("FPSCounter");
-	//go->AddComponent(new TransformComponent(glm::vec3(0, m_WindowHeight - 20, 0)));
-	//go->AddComponent(new FPSTextComponent(font2));
-	//go->AddComponent(new RenderComponent());
-	//scene->Add(go);
-
-
 	//player
 	auto playerFighter = std::make_shared<GameObject>("Player1");
-	playerFighter->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2, screenHeight / 5 * 4, 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2, screenHeight / 5 * 4, 0), 15.f, 16.f, sceneScale, sceneScale));
 	//playerFighter->AddComponent(new ScoreComponent(0));
 	playerFighter->AddComponent(new PlayerHealthComponent(3));
 	//playerFighter->AddWatcher(new ScoreObserver());
 	playerFighter->AddComponent(new RenderComponent());
-	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene->GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
+	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", sceneScale));
 	playerFighter->AddComponent(new SpriteAnimComponent(2));
 	playerFighter->AddComponent(new FighterShipMovementComponent(500));
 	playerFighter->AddComponent(new ScoreComponent());
@@ -223,6 +216,8 @@ void SceneLoader::LoadCoop()
 
 	int screenWidth = SceneManager::GetInstance().GetScreenWidth();
 	int screenHeight = SceneManager::GetInstance().GetScreenHeight();
+	
+	float sceneScale = scene->GetSceneScale();
 
 	//managers
 
@@ -237,12 +232,12 @@ void SceneLoader::LoadCoop()
 
 	//player1
 	auto playerFighter = std::make_shared<GameObject>("Player1");
-	playerFighter->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 - 20, screenHeight / 5 * 4, 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
+	playerFighter->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 - 20, screenHeight / 5 * 4, 0), 15.f, 16.f, sceneScale, sceneScale));
 	//playerFighter->AddComponent(new ScoreComponent(0));
-	playerFighter->AddComponent(new PlayerHealthComponent(3));
+	playerFighter->AddComponent(new PlayerHealthComponent(8));
 	//playerFighter->AddWatcher(new ScoreObserver());
 	playerFighter->AddComponent(new RenderComponent());
-	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", scene->GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
+	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", sceneScale));
 	playerFighter->AddComponent(new SpriteAnimComponent(2));
 	playerFighter->AddComponent(new FighterShipMovementComponent(500));
 	playerFighter->AddComponent(new ScoreComponent());
@@ -279,10 +274,10 @@ void SceneLoader::LoadCoop()
 
 	//player2
 	auto playerFighter2 = std::make_shared<GameObject>("Player2");
-	playerFighter2->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 + 20, screenHeight / 5 * 4, 0), 15.f, 16.f, scene->GetSceneScale(), scene->GetSceneScale()));
-	playerFighter2->AddComponent(new PlayerHealthComponent(3));
+	playerFighter2->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 + 20, screenHeight / 5 * 4, 0), 15.f, 16.f, sceneScale, sceneScale));
+	playerFighter2->AddComponent(new PlayerHealthComponent(8));
 	playerFighter2->AddComponent(new RenderComponent());
-	playerFighter2->AddComponent(new Texture2DComponent("FighterShip2.png", scene->GetSceneScale()));//TODO: mby make a separate variable out of scale, we get it way too often
+	playerFighter2->AddComponent(new Texture2DComponent("FighterShip2.png", sceneScale));
 	playerFighter2->AddComponent(new FighterShipMovementComponent(500));
 	playerFighter2->AddComponent(new ScoreComponent());
 	scene->Add(playerFighter2);
@@ -346,11 +341,11 @@ void SceneLoader::ShowResultsScreen() const
 {
 	int shots = RocketManager::GetInstance().GetNumberOfShotsFired();
 	int hits = RocketManager::GetInstance().GetNumberOfHits();
-	int ratio = 0;//TODO: mby use round here
+	int ratio = 0;
 	
 	if (shots != 0)
 	{
-		ratio = int((float(hits) / shots) * 100);
+		ratio = int( (float(hits) / shots) * 100);
 	}
 
 	int screenWidth = SceneManager::GetInstance().GetScreenWidth();

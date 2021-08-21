@@ -18,7 +18,7 @@ public:
 	int GetNumberOfHits() const { return m_NumberOfHits; };
 	void Reset();
 
-	void SetAudioEventHandler(std::shared_ptr<IEventHandler> audioEventHandler);
+	void SetAudioEventHandler(const std::shared_ptr<IEventHandler>& audioEventHandler);
 private:
 	Event m_EventShotFired;
 

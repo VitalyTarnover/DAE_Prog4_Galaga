@@ -56,12 +56,13 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 	const auto& trc = enemy->GetComponent<TransformComponent>();
 
 	{
-		path->AddCurve({ trc->GetCenterPosition(),
+		BezierCurve pathCurve{ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 2) },
 			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)},
-			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8),trc->GetCenterPosition().y + (screenHeight / 8)} },
-			15);
-		path->Sample(&m_Path, 0);
+			glm::vec2{trc->GetCenterPosition().x + (screenWidth / 8),trc->GetCenterPosition().y + (screenHeight / 8)} };
+
+		path->AddCurve(pathCurve, 15);
+		path->Sample(m_Path, 0);
 	}
 
 	glm::vec2 playerPos{};
@@ -85,12 +86,13 @@ void BeeDiveDownState::CreatePaths(GameObject* enemy)
 	//2nd part -> 1
 	//if (playerPos.x <= screenWidth / 2)//where do we do return maneuver... Can be randomized. Not neccessary
 	{
-		path->AddCurve({ playerPos,
+		BezierCurve pathCurve{ playerPos,
 			glm::vec2{playerPos.x, playerPos.y + (screenHeight / 3) },
 			glm::vec2{playerPos.x - (screenWidth / 4),  playerPos.y + (screenHeight / 4)},
-			enemy->GetComponent<BeeBehaviorComponent>()->GetPosInFormation() },
-			15);
-		path->Sample(&m_Path, 1);
+			enemy->GetComponent<BeeBehaviorComponent>()->GetPosInFormation() };
+		
+		path->AddCurve(pathCurve, 15);
+		path->Sample(m_Path, 1);
 	}
 }
 

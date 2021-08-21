@@ -20,7 +20,7 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 	m_Objects.push_back(object);
 }
 
-void Scene::DeleteGameObject(std::shared_ptr<GameObject> objectToDelete)
+void Scene::DeleteGameObject(const std::shared_ptr<GameObject>& objectToDelete)
 {
 	for (size_t i = 0; i < m_Objects.size(); i++)
 	{
@@ -109,7 +109,7 @@ void Scene::AddPlayer(const std::shared_ptr<GameObject>& player)
 
 std::shared_ptr<GameObject> dae::Scene::GetPlayer(int index) const
 {
-	if (m_pPlayers.size() < (unsigned)index)
+	if (m_pPlayers.size() <= (unsigned)index)
 	{
 		return nullptr;
 	}

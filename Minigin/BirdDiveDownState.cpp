@@ -178,20 +178,27 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 		m_BombingAttack = true;
 
 		//1st part -> 0
-		path->AddCurve({ trc->GetCenterPosition(),
+		{
+			BezierCurve pathCurve{ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
-			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenHeight / 4) } },
-			15);
-		path->Sample(&m_Path, 0);
+			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenHeight / 4) } };
+			
+			path->AddCurve(pathCurve, 15);
+			path->Sample(m_Path, 0);
+		}
+
 
 		//2nd part -> 1		
-		path->AddCurve({ m_Path[m_Path.size() - 1],
+		{
+			BezierCurve pathCurve{ m_Path[m_Path.size() - 1],
 			glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
 			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
-			playerPos },
-			15);
-		path->Sample(&m_Path, 1);
+			playerPos };
+
+			path->AddCurve(pathCurve, 15);
+			path->Sample(m_Path, 1);
+		}
 
 	}
 	else
@@ -199,13 +206,15 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 		m_BombingAttack = false;
 
 		//1st part -> 0
-		path->AddCurve({ trc->GetCenterPosition(),
+		{
+			BezierCurve pathCurve{ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
-			glm::vec2{playerPos.x, playerPos.y } },
-			15);
-		path->Sample(&m_Path, 0);
+			glm::vec2{playerPos.x, playerPos.y } };
 
+			path->AddCurve(pathCurve, 15);
+			path->Sample(m_Path, 0);
+		}
 	}
 
 	//going down, beyond lower screen edge, where we have a teleport trigger to upper part
@@ -219,7 +228,6 @@ void BirdDiveDownState::CreatePaths(GameObject* enemy)
 
 }
 
-//TODO: mby make extra inheritance-base-classes for dive downs and fly ins since they all share the same mechanism of get
 bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 {
 	//here is the place for alternative behavior
@@ -232,9 +240,7 @@ bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 				//activate it somehow
 				m_TractorBeamActivated = true;
 			}
-
 			m_TractorBeamTimer += SystemTime::GetInstance().GetDeltaTime();
-			//TODO: also give some sign to something that... tractor beam should be engaged
 		}
 		else
 		{

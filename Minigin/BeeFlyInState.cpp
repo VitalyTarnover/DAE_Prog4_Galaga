@@ -43,8 +43,12 @@ void BeeFlyInState::CreatePaths(GameObject* enemy)
 
 	//fly in for bees
 	//1st part -> 0
-	path->AddCurve({ glm::vec2{screenWidth / 2,0}, glm::vec2{0 , screenHeight / 4 * 3}, glm::vec2{screenWidth,screenHeight / 4 * 3}, glm::vec2{screenWidth / 2,screenHeight / 2} }, 15);
-	path->Sample(&m_Path, 0);
+	BezierCurve pathCurve{ glm::vec2{screenWidth / 2,0}, glm::vec2{0 , screenHeight / 4 * 3},
+		glm::vec2{screenWidth,screenHeight / 4 * 3},
+		glm::vec2{screenWidth / 2,screenHeight / 2} };
+	
+	path->AddCurve(pathCurve, 15);
+	path->Sample(m_Path, 0);
 
 	//final position
 	m_Path.push_back(enemy->GetComponent<BeeBehaviorComponent>()->GetPosInFormation());

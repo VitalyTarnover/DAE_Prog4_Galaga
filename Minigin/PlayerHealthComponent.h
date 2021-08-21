@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 
-class PlayerHealthComponent final : public BaseComponent //TODO: check if everything is final, const ref and stuff
+class PlayerHealthComponent final : public BaseComponent
 {
 public:
 	PlayerHealthComponent(int lives);

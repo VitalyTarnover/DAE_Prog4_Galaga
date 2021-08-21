@@ -8,7 +8,7 @@ class Event;
 class BaseEnemyBehaviorComponent : public BaseComponent
 {
 public:
-	BaseEnemyBehaviorComponent(float speed, int birdCompanionIndex = -1, glm::vec2 posInFormation = glm::vec2{});
+	BaseEnemyBehaviorComponent(float speed, int birdCompanionIndex,const glm::vec2& posInFormation);
 	virtual ~BaseEnemyBehaviorComponent();
 
 	glm::vec2 GetPosInFormation() const;
@@ -19,14 +19,14 @@ public:
 	bool GetIsPanicing() const { return m_Panic; };
 	
 	void ShootARocket() const;
-	virtual void Die(std::shared_ptr<GameObject> killerObject) const;
+	virtual void Die(const std::shared_ptr<GameObject>& killerObject) const;
 
 	bool GetIsInFormation() const;
 	void SetIsInFormation(bool inFormation);
 	
 	int GetBirdCompanionIndex() const { return m_BirdCompanionIndex; }
 
-	BaseEnemyState* GetCurrentState() const { return m_CurrentState; };
+	BaseEnemyState* GetCurrentState() const { return m_pCurrentState; };
 
 	std::shared_ptr<Event> GetEventEnemyKilledHandler() const { return m_pEventEnemyKilled; };
 
@@ -34,7 +34,7 @@ public:
 	bool GetIsAttacking() const { return m_IsAttacking; };
 
 protected:
-	BaseEnemyState* m_CurrentState;
+	BaseEnemyState* m_pCurrentState;
 	glm::vec2 m_PosInFormation;
 	float m_Speed;
 	bool m_InFormation;

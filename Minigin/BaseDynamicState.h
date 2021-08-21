@@ -10,7 +10,7 @@ protected:
 	virtual void Move(GameObject* ) {};
 	virtual void CreatePaths(GameObject* ) {};
 	void FollowPath(GameObject* enemy, TransformComponent* trc);
-	void CheckWaypointDistance(glm::vec2 currentPosition);
+	void CheckWaypointDistance(const glm::vec2& currentPosition);
 
 	std::vector<glm::vec2> m_Path;
 	int m_CurrentWaypoint;

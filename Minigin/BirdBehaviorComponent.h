@@ -5,7 +5,7 @@
 class BirdBehaviorComponent final: public BaseEnemyBehaviorComponent
 {
 public:
-	BirdBehaviorComponent(float speed, int birdCompanionIndex, glm::vec2 posInFormation = glm::vec2{ 200,200 }, bool playerControlled = false);
+	BirdBehaviorComponent(float speed, int birdCompanionIndex,const glm::vec2& posInFormation, bool playerControlled = false);
 	~BirdBehaviorComponent();
 
 	void Update() override;
@@ -20,12 +20,12 @@ public:
 	bool GetHasFighterCaptured() const { return m_HasFighterCaptured; };
 
 	bool GetIsHurt() const { return m_IsHurt; };
-	void Hurt(std::shared_ptr<GameObject> killerObject);
+	void Hurt(const std::shared_ptr<GameObject>& killerObject);
 	
 	bool GetIsControlledByPlayer() const { return m_IsPlayerControlled; };
 
 private:
-	void Die(std::shared_ptr<GameObject> killerObject) const override;
+	void Die(const std::shared_ptr<GameObject>& killerObject) const override;
 
 	bool m_IsHurt = false;
 	bool m_IsPlayerControlled = false;

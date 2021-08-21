@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseDynamicState.h"
 
-class BFDiveDownState : public BaseDynamicState
+class BFDiveDownState final : public BaseDynamicState
 {
 public:
 	BFDiveDownState(float speed);

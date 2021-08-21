@@ -13,7 +13,7 @@
 #include "SceneLoader.h"
 
 
-class LoadSinglePlayerCommand : public Command
+class LoadSinglePlayerCommand final: public Command
 {
 public:
 	LoadSinglePlayerCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
@@ -26,7 +26,7 @@ public:
 };
 
 
-class LoadCoopCommand : public Command
+class LoadCoopCommand final : public Command
 {
 public:
 	LoadCoopCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
@@ -39,7 +39,7 @@ public:
 };
 
 
-class LoadVersusCommand : public Command
+class LoadVersusCommand final : public Command
 {
 public:
 	LoadVersusCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
@@ -52,7 +52,7 @@ public:
 };
 
 
-class LoadMainMenuCommand : public Command
+class LoadMainMenuCommand final : public Command
 {
 public:
 	LoadMainMenuCommand(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
@@ -76,15 +76,12 @@ public:
 	void Release() const override {};
 };
 
-class ShootRocket : public Command
+class ShootRocket final : public Command
 {
 public:
 	ShootRocket(int controllerIndex) : Command(controllerIndex) { m_ControllerIndex = controllerIndex; };
 	~ShootRocket() override = default;
 	void Execute() const override {
-		//if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::MainMenu)
-		//RocketManager::GetInstance().SpawnPlayerRocket(m_ControllerIndex);
-
 		GameMode currentGameMode = SceneLoader::GetInstance().GetCurrentGameMode();
 
 		std::shared_ptr<GameObject> pPlayerActor = nullptr;

@@ -55,14 +55,14 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 		//1st part -> 0
 		const auto& trc = enemy->GetComponent<TransformComponent>();
 
-		//no need in mirroring
 		{
-			path->AddCurve({ trc->GetCenterPosition(),
+			BezierCurve pathCurve{ trc->GetCenterPosition(),
 				glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y - (screenHeight / 4) },
 				glm::vec2{trc->GetCenterPosition().x + (screenWidth / 4),  trc->GetCenterPosition().y - (screenHeight / 4)},
-				glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y} },
-				15);
-			path->Sample(&m_Path, 0);
+				glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y} };
+
+			path->AddCurve(pathCurve, 15);
+			path->Sample(m_Path, 0);
 		}
 
 		glm::vec2 playerPos{};
@@ -111,20 +111,27 @@ void BFDiveDownState::CreatePaths(GameObject* enemy)
 
 		glm::vec2 playerPos = dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(0)->GetComponent<TransformComponent>()->GetCenterPosition();
 		//1st part -> 0
-		path->AddCurve({ trc->GetCenterPosition(),
+		{
+			BezierCurve pathCurve{ trc->GetCenterPosition(),
 			glm::vec2{trc->GetCenterPosition().x,  trc->GetCenterPosition().y - (screenHeight / 4)},
 			glm::vec2{trc->GetCenterPosition().x - (screenWidth / 8), trc->GetCenterPosition().y},
-			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenHeight / 4) } },
-			15);
-		path->Sample(&m_Path, 0);
+			glm::vec2{trc->GetCenterPosition().x, trc->GetCenterPosition().y + (screenHeight / 4) } };
 
-		//2nd part -> 1		
-		path->AddCurve({ m_Path[m_Path.size() - 1],
-			glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
-			glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
-			playerPos },
-			15);
-		path->Sample(&m_Path, 1);
+			path->AddCurve(pathCurve, 15);
+			path->Sample(m_Path, 0);
+		}
+
+		//2nd part -> 1
+		{
+			BezierCurve pathCurve{ m_Path[m_Path.size() - 1],
+				glm::vec2{m_Path[m_Path.size() - 1].x - (screenWidth / 8), m_Path[m_Path.size() - 1].y},
+				glm::vec2{m_Path[m_Path.size() - 1].x, m_Path[m_Path.size() - 1].y - (screenHeight / 4)},
+				playerPos };
+
+			path->AddCurve(pathCurve, 15);
+			path->Sample(m_Path, 1);
+		}
+
 
 
 		//going down, beyond lower screen edge, where we have a teleport trigger to upper part

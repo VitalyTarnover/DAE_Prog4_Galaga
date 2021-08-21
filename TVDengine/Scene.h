@@ -6,7 +6,7 @@
 
 namespace dae
 {
-	class Scene
+	class Scene final
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
@@ -29,7 +29,7 @@ namespace dae
 		std::shared_ptr<GameObject> GetPlayer(int index) const;
 
 
-		void DeleteGameObject(std::shared_ptr<GameObject> objectToDelete);
+		void DeleteGameObject(const std::shared_ptr<GameObject>& objectToDelete);
 		void DeletePlayer(int playerIndex);
 		
 		void DeleteMarkedForDelteGameObjects();

@@ -9,11 +9,11 @@ public:
 	TractorBeamComponent(float lifeTime);
 	virtual void Update() override;
 
-	void SetBirdOwner(GameObject* birdOwner) { m_BirdOwner = birdOwner; };
-	GameObject* GetBirdOwner() const { return m_BirdOwner; };
+	void SetBirdOwner(GameObject* birdOwner) { m_pBirdOwner = birdOwner; };
+	GameObject* GetBirdOwner() const { return m_pBirdOwner; };
 protected:
-	SpriteAnimComponent* m_TractorBeamAnimation = nullptr;
-	GameObject* m_BirdOwner = nullptr;
+	SpriteAnimComponent* m_pTractorBeamAnimation = nullptr;
+	GameObject* m_pBirdOwner = nullptr;
 	float m_LifeTime;
 };
 

@@ -22,14 +22,13 @@ void CollisionManager::AddGameObjectForCheck(const std::shared_ptr<GameObject>& 
 	else if (objectName == "TractorBeam") m_pTractorBeamsForCheck.push_back(newGameObject);
 }
 
-void CollisionManager::AddPlayerCollision(std::shared_ptr<GameObject> newPlayer)
+void CollisionManager::AddPlayerCollision(const std::shared_ptr<GameObject>& newPlayer)
 {
 	m_pPlayers.push_back(newPlayer);
 }
 
-void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject)//TODO: is it needed?
+void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject)
 {
-
 	for (size_t i = 0; i < m_pRocketsForCheck.size(); ++i)
 	{
 		if (m_pRocketsForCheck[i] == gameObject)
@@ -37,9 +36,7 @@ void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject
 			m_pRocketsForCheck.erase(std::remove(m_pRocketsForCheck.begin(), m_pRocketsForCheck.end(), m_pRocketsForCheck[i]), m_pRocketsForCheck.end());
 			return;
 		}
-			
 	}
-
 	for (size_t i = 0; i < m_pEnemiesForCheck.size(); ++i)
 	{
 		if (m_pEnemiesForCheck[i] == gameObject)
@@ -48,8 +45,6 @@ void CollisionManager::DeleteGameObjectForCheck(const std::shared_ptr<GameObject
 			return;
 		}
 	}
-
-
 }
 
 void CollisionManager::CleanUp()
@@ -87,16 +82,21 @@ void CollisionManager::Update()
 
 			for (size_t i = 0; i < m_pEnemiesForCheck.size(); i++)
 			{
-				if (CheckIfCollide(fs1Rect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+				BaseEnemyBehaviorComponent* bebc = m_pEnemiesForCheck[i]->GetComponent<BaseEnemyBehaviorComponent>();
+
+				if (bebc->GetIsAttacking())
 				{
-					m_pEvents[0]->Notify(player.get(), "playerDeath");
-					EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
+					if (CheckIfCollide(fs1Rect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+					{
+						m_pEvents[0]->Notify(player.get(), "playerDeath");
+						EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
 
-					m_pEnemiesForCheck[i]->GetComponent<BaseEnemyBehaviorComponent>()->Die(player);
+						bebc->Die(player);
 
-					m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[i]), m_pEnemiesForCheck.end());
+						m_pEnemiesForCheck.erase(std::remove(m_pEnemiesForCheck.begin(), m_pEnemiesForCheck.end(), m_pEnemiesForCheck[i]), m_pEnemiesForCheck.end());
 
-					break;//so only one thingy kills player
+						break;//so only one thingy kills player
+					}
 				}
 			}
 
@@ -104,20 +104,24 @@ void CollisionManager::Update()
 			{
 				if (!m_pEnemyRocketsForCheck[i]->GetMarkedForDelete())
 				{
-					if (!m_pEnemyRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())//so it goes down and is danger to player
+					if (m_pEnemyRocketsForCheck[i]->GetComponent<TransformComponent>()->GetTransform().GetPosition().y >
+						dae::SceneManager::GetInstance().GetScreenHeight() / 4)
 					{
-						if (CheckIfCollide(fs1Rect, m_pEnemyRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+						if (!m_pEnemyRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())//so it goes down and is danger to player
 						{
-							//player->die
-							m_pEvents[0]->Notify(player.get(), "playerDeath");
-							m_pEnemyRocketsForCheck[i]->SetMarkedForDelete(true);
-							m_pEnemyRocketsForCheck[i] = nullptr;
-							m_pEnemyRocketsForCheck.erase(std::remove(m_pEnemyRocketsForCheck.begin(), m_pEnemyRocketsForCheck.end(), m_pEnemyRocketsForCheck[i]), m_pEnemyRocketsForCheck.end());
+							if (CheckIfCollide(fs1Rect, m_pEnemyRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+							{
+								//player->die
+								m_pEvents[0]->Notify(player.get(), "playerDeath");
+								m_pEnemyRocketsForCheck[i]->SetMarkedForDelete(true);
+								m_pEnemyRocketsForCheck[i] = nullptr;
+								m_pEnemyRocketsForCheck.erase(std::remove(m_pEnemyRocketsForCheck.begin(), m_pEnemyRocketsForCheck.end(), m_pEnemyRocketsForCheck[i]), m_pEnemyRocketsForCheck.end());
 
-							break;
+								break;
+							}
 						}
-
 					}
+					
 				}
 				else m_pEnemyRocketsForCheck.erase(std::remove(m_pEnemyRocketsForCheck.begin(), m_pEnemyRocketsForCheck.end(), m_pEnemyRocketsForCheck[i]), m_pEnemyRocketsForCheck.end());
 			}
@@ -126,7 +130,6 @@ void CollisionManager::Update()
 			{
 				if (!m_pTractorBeamsForCheck[i]->GetMarkedForDelete())
 				{
-
 					if (CheckIfCollide(fs1Rect, m_pTractorBeamsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 					{
 						m_pEvents[0]->Notify(player.get(), "playerDeath");
@@ -144,9 +147,8 @@ void CollisionManager::Update()
 	//killing enemies
 	for (size_t i = 0; i < m_pRocketsForCheck.size(); ++i)
 	{
-		if (!m_pRocketsForCheck[i]->GetMarkedForDelete())//TODO: How come that it isn't nullptr-ed by Scene (delete marked objects), i was trying to check if it is nullptr and it was always something!
+		if (!m_pRocketsForCheck[i]->GetMarkedForDelete())
 		{
-			//TODO: for optimization you can check if the enemy is in formation and then if the rocket is higher than the zone where formation doesn't start yet
 			RocketMovementComponent* rmc = m_pRocketsForCheck[i]->GetComponent<RocketMovementComponent>();
 			if (rmc->GetMovesUp())
 			{
@@ -186,7 +188,7 @@ void CollisionManager::Update()
 
 }
 
-void CollisionManager::InitializeEvents(std::vector<std::shared_ptr<IEventHandler>> eventHandlers)
+void CollisionManager::InitializeEvents(const std::vector<std::shared_ptr<IEventHandler>>& eventHandlers)
 {
 	std::shared_ptr<Event> eventPlayerKilled = std::make_shared<Event>();
 	

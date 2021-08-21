@@ -38,7 +38,7 @@ void BaseDynamicState::FollowPath(GameObject* enemy, TransformComponent* trc)
 	}
 }
 
-void BaseDynamicState::CheckWaypointDistance(glm::vec2 currentPosition)
+void BaseDynamicState::CheckWaypointDistance(const glm::vec2& currentPosition)
 {
 	float sqrMagnitude = abs((m_Path[m_CurrentWaypoint].x - currentPosition.x) + (m_Path[m_CurrentWaypoint].y - currentPosition.y));
 

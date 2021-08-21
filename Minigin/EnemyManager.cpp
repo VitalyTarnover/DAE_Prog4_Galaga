@@ -27,7 +27,7 @@ EnemyManager::~EnemyManager()
 void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 	const std::vector<std::vector<int>>& bfInfo,
 	const std::vector<std::vector<int>>& birdInfo,
-	std::vector<std::shared_ptr<IEventHandler>> handlers)
+	const std::vector<std::shared_ptr<IEventHandler>>& handlers)
 {
 	//set state building formation
 	m_BuildingFormation = true;
@@ -206,6 +206,18 @@ void EnemyManager::SendRandomEnemyToAttack()
 
 void EnemyManager::RespawnWaitingHandler()
 {
+	if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Coop)
+	{
+		if (!m_BuildingFormation)
+		{
+			for (size_t i = 0; i < m_pEnemies.size(); i++)
+			{
+				if (m_pEnemies[i]->GetComponent<BaseEnemyBehaviorComponent>()->GetIsAttacking()) return;
+			}
+			m_WaitingForPlayerToRespawn = false;
+		}
+	}
+
 	if (m_RespawnWaitingTimer < m_RespawnWaitingTime) m_RespawnWaitingTimer += SystemTime::GetInstance().GetDeltaTime();
 	else
 	{
@@ -355,7 +367,6 @@ void EnemyManager::RandomEnemyShot() const
 		}
 	}
 }
-
 
 
 int EnemyManager::GetPatrolStep() const

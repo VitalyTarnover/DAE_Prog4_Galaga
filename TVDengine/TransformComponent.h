@@ -16,7 +16,7 @@ public:
 
 	glm::vec3 GetCenterPosition() const;
 
-	void SetCenterPosition(glm::vec3 position);
+	void SetCenterPosition(const glm::vec3& position);
 
 private:
 	dae::Transform m_Transform;

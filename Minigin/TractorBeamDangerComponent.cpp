@@ -5,5 +5,5 @@
 
 void TractorBeamDangerComponent::FighterCaptured() const
 {
-	m_BirdOwner->GetComponent<BirdBehaviorComponent>()->FighterCaptured();
+	m_pBirdOwner->GetComponent<BirdBehaviorComponent>()->FighterCaptured();
 }

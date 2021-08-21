@@ -20,7 +20,7 @@ void AudioEventHandler::OnEvent(GameObject*, const std::string& argument) const
 	}
 }
 
-void AudioEventHandler::PlaySound(std::string soundName) const
+void AudioEventHandler::PlaySound(const std::string& soundName) const
 {
 	AudioLocator::GetAudioService().QueueSound(soundName, 0.2f);
 }

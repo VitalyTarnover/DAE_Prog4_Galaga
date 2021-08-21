@@ -12,11 +12,11 @@
 #include "RenderComponent.h"
 
 
-BirdBehaviorComponent::BirdBehaviorComponent(float speed, int birdCompanionIndex, glm::vec2 posInFormation, bool playerControlled)
+BirdBehaviorComponent::BirdBehaviorComponent(float speed, int birdCompanionIndex, const glm::vec2& posInFormation, bool playerControlled)
 	:BaseEnemyBehaviorComponent(speed, birdCompanionIndex, posInFormation)
 	,m_IsPlayerControlled{ playerControlled }
 {
-	m_CurrentState = new BirdFlyInState(m_Speed);
+	m_pCurrentState = new BirdFlyInState(m_Speed);
 }
 
 BirdBehaviorComponent::~BirdBehaviorComponent()
@@ -71,7 +71,7 @@ void BirdBehaviorComponent::HandleCapturedFighter()
 	}
 }
 
-void BirdBehaviorComponent::Hurt(std::shared_ptr<GameObject> killerObject)
+void BirdBehaviorComponent::Hurt(const std::shared_ptr<GameObject>& killerObject)
 {
 	if (!m_IsHurt) m_IsHurt = true;
 	else
@@ -82,7 +82,7 @@ void BirdBehaviorComponent::Hurt(std::shared_ptr<GameObject> killerObject)
 
 }
 
-void BirdBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject) const
+void BirdBehaviorComponent::Die(const std::shared_ptr<GameObject>& killerObject) const
 {
 	BaseEnemyBehaviorComponent::Die(killerObject);
 	if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBirdKilled");

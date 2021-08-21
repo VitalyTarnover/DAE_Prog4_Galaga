@@ -1,7 +1,7 @@
 #pragma once
 #include "glm/vec2.hpp"
 
-class BezierCurve
+class BezierCurve final
 {
 public: 
 	BezierCurve(const glm::vec2& p0, const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3);

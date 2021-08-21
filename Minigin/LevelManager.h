@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 
-class LevelManager : public dae::Singleton<LevelManager>
+class LevelManager final : public dae::Singleton<LevelManager>
 {
 public:
 	void Update();

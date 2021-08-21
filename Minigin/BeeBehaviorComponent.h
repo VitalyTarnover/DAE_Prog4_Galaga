@@ -5,8 +5,8 @@
 
 class BeeBehaviorComponent final : public BaseEnemyBehaviorComponent
 {
-	void Die(std::shared_ptr<GameObject> killerObject) const override;
+	void Die(const std::shared_ptr<GameObject>& killerObject) const override;
 public:
-	BeeBehaviorComponent(float speed, glm::vec2 posInFormation = glm::vec2{ 200,200 });
+	BeeBehaviorComponent(float speed, const glm::vec2& posInFormation );
 };
 

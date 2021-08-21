@@ -9,6 +9,6 @@ public:
 private:
 	float m_ScrollSpeed = 100.f;
 
-	TransformComponent* m_pBackgroundTransformComponent = nullptr;//TODO: place p where needed!
+	TransformComponent* m_pBackgroundTransformComponent = nullptr;
 };
 

@@ -10,8 +10,8 @@
 #include "ExplosionManager.h"
 #include "RocketManager.h"
 
-BaseEnemyBehaviorComponent::BaseEnemyBehaviorComponent(float speed, int birdCompanionIndex, glm::vec2 posInFormation)
-	:m_CurrentState{nullptr}
+BaseEnemyBehaviorComponent::BaseEnemyBehaviorComponent(float speed, int birdCompanionIndex, const glm::vec2& posInFormation)
+	:m_pCurrentState{nullptr}
 	, m_BirdCompanionIndex {birdCompanionIndex}
 	, m_PosInFormation{posInFormation}
 	, m_Speed{speed}
@@ -22,7 +22,7 @@ BaseEnemyBehaviorComponent::BaseEnemyBehaviorComponent(float speed, int birdComp
 
 BaseEnemyBehaviorComponent::~BaseEnemyBehaviorComponent()
 {
-	delete m_CurrentState;
+	delete m_pCurrentState;
 }
 
 glm::vec2 BaseEnemyBehaviorComponent::GetPosInFormation() const
@@ -33,17 +33,17 @@ glm::vec2 BaseEnemyBehaviorComponent::GetPosInFormation() const
 	
 void BaseEnemyBehaviorComponent::Update()
 {
-	BaseEnemyState* state = m_CurrentState->Update(m_pGameObject);
+	BaseEnemyState* state = m_pCurrentState->Update(m_pGameObject);
 	if (state != nullptr)
 	{
-		delete m_CurrentState;
-		m_CurrentState = state;
+		delete m_pCurrentState;
+		m_pCurrentState = state;
 	}
 }
 
 void BaseEnemyBehaviorComponent::Switch()
 {
-	m_CurrentState->Switch();
+	m_pCurrentState->Switch();
 }
 
 void BaseEnemyBehaviorComponent::ShootARocket() const
@@ -51,9 +51,9 @@ void BaseEnemyBehaviorComponent::ShootARocket() const
 	RocketManager::GetInstance().SpawnEnemyRocket(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
 }
 
-void BaseEnemyBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject) const
+void BaseEnemyBehaviorComponent::Die(const std::shared_ptr<GameObject>&) const
 {
-	m_CurrentState->Die(m_pGameObject);
+	m_pCurrentState->Die(m_pGameObject);
 	//explosion manager makes boom here
 	ExplosionManager::GetInstance().MakeExplosion(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
 }

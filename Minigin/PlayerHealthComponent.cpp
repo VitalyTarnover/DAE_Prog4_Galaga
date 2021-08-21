@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "LevelManager.h"
+#include "SceneLoader.h"
 
 
 PlayerHealthComponent::PlayerHealthComponent(int lives)
@@ -26,12 +27,16 @@ void PlayerHealthComponent::Update()
     {
         if (m_Dead)
         {
-            m_RespawnTimer -= SystemTime::GetInstance().GetDeltaTime();
-            if (m_RespawnTimer <= 0)
+            if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Coop)
             {
-                Respawn();
-                m_RespawnTimer = m_RespawnTime;
+                m_RespawnTimer -= SystemTime::GetInstance().GetDeltaTime();
+                if (m_RespawnTimer <= 0)
+                {
+                    Respawn();
+                    m_RespawnTimer = m_RespawnTime;
+                }
             }
+            else Respawn();
         }
     }
     
@@ -49,31 +54,35 @@ void PlayerHealthComponent::SetLives(int newLives)
 
 void PlayerHealthComponent::Die()
 {
-    //Make boom
-    ExplosionManager::GetInstance().MakeExplosion(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
-    //Tell enemy manager that we need every one to be in formation again before we respawn 
-    EnemyManager::GetInstance().SetWaitingForPlayerToRespawn(true);
-    //Make player invisible
-    m_pGameObject->GetComponent<Texture2DComponent>()->SetVisible(false);
-    //Lock movement
-    m_pGameObject->GetComponent<FighterShipMovementComponent>()->SetMovementLocked(true);
-    //-1 life
-    --m_Lives;
-    //dead
-    m_Dead = true;
-
-    if (m_Lives <= 0)
+    if (!m_Dead)
     {
-        LevelManager::GetInstance().CheckEndGameConditions(m_pGameObject);
-        m_Lost = true;
-    }
+        //Make boom
+        ExplosionManager::GetInstance().MakeExplosion(m_pGameObject->GetComponent<TransformComponent>()->GetCenterPosition());
+        //Tell enemy manager that we need every one to be in formation again before we respawn 
+        EnemyManager::GetInstance().SetWaitingForPlayerToRespawn(true);
+        //Make player invisible
+        m_pGameObject->GetComponent<Texture2DComponent>()->SetVisible(false);
+        //Lock movement
+        m_pGameObject->GetComponent<FighterShipMovementComponent>()->SetMovementLocked(true);
+        //-1 life
+        --m_Lives;
+        //dead
+        m_Dead = true;
 
+        if (m_Lives <= 0)
+        {
+            LevelManager::GetInstance().CheckEndGameConditions(m_pGameObject);
+            m_Lost = true;
+        }
+    }
 }
 
 void PlayerHealthComponent::Respawn()
 {
     if (m_Lives > 0)
     {
+        if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Coop && EnemyManager::GetInstance().GetWaitingForPlayerToRespawn()) return;
+
         //Make player visible
         m_pGameObject->GetComponent<Texture2DComponent>()->SetVisible(true);
         //Reset position
@@ -81,12 +90,9 @@ void PlayerHealthComponent::Respawn()
         m_pGameObject->GetComponent<TransformComponent>()->SetCenterPosition(glm::vec3(dae::SceneManager::GetInstance().GetScreenWidth() / 2, playerPos.y, 0));
         //Unlock movement and set position to the center
         m_pGameObject->GetComponent<FighterShipMovementComponent>()->SetMovementLocked(false);
-        //Tell enemy manager that we need can play again
-        EnemyManager::GetInstance().SetWaitingForPlayerToRespawn(false);
         //not dead
         m_Dead = false;
     }
-   
 }
 
 bool PlayerHealthComponent::IsAlive() const

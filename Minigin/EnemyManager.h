@@ -14,7 +14,7 @@ public:
 	void SpawnEnemies(const std::vector<std::vector<int>>& beeInfo, 
 		const std::vector<std::vector<int>>& bfInfo, 
 		const std::vector<std::vector<int>>& birdInfo,
-		std::vector<std::shared_ptr<IEventHandler>> handlers);
+		const std::vector<std::shared_ptr<IEventHandler>>& handlers);
 	void Update();
 	void CleanUp();
 	void DeleteEnemy(const std::shared_ptr<GameObject>& gameObject);
@@ -24,6 +24,7 @@ public:
 	int GetPatrolStep() const;
 	void AnEnemyReachedPositionInFormation();
 	void SetWaitingForPlayerToRespawn(bool waiting);
+	bool GetWaitingForPlayerToRespawn() const { return m_WaitingForPlayerToRespawn; };
 
 private:
 	void SendRandomEnemyToAttack();

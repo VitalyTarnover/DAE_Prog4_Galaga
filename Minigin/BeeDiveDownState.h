@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseDynamicState.h"
 
-class BeeDiveDownState : public BaseDynamicState
+class BeeDiveDownState final: public BaseDynamicState
 {
 public:
 	BeeDiveDownState(float speed);

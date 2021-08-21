@@ -23,12 +23,12 @@ void TransformComponent::SetScale(const glm::vec2& scale)
 }
 
 
-glm::vec3 TransformComponent::GetCenterPosition() const//TODO: check if y needs subtraction!
+glm::vec3 TransformComponent::GetCenterPosition() const
 {
 	return glm::vec3(m_Transform.GetPosition().x + m_SpriteRect.w/2, m_Transform.GetPosition().y - m_SpriteRect.h / 2, 0);
 }
 
-void TransformComponent::SetCenterPosition(glm::vec3 position)
+void TransformComponent::SetCenterPosition(const glm::vec3& position)
 {
 	m_SpriteRect.x = (int)position.x - m_SpriteRect.w / 2;
 	m_SpriteRect.y = (int)position.y + m_SpriteRect.h / 2;

@@ -2,13 +2,13 @@
 #include "BFBehaviorComponent.h"
 #include "BFFlyInState.h"
 
-BFBehaviorComponent::BFBehaviorComponent(float speed, int birdCompanionIndex, glm::vec2 posInFormation)
+BFBehaviorComponent::BFBehaviorComponent(float speed, int birdCompanionIndex,const glm::vec2& posInFormation)
 	:BaseEnemyBehaviorComponent(speed, birdCompanionIndex, posInFormation)
 {
-	m_CurrentState = new BFFlyInState(m_Speed);
+	m_pCurrentState = new BFFlyInState(m_Speed);
 }
 
-void BFBehaviorComponent::Die(std::shared_ptr<GameObject> killerObject) const
+void BFBehaviorComponent::Die(const std::shared_ptr<GameObject>& killerObject) const
 {
 	BaseEnemyBehaviorComponent::Die(killerObject);
 	if (GetIsAttacking())GetEventEnemyKilledHandler()->Notify(killerObject.get(), "AttackingBFKilled");

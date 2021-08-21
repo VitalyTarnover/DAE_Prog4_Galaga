@@ -22,9 +22,9 @@ void RocketManager::ReduceActiveEnemyRocketsNumber()
 }
 
 
-void RocketManager::SpawnPlayerRocket(int playerIndex) //mby pass index for P1/P2
+void RocketManager::SpawnPlayerRocket(int playerIndex)
 {
-if (m_ActiveRocketsNumber < m_AllowedRocketsNumber)//TODO: Set for 2 players
+if (m_ActiveRocketsNumber < m_AllowedRocketsNumber)
 	{
 		if (dae::SceneManager::GetInstance().GetCurrentScene()->GetPlayer(playerIndex)->GetComponent<PlayerHealthComponent>()->IsAlive())
 		{
@@ -78,21 +78,28 @@ void RocketManager::SpawnEnemyRocket()//spawns a rocket from player controlled b
 
 		if (player)
 		{
-			glm::vec3 playerPos = scene->GetPlayer(1)->GetComponent<TransformComponent>()->GetCenterPosition();
+			glm::vec3 currentPosition = player->GetComponent<TransformComponent>()->GetTransform().GetPosition();
 
-			float verticalOffset = 20.f;
+			if (currentPosition.y > 0 && currentPosition.y < dae::SceneManager::GetInstance().GetScreenHeight() &&
+				currentPosition.x > 0 && currentPosition.x < dae::SceneManager::GetInstance().GetScreenWidth())
+			{
+				glm::vec3 playerPos = scene->GetPlayer(1)->GetComponent<TransformComponent>()->GetCenterPosition();
 
-			auto rocket = std::make_shared<GameObject>("EnemyRocket");
-			//rocket->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + verticalOffset, 0)));
-			rocket->AddComponent(new TransformComponent(glm::vec3(playerPos.x, playerPos.y + verticalOffset, 0)));
-			rocket->AddComponent(new RenderComponent());
-			rocket->AddComponent(new Texture2DComponent("EnemyRocket.png", scene->GetSceneScale()));
-			rocket->AddComponent(new RocketMovementComponent(false, 250, true));
-			scene->Add(rocket);
-			CollisionManager::GetInstance().AddGameObjectForCheck(rocket);
-			++m_ActiveEnemyRocketsNumber;
+				float verticalOffset = 20.f;
 
-			m_EventShotFired.Notify(nullptr, "enemyShot");
+				auto rocket = std::make_shared<GameObject>("EnemyRocket");
+				//rocket->AddComponent(new TransformComponent(glm::vec3(enemyPos.x, enemyPos.y + verticalOffset, 0)));
+				rocket->AddComponent(new TransformComponent(glm::vec3(playerPos.x, playerPos.y + verticalOffset, 0)));
+				rocket->AddComponent(new RenderComponent());
+				rocket->AddComponent(new Texture2DComponent("EnemyRocket.png", scene->GetSceneScale()));
+				rocket->AddComponent(new RocketMovementComponent(false, 250, true));
+				scene->Add(rocket);
+				CollisionManager::GetInstance().AddGameObjectForCheck(rocket);
+				++m_ActiveEnemyRocketsNumber;
+
+				m_EventShotFired.Notify(nullptr, "enemyShot");
+			}
+			
 		}
 	}
 	
@@ -109,7 +116,7 @@ void RocketManager::Reset()
 	m_EventShotFired.ResetHandlers();
 }
 
-void RocketManager::SetAudioEventHandler(std::shared_ptr<IEventHandler> audioEventHandler)
+void RocketManager::SetAudioEventHandler(const std::shared_ptr<IEventHandler>& audioEventHandler)
 {
 	m_EventShotFired.AddHandler(audioEventHandler);
 }

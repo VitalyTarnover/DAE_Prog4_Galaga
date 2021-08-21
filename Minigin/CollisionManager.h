@@ -12,16 +12,15 @@ class CollisionManager final : public dae::Singleton<CollisionManager>
 {
 public:
 	void AddGameObjectForCheck(const std::shared_ptr<GameObject>& newGameObject);//if not enemy -> it is rocket
-	void AddPlayerCollision(std::shared_ptr<GameObject> newPlayer);
+	void AddPlayerCollision(const std::shared_ptr<GameObject>& newPlayer);
 
 	void DeleteGameObjectForCheck(const std::shared_ptr<GameObject>& gameObject);
 	void CleanUp();
 
 	void Update();
 
-	void InitializeEvents(std::vector<std::shared_ptr<IEventHandler>>eventHandlers);
+	void InitializeEvents(const std::vector<std::shared_ptr<IEventHandler>>& eventHandlers);
 	
-	//void SetAudioEventHandler(std::shared_ptr<IEventHandler> audioEventHandler) { m_EventShotFired.AddHandler(audioEventHandler); };
 private:
 	
 	bool CheckIfCollide(const SDL_Rect& rect1, const SDL_Rect& rect2) const;
@@ -34,7 +33,5 @@ private:
 	std::vector<std::shared_ptr<Event>> m_pEvents;
 	
 	std::vector<std::shared_ptr<GameObject>> m_pPlayers;
-	//std::shared_ptr<GameObject> m_FS1;//Fighter ship, basically player TODO: mby make it a vector
-	//std::shared_ptr<GameObject> m_FS2;//for player 2
 };
 

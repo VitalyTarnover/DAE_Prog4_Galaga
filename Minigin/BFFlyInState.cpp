@@ -44,9 +44,13 @@ void BFFlyInState::CreatePaths(GameObject* enemy)
 
 	//fly in for BFs and birds
 	//1st part -> 0
-	path->AddCurve({ glm::vec2{-screenWidth / 4, screenHeight}, glm::vec2{screenWidth , -screenHeight / 4 }, glm::vec2{-screenWidth / 4 * 3,screenHeight / 4 }, enemy->GetComponent<BFBehaviorComponent>()->GetPosInFormation() }, 15);
-	path->Sample(&m_Path, 0);
+	BezierCurve pathCurve{ glm::vec2{-screenWidth / 4, screenHeight},
+		glm::vec2{screenWidth , -screenHeight / 4 },
+		glm::vec2{-screenWidth / 4 * 3,screenHeight / 4 },
+		enemy->GetComponent<BFBehaviorComponent>()->GetPosInFormation() };
 
+	path->AddCurve(pathCurve, 15);
+	path->Sample(m_Path, 0);
 	
 }
 
