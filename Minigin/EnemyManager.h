@@ -35,11 +35,11 @@ private:
 	float m_SpawnTime = 0.35f;
 
 	float m_RespawnWaitingTimer = 0.f;
-	float m_RespawnWaitingTime = 7.f;
+	float m_RespawnWaitingTime = 1.5f;
 	
 	//sending to dive down
 	float m_DiveDownTimer = 0.f;
-	float m_DiveDownTime = 3.0f;
+	float m_DiveDownTime = 2.5f;
 
 	std::vector<std::vector<int>> m_BeeInfo;
 	std::vector<std::vector<int>> m_BFInfo;

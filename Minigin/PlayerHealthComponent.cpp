@@ -16,9 +16,7 @@ PlayerHealthComponent::PlayerHealthComponent(int lives)
     :m_Lives{ lives }
     ,m_Dead {false}
     ,m_Lost{false}
-    ,m_RespawnTime{7.0f}
 {
-    m_RespawnTimer = m_RespawnTime;
 }
 
 void PlayerHealthComponent::Update()
@@ -27,19 +25,9 @@ void PlayerHealthComponent::Update()
     {
         if (m_Dead)
         {
-            if (SceneLoader::GetInstance().GetCurrentGameMode() == GameMode::Coop)
-            {
-                m_RespawnTimer -= SystemTime::GetInstance().GetDeltaTime();
-                if (m_RespawnTimer <= 0)
-                {
-                    Respawn();
-                    m_RespawnTimer = m_RespawnTime;
-                }
-            }
-            else Respawn();
+            Respawn();
         }
     }
-    
 }
 
 int PlayerHealthComponent::GetLives() const
@@ -81,7 +69,7 @@ void PlayerHealthComponent::Respawn()
 {
     if (m_Lives > 0)
     {
-        if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Coop && EnemyManager::GetInstance().GetWaitingForPlayerToRespawn()) return;
+        if (EnemyManager::GetInstance().GetWaitingForPlayerToRespawn()) return;
 
         //Make player visible
         m_pGameObject->GetComponent<Texture2DComponent>()->SetVisible(true);

@@ -375,7 +375,7 @@ void SceneLoader::ShowResultsScreen() const
 	
 	if (shots != 0)
 	{
-		ratio = int( (float(hits) / shots) * 100);
+		ratio = int( round((float(hits) / shots) * 100));
 	}
 
 	int screenWidth = SceneManager::GetInstance().GetScreenWidth();

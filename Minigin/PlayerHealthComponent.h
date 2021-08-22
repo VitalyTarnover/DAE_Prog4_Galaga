@@ -14,9 +14,6 @@ public:
 	bool IsAlive() const;
 
 private:
-	float m_RespawnTimer;
-	float m_RespawnTime;
-
 	int m_Lives;
 	bool m_Dead;
 	bool m_Lost;

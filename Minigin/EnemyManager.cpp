@@ -41,8 +41,6 @@ void EnemyManager::SpawnEnemies(const std::vector<std::vector<int>>& beeInfo,
 
 	m_PanicMode = false;
 
-	m_DiveDownTimer = m_DiveDownTime;
-
 	if (!m_AudioEventHandler) m_AudioEventHandler = handlers[1];//audio
 	if (!m_ScoreEventHandler) m_ScoreEventHandler = handlers[3];//score
 	m_EventLevelCleared.ResetHandlers();
@@ -115,7 +113,7 @@ void EnemyManager::SendRandomEnemyToAttack()
 	{
 		if (!m_WaitingForPlayerToRespawn)
 		{
-			if (m_DiveDownTimer > 0) m_DiveDownTimer -= SystemTime::GetInstance().GetDeltaTime();
+			if (m_DiveDownTimer < m_DiveDownTime) m_DiveDownTimer += SystemTime::GetInstance().GetDeltaTime();
 			else
 			{
 				if (int(m_pEnemies.size()) <= m_PanicEnemiesNumber)
@@ -186,7 +184,7 @@ void EnemyManager::SendRandomEnemyToAttack()
 							}
 						}
 					}
-					m_DiveDownTimer = m_DiveDownTime;
+					m_DiveDownTimer = 0;
 				}
 			}
 		}
@@ -206,23 +204,19 @@ void EnemyManager::SendRandomEnemyToAttack()
 
 void EnemyManager::RespawnWaitingHandler()
 {
-	if (SceneLoader::GetInstance().GetCurrentGameMode() != GameMode::Coop)
+	if (!m_BuildingFormation)
 	{
-		if (!m_BuildingFormation)
+		for (size_t i = 0; i < m_pEnemies.size(); i++)
 		{
-			for (size_t i = 0; i < m_pEnemies.size(); i++)
-			{
-				if (m_pEnemies[i]->GetComponent<BaseEnemyBehaviorComponent>()->GetIsAttacking()) return;
-			}
-			m_WaitingForPlayerToRespawn = false;
+			if (m_pEnemies[i]->GetComponent<BaseEnemyBehaviorComponent>()->GetIsAttacking()) return;
 		}
-	}
 
-	if (m_RespawnWaitingTimer < m_RespawnWaitingTime) m_RespawnWaitingTimer += SystemTime::GetInstance().GetDeltaTime();
-	else
-	{
-		m_WaitingForPlayerToRespawn = false;
-		m_RespawnWaitingTimer = 0;
+		if (m_RespawnWaitingTimer < m_RespawnWaitingTime) m_RespawnWaitingTimer += SystemTime::GetInstance().GetDeltaTime();
+		else
+		{
+			m_WaitingForPlayerToRespawn = false;
+			m_RespawnWaitingTimer = 0;
+		}
 	}
 }
 
