@@ -233,7 +233,9 @@ bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 	//here is the place for alternative behavior
 	if (m_CurrentWaypoint < int(m_Path.size()))
 	{
-		if (!m_BombingAttack && m_CurrentWaypoint == int(m_Path.size()) - 4 && m_TractorBeamTimer < m_TractorBeamTime)//moment where to stop for tractor beam
+		const auto& trc = enemy->GetComponent<TransformComponent>();
+
+		if (!m_BombingAttack && trc->GetCenterPosition().y >= (dae::SceneManager::GetInstance().GetScreenHeight()/5) * 3 && m_TractorBeamTimer < m_TractorBeamTime)//moment where to stop for tractor beam
 		{
 			if (!m_TractorBeamActivated)
 			{
@@ -244,7 +246,6 @@ bool BirdDiveDownState::BirdDiveDown(GameObject* enemy)
 		}
 		else
 		{
-			const auto& trc = enemy->GetComponent<TransformComponent>();
 
 			glm::vec2 currentPosition = glm::vec2{ trc->GetTransform().GetPosition().x, trc->GetTransform().GetPosition().y };
 

@@ -61,6 +61,14 @@ void CollisionManager::CleanUp()
 	}
 	m_pRocketsForCheck.clear();
 
+
+	for (size_t i = 0; i < m_pTractorBeamsForCheck.size(); ++i)
+	{
+		m_pTractorBeamsForCheck[i] = nullptr;
+	}
+	m_pTractorBeamsForCheck.clear();
+
+
 	for (auto player : m_pPlayers) player = nullptr;
 	m_pPlayers.clear();
 
@@ -73,12 +81,11 @@ void CollisionManager::CleanUp()
 void CollisionManager::Update()
 {
 	//killing player
-	
 	for (auto player : m_pPlayers)
 	{
 		if (player && player->GetComponent<PlayerHealthComponent>()->IsAlive())
 		{
-			SDL_Rect fs1Rect = player->GetComponent<TransformComponent>()->GetRect();
+			SDL_Rect playerRect = player->GetComponent<TransformComponent>()->GetRect();
 
 			for (size_t i = 0; i < m_pEnemiesForCheck.size(); i++)
 			{
@@ -86,7 +93,7 @@ void CollisionManager::Update()
 
 				if (bebc->GetIsAttacking())
 				{
-					if (CheckIfCollide(fs1Rect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+					if (CheckIfCollide(playerRect, m_pEnemiesForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 					{
 						m_pEvents[0]->Notify(player.get(), "playerDeath");
 						EnemyManager::GetInstance().DeleteEnemy(m_pEnemiesForCheck[i]);
@@ -109,7 +116,7 @@ void CollisionManager::Update()
 					{
 						if (!m_pEnemyRocketsForCheck[i]->GetComponent<RocketMovementComponent>()->GetMovesUp())//so it goes down and is danger to player
 						{
-							if (CheckIfCollide(fs1Rect, m_pEnemyRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+							if (CheckIfCollide(playerRect, m_pEnemyRocketsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 							{
 								//player->die
 								m_pEvents[0]->Notify(player.get(), "playerDeath");
@@ -130,7 +137,7 @@ void CollisionManager::Update()
 			{
 				if (!m_pTractorBeamsForCheck[i]->GetMarkedForDelete())
 				{
-					if (CheckIfCollide(fs1Rect, m_pTractorBeamsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
+					if (CheckIfCollide(playerRect, m_pTractorBeamsForCheck[i]->GetComponent<TransformComponent>()->GetRect()))
 					{
 						m_pEvents[0]->Notify(player.get(), "playerDeath");
 						m_pTractorBeamsForCheck[i]->GetComponent<TractorBeamDangerComponent>()->FighterCaptured();
