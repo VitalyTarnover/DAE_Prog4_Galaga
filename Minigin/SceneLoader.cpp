@@ -59,7 +59,6 @@ void SceneLoader::LoadMainMenu()
 	scene->Add(galagaLogo);
 
 	//Texts
-	//TODO: change text to correct stuff!
 	int verticalOffset = 0;
 	
 	auto text1 = std::make_shared<GameObject>("Controls");
@@ -68,21 +67,52 @@ void SceneLoader::LoadMainMenu()
 	text1->AddComponent(new RenderComponent());
 	scene->Add(text1);
 
-	verticalOffset += 15;
+	verticalOffset += 18;
 
 	auto text2 = std::make_shared<GameObject>("Controls1");
 	text2->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
-	text2->AddComponent(new TextComponent("Player 1: Left/Right arrow - move left/right, A - shoot.", font, SDL_Color{ 255,255,255 }));
+	text2->AddComponent(new TextComponent("Player 1: A/D - move left/right, F - shoot.", font, SDL_Color{ 255,255,255 }));
 	text2->AddComponent(new RenderComponent());
 	scene->Add(text2);
 	
-	verticalOffset += 15;
+	verticalOffset += 18;
 
 	auto text3 = std::make_shared<GameObject>("Controls2");
 	text3->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
 	text3->AddComponent(new TextComponent("Player 2: J/L - move left/right, H - shoot.", font, SDL_Color{ 255,255,255 }));
 	text3->AddComponent(new RenderComponent());
 	scene->Add(text3);
+
+	verticalOffset += 18;
+	auto text3d = std::make_shared<GameObject>("Controls2");
+	text3d->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text3d->AddComponent(new TextComponent("In Versus mode, as a Crowned Bird: H - shoot, J - tractor beam attack.", font, SDL_Color{ 255,255,255 }));
+	text3d->AddComponent(new RenderComponent());
+	scene->Add(text3d);
+
+	verticalOffset += 22;
+
+	auto text3a = std::make_shared<GameObject>("Controls3");
+	text3a->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text3a->AddComponent(new TextComponent("Gamepad in Singleplayer is an alternative way to control Player 1: D-pad left/right - move left/right, A - shoot.", font, SDL_Color{ 255,255,255 }));
+	text3a->AddComponent(new RenderComponent());
+	scene->Add(text3a);
+
+	verticalOffset += 18;
+
+	auto text3b = std::make_shared<GameObject>("Controls3");
+	text3b->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text3b->AddComponent(new TextComponent("Gamepad in Co-op mode controls Player 2: D-pad left/right - move left/right, A - shoot.", font, SDL_Color{ 255,255,255 }));
+	text3b->AddComponent(new RenderComponent());
+	scene->Add(text3b);
+
+	verticalOffset += 18;
+
+	auto text3c = std::make_shared<GameObject>("Controls3");
+	text3c->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
+	text3c->AddComponent(new TextComponent("Gamepad in Versus mode controls a Crowned Bird: A - shoot, D-pad left - tractor beam attack.", font, SDL_Color{ 255,255,255 }));
+	text3c->AddComponent(new RenderComponent());
+	scene->Add(text3c);
 
 	verticalOffset += 30;
 
@@ -92,37 +122,37 @@ void SceneLoader::LoadMainMenu()
 	text4->AddComponent(new RenderComponent());
 	scene->Add(text4);
 
-	verticalOffset += 15;
+	verticalOffset += 18;
 
 	auto text5 = std::make_shared<GameObject>("Singleplayer");
 	text5->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
-	text5->AddComponent(new TextComponent("Press 1 to load singleplayer mode", font, SDL_Color{ 255,255,255 }));
+	text5->AddComponent(new TextComponent("Press 1 to load Singleplayer mode.", font, SDL_Color{ 255,255,255 }));
 	text5->AddComponent(new RenderComponent());
 	scene->Add(text5);
 
 
-	verticalOffset += 15;
+	verticalOffset += 18;
 
 	auto text6 = std::make_shared<GameObject>("Coop");
 	text6->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
-	text6->AddComponent(new TextComponent("Press 2 to load coop mode", font, SDL_Color{ 255,255,255 }));
+	text6->AddComponent(new TextComponent("Press 2 to load Co-op mode.", font, SDL_Color{ 255,255,255 }));
 	text6->AddComponent(new RenderComponent());
 	scene->Add(text6);
 
 
-	verticalOffset += 15;
+	verticalOffset += 18;
 
 	auto text7 = std::make_shared<GameObject>("Versus");
 	text7->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
-	text7->AddComponent(new TextComponent("Press 3 to load versus mode", font, SDL_Color{ 255,255,255 }));
+	text7->AddComponent(new TextComponent("Press 3 to load Versus mode.", font, SDL_Color{ 255,255,255 }));
 	text7->AddComponent(new RenderComponent());
 	scene->Add(text7);
 
-	verticalOffset += 15;
+	verticalOffset += 18;
 
 	auto text8 = std::make_shared<GameObject>("MainMenu");
 	text8->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
-	text8->AddComponent(new TextComponent("Press P in any game mode to return to the main menu", font, SDL_Color{ 255,255,255 }));
+	text8->AddComponent(new TextComponent("Press P in any game mode to return to the main menu.", font, SDL_Color{ 255,255,255 }));
 	text8->AddComponent(new RenderComponent());
 	scene->Add(text8);
 
@@ -130,7 +160,7 @@ void SceneLoader::LoadMainMenu()
 
 	auto text9 = std::make_shared<GameObject>("Escape");
 	text9->AddComponent(new TransformComponent(glm::vec3(0, screenHeight / 2 + verticalOffset, 0)));
-	text9->AddComponent(new TextComponent("Press Esc in main menu to close the game", font, SDL_Color{ 255,255,255 }));
+	text9->AddComponent(new TextComponent("Press Esc at any moment to close the game", font, SDL_Color{ 255,255,255 }));
 	text9->AddComponent(new RenderComponent());
 	scene->Add(text9);
 
@@ -234,7 +264,7 @@ void SceneLoader::LoadCoop()
 	auto playerFighter = std::make_shared<GameObject>("Player1");
 	playerFighter->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 - 20, screenHeight / 5 * 4, 0), 15.f, 16.f, sceneScale, sceneScale));
 	//playerFighter->AddComponent(new ScoreComponent(0));
-	playerFighter->AddComponent(new PlayerHealthComponent(8));
+	playerFighter->AddComponent(new PlayerHealthComponent(3));
 	//playerFighter->AddWatcher(new ScoreObserver());
 	playerFighter->AddComponent(new RenderComponent());
 	playerFighter->AddComponent(new Texture2DComponent("FighterShip.png", sceneScale));
@@ -275,7 +305,7 @@ void SceneLoader::LoadCoop()
 	//player2
 	auto playerFighter2 = std::make_shared<GameObject>("Player2");
 	playerFighter2->AddComponent(new TransformComponent(glm::vec3(screenWidth / 2 + 20, screenHeight / 5 * 4, 0), 15.f, 16.f, sceneScale, sceneScale));
-	playerFighter2->AddComponent(new PlayerHealthComponent(8));
+	playerFighter2->AddComponent(new PlayerHealthComponent(3));
 	playerFighter2->AddComponent(new RenderComponent());
 	playerFighter2->AddComponent(new Texture2DComponent("FighterShip2.png", sceneScale));
 	playerFighter2->AddComponent(new FighterShipMovementComponent(500));

@@ -24,7 +24,6 @@
 //ObserverV2
 #include "AudioEventHandler.h"
 
-
 //Audio
 #include "AudioLocator.h"
 #include "AudioServiceProvider.h"
@@ -125,18 +124,14 @@ void dae::Minigin::Run()
 
 	std::thread audioThread(&AudioService::Update, &AudioLocator::GetAudioService());
 
-	//AudioLocator::GetAudioService().QueueSound("gameEnd", 30.f);
-
 	while (doContinue)
 	{
 		const auto currentTime{ high_resolution_clock::now() };
 		const float deltaTime{ duration<float>(currentTime - lastTime).count() };
 		lastTime = currentTime;
 
-
 		input.ProcessInput();
 		input.InputHandler();
-
 
 		doContinue = input.KeyboardInput();
 
